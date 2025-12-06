@@ -1133,6 +1133,7 @@ h1, h2, h3, h4 {
         gap: 15px;
         padding: 15px;
     }
+    
 }
 
 @media (max-width: 480px) {
@@ -1155,4 +1156,9 @@ h1, h2, h3, h4 {
     .lessons-container, .resources-grid, .quizzes-container {
         grid-template-columns: 1fr;
     }
+}
+
+.logo_seminar {
+    width: 4rem;
+    height: 4rem;
 }

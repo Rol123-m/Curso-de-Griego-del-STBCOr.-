@@ -1,0 +1,434 @@
+/* griego-koine.css - Estilos unificados para lecciones de Griego Koiné */
+:root {
+  --primary-color: #1a4b8c;
+  --secondary-color: #c53030;
+  --accent-color: #2d7d5a;
+  --light-color: #f8f9fa;
+  --dark-color: #2c3e50;
+  --gray-light: #e9ecef;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --border-radius: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: var(--dark-color);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #0d2b5c 100%);
+  color: white;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header-text {
+  text-align: center;
+}
+
+.header-text h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.institution {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Container principal */
+.container {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.main-content {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Tipografías */
+h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--secondary-color);
+  font-size: 1.8rem;
+}
+
+h3 {
+  color: var(--accent-color);
+  margin: 1.5rem 0 1rem;
+  font-size: 1.4rem;
+}
+
+h4 {
+  color: var(--dark-color);
+  margin: 1.2rem 0 0.8rem;
+  font-size: 1.2rem;
+}
+
+/* Secciones con colores */
+.pronunciation {
+  background-color: rgba(26, 75, 140, 0.05);
+  padding: 1.5rem;
+  border-left: 5px solid var(--primary-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin: 1.5rem 0;
+}
+
+.rules {
+  background-color: rgba(197, 48, 48, 0.05);
+  padding: 1.5rem;
+  border-left: 5px solid var(--secondary-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin: 1.5rem 0;
+}
+
+.examples {
+  background-color: rgba(45, 125, 90, 0.05);
+  padding: 1.5rem;
+  border-left: 5px solid var(--accent-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin: 1.5rem 0;
+}
+
+.quiz {
+  background-color: rgba(44, 62, 80, 0.05);
+  padding: 1.5rem;
+  border-left: 5px solid var(--dark-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin: 1.5rem 0;
+}
+
+/* Listas */
+ul, ol {
+  padding-left: 1.8rem;
+  margin: 1rem 0;
+}
+
+li {
+  margin-bottom: 0.8rem;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(26, 75, 140, 0.03);
+}
+
+tr:hover {
+  background-color: rgba(26, 75, 140, 0.08);
+  transition: background-color 0.2s;
+}
+
+/* Quiz */
+.quiz-question {
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed #ddd;
+}
+
+.quiz-question:last-child {
+  border-bottom: none;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.quiz-options label {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quiz-options label:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(26, 75, 140, 0.03);
+}
+
+.quiz-options input[type="radio"] {
+  margin-right: 0.8rem;
+  accent-color: var(--primary-color);
+}
+
+.result {
+  margin-top: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.correct {
+  color: var(--accent-color);
+}
+
+.incorrect {
+  color: var(--secondary-color);
+}
+
+/* Botones */
+button {
+  background: linear-gradient(to right, var(--primary-color), #0d2b5c);
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(26, 75, 140, 0.2);
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(26, 75, 140, 0.3);
+}
+
+/* Elementos especiales */
+.bible-ref {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.breakdown {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 1.2rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 1px solid #e0e0e0;
+}
+
+.vocab-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #d0d7de;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.notes {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Elementos adicionales para los nuevos archivos */
+.paradigm {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 1px solid var(--accent-color);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.highlight {
+  background-color: rgba(255, 235, 59, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  border-left: 3px solid #ffc107;
+}
+
+/* Footer */
+footer {
+  background-color: var(--dark-color);
+  color: white;
+  padding: 2rem 1.5rem;
+  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.copyright {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .header-container {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .logo-container {
+    width: auto;
+    margin-bottom: 0;
+    margin-right: 1.5rem;
+  }
+  
+  .header-text {
+    text-align: left;
+  }
+  
+  .header-text h1 {
+    font-size: 2.2rem;
+  }
+  
+  .institution {
+    font-size: 1.2rem;
+  }
+  
+  .container {
+    padding: 0 2rem;
+  }
+  
+  .main-content {
+    padding: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  table {
+    font-size: 0.95rem;
+  }
+  
+  th, td {
+    padding: 1.2rem;
+  }
+  
+  .footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .footer-logo {
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .header-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .container {
+    padding: 0 3rem;
+  }
+  
+  .main-content {
+    padding: 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .quiz-options label {
+    padding: 0.8rem;
+  }
+  
+  button {
+    width: 100%;
+    padding: 1rem;
+  }
+}

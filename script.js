@@ -1,7 +1,7 @@
  // Datos iniciales
 const students = [
-    { id: 1, username: 'estudiante1', password: 'griego2024', name: 'Juan Pérez' },
-    { id: 2, username: 'estudiante2', password: 'griego2024', name: 'María García' }
+    { id: 1, username: 'Rolando', password: 'griego2025', name: 'Rolando Desdín' },
+    { id: 2, username: 'Dannier', password: 'griego2025', name: 'Dannier' }
 ];
 
 // Estructura de las 12 lecciones
@@ -143,19 +143,29 @@ const lessonsData = [
                 content: `<iframe src="contenido/leccion6/IntroPronombres.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
             { 
-                title: "Más del Adjetivo", 
+                title: "Más sobre Pronombres", 
                 type: "html", 
-                content: `<iframe src="contenido/leccion5/adjetivos2.html" style="width:100%; height:550px; border:none;"></iframe>` 
+                content: `<iframe src="contenido/leccion6/MasPronombres.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
               { 
-                title: "Funciones de los adjetivos.", 
+                title: "Funciones de los pronombres.", 
                 type: "html", 
-                content: `<iframe src="contenido/leccion5/funcionesAdjetivos.html" style="width:100%; height:550px; border:none;"></iframe>` 
+                content: `<iframe src="contenido/leccion6/funcionesPronombre.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
              { 
-                title: "Otros detalles.", 
+                title: "Tercera Persona.", 
                 type: "html", 
-                content: `<iframe src="contenido/leccion5/masDetalles.html" style="width:100%; height:550px; border:none;"></iframe>` 
+                content: `<iframe src="contenido/leccion6/tercerapersona.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+             { 
+                title: "Forma de la tercera persona.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion6/formaTerceraPersona.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+             { 
+                title: "Ayuda para la traducción.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion6/traduccion.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
          ] 
     },
@@ -294,12 +304,34 @@ const lessonsData = [
         title: "VERBO FUTURO ACTIVO Y MEDIO",
         description: "Conjugación del futuro en voces activa y media.",
         duration: "60 min",
-        pages: 3,
-        content: [
-            { title: "Significado del futuro", content: "Acción que ocurrirá posteriormente." },
-            { title: "Futuro activo", content: "λύσω, λύσεις, λύσει" },
-            { title: "Futuro medio", content: "λύσομαι, λύσῃ, λύσεται" }
-        ]
+        pages: 5,
+       content: [
+            { 
+                title: "Introducción al Futuro.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion12/introduccion_futuro.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+            { 
+                title: "Más sobre el futuro.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion12/mas_futuro.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+             { 
+                title: "Futuro medio Indicativo.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion12/futuro_medio_indicativo.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+             { 
+                title: "Futuro del verbo Eimi.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion12/futuro_eimi.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            },
+             { 
+                title: "Futuro Líquido.", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion12/futuro_liquido.html" style="width:100%; height:550px; border:none;"></iframe>` 
+            } 
+         ]
     }
 ];
 
@@ -354,9 +386,7 @@ const quizButtons = document.querySelectorAll('.btn-quiz');
 // URLs de los quizzes (Google Forms)
 const quizUrls = [
     "https://forms.gle/SsEB2hBppxBxhWpE9",
-    "https://forms.google.com/example-quiz-4-6",
-    "https://forms.google.com/example-quiz-7-9", 
-    "https://forms.google.com/example-quiz-10-12"
+    "https://forms.gle/YiLgKfkdJyZWTGEU7"
 ];
 
 // Inicialización

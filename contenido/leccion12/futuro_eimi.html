@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendiendo Griego Koiné: Futuro de εἰμί - STBCO</title>
+  <link rel="stylesheet" href="griego-koine.css">
+  <script>
+    if(!localStorage.getItem('authenticated')) {
+      window.location.href = "../index.html";
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/2784/2784449.png" alt="Logo Seminario Teológico Bautista de Cuba Oriental" class="logo">
+      </div>
+      <div class="header-text">
+        <h1>Aprendiendo Griego Koiné: Futuro de εἰμί</h1>
+        <div class="institution">Seminario Teológico Bautista de Cuba Oriental</div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <main class="main-content">
+      <section>
+        <h2>Futuro de εἰμί (ser/estar)</h2>
+        <div class="pronunciation">
+          <p>El futuro de <span class="greek">εἰμί</span> es de voz media deponente. Su raíz es <span class="greek">ἐσ-</span>. Memoriza este paradigma:</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Paradigma del Futuro de εἰμί</h2>
+        <div class="examples">
+          <table>
+            <tr>
+              <th>Forma</th>
+              <th>Traducción</th>
+              <th>Futuro medio (comparativo)</th>
+            </tr>
+            <tr>
+              <td class="greek">ἔσομαι</td>
+              <td>Yo seré/estaré</td>
+              <td class="greek">πορεύσομαι (iré)</td>
+            </tr>
+            <tr>
+              <td class="greek">ἔσῃ</td>
+              <td>Tú serás/estarás</td>
+              <td class="greek">πορεύσῃ (irás)</td>
+            </tr>
+            <tr>
+              <td class="greek">ἔσται<span class="notes">¹</span></td>
+              <td>Él/Ella/Ello será</td>
+              <td class="greek">πορεύσεται (irá)</td>
+            </tr>
+            <tr>
+              <td class="greek">ἐσόμεθα</td>
+              <td>Nosotros seremos</td>
+              <td class="greek">πορευσόμεθα (iremos)</td>
+            </tr>
+            <tr>
+              <td class="greek">ἔσεσθε</td>
+              <td>Vosotros seréis</td>
+              <td class="greek">πορεύσεσθε (iréis)</td>
+            </tr>
+            <tr>
+              <td class="greek">ἔσονται</td>
+              <td>Ellos serán</td>
+              <td class="greek">πορεύσονται (irán)</td>
+            </tr>
+          </table>
+          <p class="notes">¹ Nota: La forma ἔσται es contracta de ἔσεται</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Resumen del Futuro en Griego Koiné</h2>
+        <div class="vocab-card">
+          <ol>
+            <li>El futuro indica una acción posterior. Usa generalmente aspecto indefinido.</li>
+            <li>Usa el formante temporal sigma (σ). El activo lleva terminaciones activas primarias; el medio, pasivas primarias. Todos los futuros medios vistos son deponentes (significado activo).</li>
+            <li>Los verbos contractos alargan su vocal ante un formante temporal (α/ε → η; ο → ω).</li>
+            <li>El Cuadrado de Oclusivas es crucial:
+              <ul>
+                <li>Labiales (π,β,φ) + σ → ψ</li>
+                <li>Velares (κ,γ,χ) + σ → ξ</li>
+                <li>Dentales (τ,δ,θ) + σ → σ</li>
+              </ul>
+            </li>
+            <li>Muchos verbos usan la misma raíz en presente y futuro:
+              <ul>
+                <li>Raíces en ι/υ (ej. <span class="greek">ἀκούω/ἀκούσω</span>)</li>
+                <li>Verbos contractos (ej. <span class="greek">Ποιέω/ποιήσω</span>)</li>
+                <li>Raíces en oclusiva (ej. <span class="greek">Βλέπω/βλέψω</span>)</li>
+              </ul>
+            </li>
+            <li>Un verbo deponente en un tiempo no necesariamente lo es en otro (ej. <span class="greek">Γινώσκω</span> es activo en presente pero deponente en futuro: <span class="greek">γνώσομαι</span>).</li>
+            <li><strong>Memoriza el futuro de εἰμί</strong> (<span class="greek">ἔσομαι, ἔσῃ, ἔσται</span>, etc.).</li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h2>Practica con el Futuro de εἰμί</h2>
+        <div class="quiz">
+          <div class="quiz-question">
+            <p><strong>Pregunta 1:</strong> ¿Cuál es la raíz del futuro de εἰμί?</p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1" value="a" class="greek">εἰ-</label>
+              <label><input type="radio" name="q1" value="b" class="greek">ἐσ-</label>
+              <label><input type="radio" name="q1" value="c" class="greek">ἐμ-</label>
+            </div>
+            <div class="result" id="result1"></div>
+          </div>
+
+          <div class="quiz-question">
+            <p><strong>Pregunta 2:</strong> ¿Cómo se dice "ellos serán" en griego?</p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2" value="a" class="greek">ἔσομαι</label>
+              <label><input type="radio" name="q2" value="b" class="greek">ἔσονται</label>
+              <label><input type="radio" name="q2" value="c" class="greek">ἔσται</label>
+            </div>
+            <div class="result" id="result2"></div>
+          </div>
+
+          <div class="quiz-question">
+            <p><strong>Pregunta 3:</strong> ¿Qué tipo de voz tiene el futuro de εἰμί?</p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3" value="a"> Activa</label>
+              <label><input type="radio" name="q3" value="b"> Media deponente</label>
+              <label><input type="radio" name="q3" value="c"> Pasiva</label>
+            </div>
+            <div class="result" id="result3"></div>
+          </div>
+
+          <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <footer>
+    <div class="footer-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/2784/2784449.png" alt="Logo Seminario Teológico Bautista de Cuba Oriental" class="footer-logo">
+      <div class="copyright">
+        <p>© 2023 Seminario Teológico Bautista de Cuba Oriental</p>
+        <p>Departamento de Lenguas Bíblicas | Material didáctico para el estudio del Griego Koiné</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: 'b', // ἐσ-
+        q2: 'b', // ἔσονται
+        q3: 'b'  // Media deponente
+      };
+
+      for (const question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        const resultElement = document.getElementById(`result${question.slice(1)}`);
+        if (selectedOption) {
+          if (selectedOption.value === answers[question]) {
+            resultElement.textContent = "¡Correcto!";
+            resultElement.className = "result correct";
+          } else {
+            resultElement.textContent = "Incorrecto. La respuesta correcta es: " + answers[question];
+            resultElement.className = "result incorrect";
+          }
+        } else {
+          resultElement.textContent = "Por favor, selecciona una respuesta.";
+          resultElement.className = "result";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
