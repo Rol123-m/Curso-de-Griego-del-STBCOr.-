@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocimiento del Adjetivo - Lección 4</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+        }
+
+        .rule-box {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+        }
+
+        .warning-box {
+            background-color: #ffebee;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #f44336;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Reconocimiento del Adjetivo en Griego</h2>
+
+        <div class="intro-box">
+            <p>El uso del artículo y la posición del adjetivo son claves para identificar su función gramatical en griego koiné. Esta lección te enseñará a reconocer qué función cumple un adjetivo según su contexto.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>4.1. Presencia del Artículo</h3>
+            <div class="rule-box">
+                <ul class="usage-list">
+                    <li><strong>Sin artículo (anartro):</strong> Generalmente predicativo</li>
+                    <li><strong>Con artículo (articular):</strong> Puede ser atributivo o sustantivado</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>4.2. Posiciones del Adjetivo Atributivo</h3>
+            <div class="rule-box">
+                <p><strong>Dos posiciones posibles:</strong></p>
+                
+                <div class="example-box">
+                    <p><strong>Primera posición atributiva:</strong></p>
+                    <p class="greek-text">ὁ ἀγαθὸς ἄνθρωπος</p>
+                    <p>"El hombre bueno"</p>
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Segunda posición atributiva:</strong></p>
+                    <p class="greek-text">ὁ ἄνθρωπος ὁ ἀγαθός</p>
+                    <p>"El hombre bueno" (con repetición del artículo)</p>
+                </div>
+                
+                <div class="warning-box">
+                    <p><strong>¡Nunca se encuentra esta combinación incorrecta!</strong></p>
+                    <p class="greek-text">ὁ ἀγαθὸς ὁ ἄνθρωπος</p>
+                    <p>(INCORRECTO - el artículo no se repite así)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>4.3. Predicativo con Artículo</h3>
+            <div class="rule-box">
+                <p>Si el sustantivo tiene artículo pero el adjetivo no:</p>
+                <div class="example-box">
+                    <p class="greek-text">ὁ ἄνθρωπος ἀγαθός</p>
+                    <p>"El hombre <strong>es</strong> bueno." (verbo εἰμί implícito)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>4.4. Falta de Artículo (Anartro)</h3>
+            <div class="rule-box">
+                <p>Cuando no hay artículo antes del sustantivo ni del adjetivo, <strong>el contexto determina su función</strong>. Hay que decidir si el adjetivo:</p>
+                <ol>
+                    <li>Atribuye una cualidad al sustantivo (atributivo)</li>
+                    <li>Afirma algo sobre el sujeto (predicativo, con el verbo εἰμί implícito)</li>
+                </ol>
+                
+                <div class="example-box">
+                    <p><strong>Ejemplo 1:</strong></p>
+                    <p class="greek-text">ἀγαθὸς ἄνθρωπος</p>
+                    <p>Posible traducción 1: "Un hombre bueno" (atributivo)</p>
+                    <p>Posible traducción 2: "Un hombre es bueno" (predicativo, si el contexto lo exige)</p>
+                </div>
+                
+                <div class="example-box">
+                    <p><strong>Ejemplo 2:</strong></p>
+                    <p class="greek-text">ἄνθρωπος ἀγαθός</p>
+                    <p>Posible traducción 1: "Un hombre bueno" (atributivo)</p>
+                    <p>Posible traducción 2: "Un hombre es bueno" (predicativo)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h3>¡Precaución al Traducir!</h3>
+            <ul class="usage-list">
+                <li>No añadas el artículo en la traducción a menos que el español lo requiera</li>
+                <li>Un adjetivo anartro puede funcionar como sustantivo, pero es raro:<br>
+                    <span class="greek-text">ἀγαθός</span> → "Un bueno (hombre/persona)"</li>
+                <li>Siempre considera el contexto general del pasaje</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica: Reconocimiento del Adjetivo</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. En "ὁ ἄνθρωπος ἀγαθός", ¿qué función cumple "ἀγαθός"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Atributiva</label>
+                    <label><input type="radio" name="q1" value="b"> Sustantivada</label>
+                    <label><input type="radio" name="q1" value="c"> Predicativa</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Cuál frase muestra la segunda posición atributiva?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> ὁ ἀγαθὸς ἄνθρωπος</label>
+                    <label><input type="radio" name="q2" value="b"> ὁ ἄνθρωπος ὁ ἀγαθός</label>
+                    <label><input type="radio" name="q2" value="c"> ἄνθρωπος ἀγαθός</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. En "ἀγαθὸς ἄνθρωπος", ¿qué dos posibles funciones puede tener?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Atributiva o Sustantivada</label>
+                    <label><input type="radio" name="q3" value="b"> Atributiva o Predicativa</label>
+                    <label><input type="radio" name="q3" value="c"> Sustantivada o Predicativa</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'c',
+                q2: 'b',
+                q3: 'b'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

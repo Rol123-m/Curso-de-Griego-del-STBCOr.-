@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pronombres Personales en Griego Koiné</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .section-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .definition-box {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #f3e5f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .tip-box {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #0288d1;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .bible-verse {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+            font-style: italic;
+        }
+
+        .characteristics-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .characteristics-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .characteristics-list li:before {
+            content: "•";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Pronombres Personales en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>Los pronombres personales griegos son esenciales para el estudio del Nuevo Testamento. En esta lección aprenderás sus formas y usos.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>El Pronombre Griego: Características</h3>
+            
+            <div class="definition-box">
+                <p>El pronombre griego es similar al español en que:</p>
+                <ul class="characteristics-list">
+                    <li>Reemplaza a un sustantivo</li>
+                    <li>Su caso está determinado por su función en la oración</li>
+                    <li>Su número y persona están determinados por su antecedente</li>
+                    <li>Los pronombres de primera y segunda persona no tienen género</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Formas de los Pronombres Personales Griegos</h3>
+            
+            <div class="tip-box">
+                <p>Ya hemos aprendido algunas de estas formas. Deberían ser familiares y fáciles de aprender.</p>
+            </div>
+
+            <h4>Singular</h4>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Primera persona</th>
+                        <th>Segunda persona</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nominativo</td>
+                        <td class="greek-text">ἐγώ</td>
+                        <td class="greek-text">σύ</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo</td>
+                        <td class="greek-text">μου (ἐμοῦ)</td>
+                        <td class="greek-text">σου (σοῦ)</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo</td>
+                        <td class="greek-text">μοι (ἐμοί)</td>
+                        <td class="greek-text">σοι (σοί)</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo</td>
+                        <td class="greek-text">με (ἐμέ)</td>
+                        <td class="greek-text">σε (σέ)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Plural</h4>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Primera persona</th>
+                        <th>Segunda persona</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nominativo</td>
+                        <td class="greek-text">ἡμεῖς</td>
+                        <td class="greek-text">ὑμεῖς</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo</td>
+                        <td class="greek-text">ἡμῶν</td>
+                        <td class="greek-text">ὑμῶν</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo</td>
+                        <td class="greek-text">ἡμῖν</td>
+                        <td class="greek-text">ὑμῖν</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo</td>
+                        <td class="greek-text">ἡμᾶς</td>
+                        <td class="greek-text">ὑμᾶς</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-box">
+            <h3>Características Especiales</h3>
+            
+            <div class="example-box">
+                <h4>Forma</h4>
+                <ul class="characteristics-list">
+                    <li>Hay similitudes entre las terminaciones de pronombres y sustantivos</li>
+                    <li>En plural, los pronombres de 1ª y 2ª persona son idénticos excepto por la primera letra (ἡμ- / ὑμ-)</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>Acentos y Formas Enfáticas</h4>
+                <ul class="characteristics-list">
+                    <li>En 1ª persona singular, el genitivo, dativo y acusativo pueden aparecer con épsilon y acento: <span class="greek-text">ἐμοῦ, ἐμοί, ἐμέ</span></li>
+                    <li>En 2ª persona: <span class="greek-text">σοῦ, σοί, σέ</span></li>
+                    <li>Estas formas enfáticas se usan para contrastes o énfasis</li>
+                </ul>
+            </div>
+
+            <div class="bible-verse">
+                <p class="greek-text">ἐγὼ ἐβάπτισα ὑμᾶς ὕδατι, αὐτὸς δὲ βαπτίσει ὑμᾶς ἐν πνεύματι ἁγίῳ</p>
+                <p><em>"Yo os bauticé con agua, pero él os bautizará con el Espíritu Santo."</em> (Marcos 1:8)</p>
+            </div>
+
+            <div class="bible-verse">
+                <p class="greek-text">ἔργον γὰρ καλὸν ἠργάσατο εἰς ἐμέ</p>
+                <p><em>"Pues ha hecho una obra buena para mí."</em> (Mateo 26:10)</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Análisis Morfológico (Parsing)</h3>
+            
+            <div class="tip-box">
+                <p>Al declinar un pronombre personal de 1ª o 2ª persona, se debe indicar:</p>
+                <ol class="characteristics-list">
+                    <li>Caso, número, persona (no género)</li>
+                    <li>Forma léxica (nominativo)</li>
+                    <li>Significado de la forma flexionada</li>
+                </ol>
+                
+                <div class="example-box">
+                    <p><strong>Ejemplo: <span class="greek-text">σοῦ</span> →</strong></p>
+                    <ul>
+                        <li><strong>Caso:</strong> Genitivo</li>
+                        <li><strong>Número:</strong> Singular</li>
+                        <li><strong>Persona:</strong> Segunda</li>
+                        <li><strong>Forma léxica:</strong> <span class="greek-text">σύ</span></li>
+                        <li><strong>Significado:</strong> "de ti" o "tu/tuyo"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <h3>Notas Adicionales</h3>
+            <ul>
+                <li>Las formas léxicas de los pronombres personales son el nominativo (<span class="greek-text">ἐγώ, σύ, ἡμεῖς, ὑμεῖς</span>)</li>
+                <li>Algunos consideran <span class="greek-text">ἐγώ</span> como forma base de <span class="greek-text">ἡμεῖς</span>, mientras que otros los tratan como palabras separadas</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica con Pronombres Griegos</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Cuál es la forma del dativo plural de la primera persona?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> <span class="greek-text">ἡμῖν</span></label>
+                    <label><input type="radio" name="q1" value="b"> <span class="greek-text">ὑμῖν</span></label>
+                    <label><input type="radio" name="q1" value="c"> <span class="greek-text">ἡμῶν</span></label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Qué forma griega corresponde a "nosotros" en nominativo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> <span class="greek-text">ὑμεῖς</span></label>
+                    <label><input type="radio" name="q2" value="b"> <span class="greek-text">ἡμεῖς</span></label>
+                    <label><input type="radio" name="q2" value="c"> <span class="greek-text">ἐγώ</span></label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Qué característica NO tienen los pronombres de 1ª y 2ª persona en griego?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> No tienen género</label>
+                    <label><input type="radio" name="q3" value="b"> Tienen formas enfáticas</label>
+                    <label><input type="radio" name="q3" value="c"> Distinguen género en plural</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'a',
+                q2: 'b',
+                q3: 'c'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

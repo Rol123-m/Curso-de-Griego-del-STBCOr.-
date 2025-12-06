@@ -1,0 +1,764 @@
+<!DOCTYPE html><html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Nominativo y Acusativo - Lección 3</title> <style> .lesson-content-container { font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.7; max-width: 100%; padding: 20px; background-color: #f9f9f9; }
+text
+    h2 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 12px;
+        margin-bottom: 25px;
+        font-family: 'Merriweather', Georgia, serif;
+        font-weight: 700;
+    }
+
+    h3 {
+        color: #2c3e50;
+        margin-top: 30px;
+        margin-bottom: 18px;
+        font-family: 'Merriweather', Georgia, serif;
+        font-weight: 600;
+        padding-left: 10px;
+        border-left: 4px solid #3498db;
+    }
+
+    h4 {
+        color: #34495e;
+        margin-top: 20px;
+        margin-bottom: 12px;
+        font-weight: 600;
+        font-size: 1.1em;
+    }
+
+    .intro-box {
+        background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 100%);
+        padding: 25px;
+        border-radius: 10px;
+        margin: 25px 0;
+        border-left: 5px solid #3498db;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    }
+
+    .case-box {
+        background-color: white;
+        padding: 25px;
+        border-radius: 10px;
+        margin: 25px 0;
+        border-top: 1px solid #e0e0e0;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .case-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    }
+
+    .nominative-box {
+        border-left: 5px solid #e74c3c;
+    }
+
+    .accusative-box {
+        border-left: 5px solid #27ae60;
+    }
+
+    .case-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .case-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.4em;
+        color: white;
+    }
+
+    .nominative-icon {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+
+    .accusative-icon {
+        background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+    }
+
+    .greek-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .greek-table th {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 16px 12px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.95em;
+    }
+
+    .greek-table td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #eef2f7;
+        text-align: center;
+        font-size: 0.95em;
+    }
+
+    .greek-table tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .greek-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .greek-text {
+        font-family: 'Georgia', 'Palatino Linotype', serif;
+        font-size: 1.35em;
+        color: #2c3e50;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    .translation {
+        color: #5d6d7e;
+        font-style: italic;
+        font-size: 0.92em;
+        margin-top: 5px;
+    }
+
+    .example-box {
+        background-color: #fff8e1;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #f39c12;
+        box-shadow: 0 3px 8px rgba(243, 156, 18, 0.1);
+    }
+
+    .note-box {
+        background-color: #e8f6f3;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #27ae60;
+    }
+
+    .warning-box {
+        background-color: #fdebd0;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #e67e22;
+    }
+
+    .highlight {
+        background-color: #fffacd;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .rule-list {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+
+    .rule-list li {
+        margin-bottom: 12px;
+        padding-left: 10px;
+        position: relative;
+        line-height: 1.5;
+    }
+
+    .rule-list li:before {
+        content: "•";
+        color: #3498db;
+        font-weight: bold;
+        font-size: 1.2em;
+        position: absolute;
+        left: -15px;
+    }
+
+    .comparison-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 25px 0;
+    }
+
+    .comparison-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    .comparison-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
+
+    .quiz-section {
+        background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
+        padding: 30px;
+        border-radius: 12px;
+        margin: 35px 0;
+        border: 2px solid #3498db;
+        box-shadow: 0 6px 15px rgba(52, 152, 219, 0.1);
+    }
+
+    .quiz-question {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid #2c3e50;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 18px 0;
+    }
+
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.95em;
+    }
+
+    .quiz-options label:hover {
+        background-color: #e9ecef;
+        border-color: #3498db;
+    }
+
+    .quiz-options input[type="radio"] {
+        margin-right: 12px;
+        transform: scale(1.3);
+        accent-color: #3498db;
+    }
+
+    .result {
+        margin-top: 12px;
+        font-weight: 600;
+        padding: 12px 15px;
+        border-radius: 6px;
+        display: none;
+        font-size: 0.95em;
+    }
+
+    .correct {
+        background-color: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+        display: block;
+    }
+
+    .incorrect {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+        display: block;
+    }
+
+    .quiz-button {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px auto;
+        box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .quiz-button:hover {
+        background: linear-gradient(135deg, #2980b9 0%, #1f639b 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+    }
+
+    .quiz-button:active {
+        transform: translateY(0);
+    }
+
+    .biblical-example {
+        background-color: #f4f8fc;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #9b59b6;
+    }
+
+    .sentence-analysis {
+        background-color: #f0f7ff;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 5px solid #3498db;
+    }
+
+    .analysis-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .analysis-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .lesson-content-container {
+            padding: 15px;
+        }
+        
+        .greek-table {
+            font-size: 0.9em;
+        }
+        
+        .greek-text {
+            font-size: 1.2em;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .comparison-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .greek-table {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .greek-table th,
+        .greek-table td {
+            padding: 12px 8px;
+            min-width: 100px;
+        }
+        
+        .case-box,
+        .intro-box,
+        .quiz-section {
+            padding: 20px 15px;
+        }
+        
+        h2 {
+            font-size: 1.6em;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+        }
+        
+        .case-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .case-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .lesson-content-container {
+            padding: 10px;
+        }
+        
+        .greek-table {
+            font-size: 0.85em;
+        }
+        
+        .greek-text {
+            font-size: 1.1em;
+        }
+        
+        .quiz-options label {
+            padding: 12px;
+            font-size: 0.9em;
+        }
+        
+        .quiz-button {
+            padding: 12px 24px;
+            font-size: 0.95em;
+            width: 100%;
+        }
+        
+        .comparison-card {
+            padding: 15px;
+        }
+        
+        .analysis-item {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .greek-table {
+            font-size: 0.8em;
+        }
+        
+        .quiz-options label {
+            flex-wrap: wrap;
+        }
+        
+        .greek-text {
+            font-size: 1em;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        .lesson-content-container {
+            background: white;
+            padding: 0;
+        }
+        
+        .quiz-section,
+        .quiz-button {
+            display: none;
+        }
+        
+        .case-box {
+            box-shadow: none;
+            border: 1px solid #ddd;
+            page-break-inside: avoid;
+        }
+    }
+</style>
+</head> <body> <div class="lesson-content-container"> <h2>Nominativo y Acusativo: Los Primeros Dos Casos</h2>
+text
+    <div class="intro-box">
+        <p>En esta lección nos enfocaremos en los <span class="highlight">dos casos más fundamentales</span> del griego koiné: el <strong>nominativo</strong> (sujeto) y el <strong>acusativo</strong> (objeto directo). Estos son los primeros casos que debes dominar para comenzar a leer y entender oraciones simples en griego.</p>
+        
+        <div class="note-box">
+            <p><strong>Recordatorio importante:</strong> En griego, el orden de las palabras <strong>no determina su función</strong>. La función se determina únicamente por las <span class="highlight">terminaciones de caso</span>.</p>
+        </div>
+    </div>
+
+    <div class="comparison-grid">
+        <div class="case-box nominative-box">
+            <div class="case-header">
+                <div class="case-icon nominative-icon">⒩</div>
+                <div>
+                    <h3>Nominativo (ὀνομαστική)</h3>
+                    <p><strong>Caso del sujeto</strong></p>
+                </div>
+            </div>
+            
+            <h4>Funciones principales:</h4>
+            <ul class="rule-list">
+                <li>Indica el <strong>sujeto</strong> de la oración (quien realiza la acción)</li>
+                <li>Predicado nominal con verbos copulativos (ser, estar, parecer)</li>
+                <li>Forma léxica de los sustantivos</li>
+            </ul>
+            
+            <h4>Terminaciones características (2ª declinación):</h4>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Terminación</th>
+                        <th>Ejemplo</th>
+                        <th>Traducción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Singular</td>
+                        <td class="greek-text">-ος</td>
+                        <td class="greek-text">λόγος</td>
+                        <td class="translation">la palabra</td>
+                    </tr>
+                    <tr>
+                        <td>Plural</td>
+                        <td class="greek-text">-οι</td>
+                        <td class="greek-text">λόγοι</td>
+                        <td class="translation">las palabras</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="case-box accusative-box">
+            <div class="case-header">
+                <div class="case-icon accusative-icon">⒜</div>
+                <div>
+                    <h3>Acusativo (αἰτιατική)</h3>
+                    <p><strong>Caso del objeto directo</strong></p>
+                </div>
+            </div>
+            
+            <h4>Funciones principales:</h4>
+            <ul class="rule-list">
+                <li>Indica el <strong>objeto directo</strong> (quien o qué recibe la acción)</li>
+                <li>Complemento de preposiciones de dirección (εἰς, πρός)</li>
+                <li>Extensión en tiempo o espacio</li>
+            </ul>
+            
+            <h4>Terminaciones características (2ª declinación):</h4>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Terminación</th>
+                        <th>Ejemplo</th>
+                        <th>Traducción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Singular</td>
+                        <td class="greek-text">-ον</td>
+                        <td class="greek-text">λόγον</td>
+                        <td class="translation">a la palabra</td>
+                    </tr>
+                    <tr>
+                        <td>Plural</td>
+                        <td class="greek-text">-ους</td>
+                        <td class="greek-text">λόγους</td>
+                        <td class="translation">a las palabras</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-analysis">
+        <h3>Análisis Comparativo: Nominativo vs. Acusativo</h3>
+        
+        <div class="sentence-analysis">
+            <p class="greek-text">ὁ θεὸς ἀγαπᾷ τὸν κόσμον.</p>
+            <p class="translation">"Dios ama al mundo."</p>
+            
+            <div class="analysis-item">
+                <span><strong>ὁ θεὸς</strong></span>
+                <span>Nominativo singular - <em>sujeto</em></span>
+            </div>
+            <div class="analysis-item">
+                <span><strong>ἀγαπᾷ</strong></span>
+                <span>Verbo - "ama"</span>
+            </div>
+            <div class="analysis-item">
+                <span><strong>τὸν κόσμον</strong></span>
+                <span>Acusativo singular - <em>objeto directo</em></span>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <p><strong>¡El orden no importa!</strong> Las siguientes oraciones significan exactamente lo mismo:</p>
+            <p class="greek-text">Θεὸς ἀγαπᾷ τὸν κόσμον.<br>ἀγαπᾷ τὸν κόσμον Θεός.<br>τὸν κόσμον Θεὸς ἀγαπᾷ.<br>ἀγαπᾷ Θεὸς τὸν κόσμον.</p>
+            <p class="translation">Todas significan: "Dios ama al mundo."</p>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <h3>Forma Léxica y los Léxicos</h3>
+        
+        <p>La <span class="highlight">forma léxica</span> de un sustantivo es su forma en <strong>nominativo singular</strong>. Esta es la forma que encontrarás en los diccionarios (léxicos) griegos.</p>
+        
+        <div class="note-box">
+            <p><strong>Ejemplo:</strong></p>
+            <p>Si encuentras <span class="greek-text">κόσμον</span> en un texto (acusativo singular), debes saber que su forma léxica es <span class="greek-text">κόσμος</span> (nominativo singular) para buscarlo en el léxico.</p>
+        </div>
+        
+        <table class="greek-table">
+            <thead>
+                <tr>
+                    <th>Forma encontrada</th>
+                    <th>Caso</th>
+                    <th>Forma léxica</th>
+                    <th>Significado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="greek-text">κόσμον</td>
+                    <td>Acusativo singular</td>
+                    <td class="greek-text">κόσμος</td>
+                    <td>mundo</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">λόγον</td>
+                    <td>Acusativo singular</td>
+                    <td class="greek-text">λόγος</td>
+                    <td>palabra, verbo</td>
+                </tr>
+                <tr>
+                    <td class="greek-text">θεοῦ</td>
+                    <td>Genitivo singular</td>
+                    <td class="greek-text">θεός</td>
+                    <td>Dios</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-box">
+        <h3>Resumen de lo Aprendido</h3>
+        
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <h4>Lo que ya sabes:</h4>
+                <ul class="rule-list">
+                    <li>El griego usa terminaciones de caso para indicar función gramatical</li>
+                    <li>La raíz + desinencia = sustantivo declinado</li>
+                    <li>Raíces en α/η = 1ª declinación (femenina)</li>
+                    <li>Raíces en ο = 2ª declinación (masculina/neutra)</li>
+                </ul>
+            </div>
+            
+            <div class="comparison-card">
+                <h4>Lo que aprendiste hoy:</h4>
+                <ul class="rule-list">
+                    <li>Nominativo = sujeto (terminación -ς en singular masc.)</li>
+                    <li>Acusativo = objeto directo (terminación -ν en singular)</li>
+                    <li>El orden de palabras no determina la función</li>
+                    <li>Forma léxica = nominativo singular</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <p><strong>Consejo de traducción:</strong> Al traducir del griego al español, intenta mantener el mismo orden de palabras que el original griego. Esto te ayudará a identificar correctamente los casos y evitar errores de interpretación.</p>
+        </div>
+    </div>
+
+    <div class="biblical-example">
+        <h4>Ejemplo Bíblico Completo:</h4>
+        <p class="greek-text">"Χριστὸν ἀγαπᾷ ὁ θεός."</p>
+        <p class="translation">"Dios ama a Cristo."</p>
+        
+        <div class="analysis-item">
+            <span><strong>Χριστὸν</strong></span>
+            <span>Acusativo singular - <em>objeto directo</em> (¿a quién ama?)</span>
+        </div>
+        <div class="analysis-item">
+            <span><strong>ἀγαπᾷ</strong></span>
+            <span>Verbo - "ama"</span>
+        </div>
+        <div class="analysis-item">
+            <span><strong>ὁ θεός</strong></span>
+            <span>Nominativo singular - <em>sujeto</em> (¿quién ama?)</span>
+        </div>
+    </div>
+
+    <div class="quiz-section">
+        <h3>Comprueba tu Conocimiento</h3>
+        
+        <div class="quiz-question">
+            <p><strong>1. ¿Qué caso indica el sujeto de una oración?</strong></p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q1" value="a"> Nominativo</label>
+                <label><input type="radio" name="q1" value="b"> Acusativo</label>
+                <label><input type="radio" name="q1" value="c"> Genitivo</label>
+            </div>
+            <div class="result" id="result1"></div>
+        </div>
+
+        <div class="quiz-question">
+            <p><strong>2. ¿Qué terminación de caso indica el objeto directo en singular?</strong></p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q2" value="a"> ς</label>
+                <label><input type="radio" name="q2" value="b"> ν</label>
+                <label><input type="radio" name="q2" value="c"> α</label>
+            </div>
+            <div class="result" id="result2"></div>
+        </div>
+
+        <div class="quiz-question">
+            <p><strong>3. ¿Qué determina la función de una palabra en griego?</strong></p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q3" value="a"> El orden de las palabras</label>
+                <label><input type="radio" name="q3" value="b"> Las terminaciones de caso</label>
+                <label><input type="radio" name="q3" value="c"> El género del sustantivo</label>
+            </div>
+            <div class="result" id="result3"></div>
+        </div>
+
+        <button class="quiz-button" onclick="checkAnswers()">
+            📝 Comprobar Respuestas
+        </button>
+    </div>
+</div>
+
+<script>
+    function checkAnswers() {
+        const answers = {
+            q1: 'a', // Nominativo
+            q2: 'b', // ν
+            q3: 'b'  // Las terminaciones de caso
+        };
+
+        // Mostrar resultados
+        for (const question in answers) {
+            const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+            const resultElement = document.getElementById(`result${question.slice(1)}`);
+            
+            if (selectedOption) {
+                if (selectedOption.value === answers[question]) {
+                    resultElement.textContent = "✅ ¡Correcto!";
+                    resultElement.className = "result correct";
+                } else {
+                    const correctText = 
+                        answers[question] === 'a' ? "A: Nominativo" :
+                        answers[question] === 'b' ? "B: ν" : "C: Las terminaciones de caso";
+                    resultElement.textContent = "❌ Incorrecto. La respuesta correcta es: " + correctText;
+                    resultElement.className = "result incorrect";
+                }
+            } else {
+                resultElement.textContent = "⚠️ Por favor, selecciona una respuesta.";
+                resultElement.className = "result incorrect";
+            }
+        }
+
+        // Deshabilitar todas las opciones después de responder
+        document.querySelectorAll('.quiz-options input').forEach(input => {
+            input.disabled = true;
+        });
+        
+        // Cambiar el texto del botón
+        const button = document.querySelector('.quiz-button');
+        button.textContent = '📊 Respuestas Verificadas';
+        button.style.backgroundColor = '#27ae60';
+        button.disabled = true;
+    }
+</script>
+</body> </html>

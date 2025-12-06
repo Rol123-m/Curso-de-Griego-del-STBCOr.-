@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Más sobre Sustantivos - Lección 3</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+            position: relative;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #ffebee;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f44336;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .quote-box {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+            font-style: italic;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Más sobre Sustantivos en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>En esta lección profundizaremos en aspectos importantes de los sustantivos griegos: el orden de las palabras, la forma léxica, y patrones especiales de declinación que encontrarás en el Nuevo Testamento.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Orden de las Palabras en Griego</h3>
+            <p>A diferencia del español, <strong>el orden de las palabras no determina su función</strong> en la oración griega. La función se determina únicamente por las terminaciones de caso.</p>
+            
+            <div class="example-box">
+                <p><strong>Ejemplo:</strong> "Dios ama al mundo" puede expresarse de varias formas:</p>
+                <ol>
+                    <li class="greek-text">Θεὸς ἀγαπᾷ τὸν κόσμον.</li>
+                    <li class="greek-text">ἀγαπᾷ τὸν κόσμον Θεός.</li>
+                    <li class="greek-text">τὸν κόσμον Θεὸς ἀγαπᾷ.</li>
+                    <li class="greek-text">ἀγαπᾷ Θεὸς τὸν κόσμον.</li>
+                </ol>
+                <p>Todas significan exactamente lo mismo.</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Forma Léxica</h3>
+            <p>La <strong>forma léxica</strong> de un sustantivo es su forma en <strong>nominativo singular</strong>. Es esencial conocerla para buscar palabras en el léxico (diccionario griego).</p>
+            
+            <div class="example-box">
+                <p><strong>Ejemplo:</strong></p>
+                <p>La forma léxica de <span class="greek-text">κόσμον</span> (acusativo singular) es <span class="greek-text">κόσμος</span>.</p>
+                <p>La forma léxica de <span class="greek-text">γραφῆς</span> (genitivo singular) es <span class="greek-text">γραφή</span>.</p>
+            </div>
+            
+            <div class="note-box">
+                <p><strong>Recuerda:</strong> Siempre busca las palabras por su forma léxica (nominativo singular).</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Nombres Parcialmente Declinados</h3>
+            <p>Algunos nombres, especialmente los propios, no se declinan completamente o siguen patrones poco comunes.</p>
+            
+            <div class="example-box">
+                <p><strong>Ejemplo: Ἰησοῦς (Jesús)</strong></p>
+                <table class="greek-table">
+                    <tr>
+                        <th>Caso</th>
+                        <th>Forma</th>
+                        <th>Traducción</th>
+                    </tr>
+                    <tr>
+                        <td>Nominativo</td>
+                        <td class="greek-text">ὁ Ἰησοῦς</td>
+                        <td>el Jesús</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo</td>
+                        <td class="greek-text">τοῦ Ἰησοῦ</td>
+                        <td>de Jesús</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo</td>
+                        <td class="greek-text">τῷ Ἰησοῦ</td>
+                        <td>a Jesús</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo</td>
+                        <td class="greek-text">τὸν Ἰησοῦν</td>
+                        <td>a Jesús</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>¡Atención!</strong> ¿Cómo distinguir dativo y genitivo en nombres como Ἰησοῦ? <strong>¡Por el artículo!</strong> (τῷ = dativo; τοῦ = genitivo).</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Patrón Alternativo de la 1ª Declinación</h3>
+            <p>En el NT, 36 palabras de la 1ª declinación cambian su vocal final de alfa (α) a eta (η) en genitivo y dativo singular.</p>
+            
+            <div class="example-box">
+                <p><strong>Ejemplo: δόξα (gloria)</strong></p>
+                <table class="greek-table">
+                    <tr>
+                        <th>Caso</th>
+                        <th>Singular</th>
+                        <th>Plural</th>
+                    </tr>
+                    <tr>
+                        <td>Nominativo</td>
+                        <td class="greek-text">δόξα</td>
+                        <td class="greek-text">δόξαι</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo</td>
+                        <td class="greek-text">δόξης</td>
+                        <td class="greek-text">δοξῶν</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo</td>
+                        <td class="greek-text">δόξῃ</td>
+                        <td class="greek-text">δόξαις</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo</td>
+                        <td class="greek-text">δόξαν</td>
+                        <td class="greek-text">δόξας</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="note-box">
+                <p><strong>Regla del cambio α → η:</strong></p>
+                <ul>
+                    <li>Si la alfa (α) está precedida por ε, ι o ρ → mantiene α</li>
+                    <li>En otros casos → α cambia a η</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>Nota importante:</strong> Todos los plurales femeninos terminan en -α, sin importar su forma en singular.</p>
+            </div>
+        </div>
+
+        <div class="quote-box">
+            "El griego tiene excepciones, pero hasta estas siguen patrones. ¡El artículo es tu guía infalible!"
+        </div>
+
+        <div class="quiz-section">
+            <h3>Comprueba tu Conocimiento</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Qué determina la función de una palabra en griego?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> El orden de las palabras</label>
+                    <label><input type="radio" name="q1" value="b"> Las terminaciones de caso</label>
+                    <label><input type="radio" name="q1" value="c"> La posición del verbo</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Cuál es la forma léxica de un sustantivo griego?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> La forma en genitivo singular</label>
+                    <label><input type="radio" name="q2" value="b"> La forma en nominativo singular</label>
+                    <label><input type="radio" name="q2" value="c"> La forma en acusativo plural</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Cómo se distingue entre dativo y genitivo en nombres como Ἰησοῦ?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Por la terminación del nombre</label>
+                    <label><input type="radio" name="q3" value="b"> Por el artículo que lo precede</label>
+                    <label><input type="radio" name="q3" value="c"> Por la posición en la oración</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>4. ¿Qué vocal cambia de α a η en genitivo/dativo singular en algunas palabras?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q4" value="a"> La vocal final si no está precedida por ε, ι o ρ</label>
+                    <label><input type="radio" name="q4" value="b"> Siempre la vocal final</label>
+                    <label><input type="radio" name="q4" value="c"> Solo en plural</label>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'a'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

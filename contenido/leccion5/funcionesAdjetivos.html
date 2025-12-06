@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones de los Adjetivos - Lección 3</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+        }
+
+        .function-box {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .summary-box {
+            background-color: #e8f6f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Funciones de los Adjetivos en Griego</h2>
+
+        <div class="intro-box">
+            <p>Los adjetivos en griego koiné pueden cumplir diferentes funciones gramaticales, cada una con sus propias reglas de concordancia y uso. Comprender estas funciones es clave para traducir correctamente.</p>
+        </div>
+
+        <div class="function-box">
+            <h3>1. Función Atributiva</h3>
+            <p>Cuando un adjetivo funciona como atributivo, <strong>concuerda con la palabra que modifica</strong> en caso, número y género. Este es el uso más común.</p>
+            
+            <div class="example-box">
+                <p class="greek-text">ὁ ἀγαθὸς λόγος</p>
+                <p>"La buena palabra…"</p>
+            </div>
+            
+            <div class="note-box">
+                <p><strong>Observaciones importantes:</strong></p>
+                <ul class="usage-list">
+                    <li>Los sustantivos pueden estar en tres géneros, por lo que un adjetivo atributivo también debe poder ser masculino, femenino o neutro</li>
+                    <li>Es esencial memorizar el género de todos los sustantivos para saber qué sustantivo modifica el adjetivo</li>
+                    <li>Ejemplo: <span class="greek-text">ἀγαθή</span> (femenino) no puede modificar a <span class="greek-text">ἄνθρωπος</span> (masculino)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="function-box">
+            <h3>2. Adjetivo Sustantivado</h3>
+            <p>Cuando un adjetivo funciona como sustantivo, su <strong>caso está determinado por su función</strong> (como cualquier sustantivo). Su género y número dependen de lo que represente.</p>
+            
+            <div class="example-box">
+                <p class="greek-text">ὁ ἀγαθός ἐστιν…</p>
+                <p>"El bueno (hombre) es…"</p>
+            </div>
+            
+            <p><strong>Preguntas clave para traducir:</strong></p>
+            <ol>
+                <li>¿Qué caso tiene? (Si está en acusativo, es objeto directo o de preposición)</li>
+                <li>¿Qué género y número tiene? (Se puede añadir "hombre", "mujer", "cosa", etc. para claridad)</li>
+            </ol>
+            
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Forma</th>
+                        <th>Género/Número</th>
+                        <th>Traducción posible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="greek-text">ἀγαθός</td>
+                        <td>masc. sg.</td>
+                        <td>un hombre bueno / una persona buena</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">ἀγαθαί</td>
+                        <td>fem. pl.</td>
+                        <td>mujeres buenas</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">ἀγαθόν</td>
+                        <td>neut. sg.</td>
+                        <td>una cosa buena</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">οἱ ἀγαθοί</td>
+                        <td>masc. genérico</td>
+                        <td>los buenos / las buenas personas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="function-box">
+            <h3>3. Función Predicativa</h3>
+            <p>Cuando un adjetivo funciona como predicativo, <strong>no modifica a otro sustantivo</strong>, sino que afirma algo sobre el sujeto. Si el verbo εἰμί ("ser/estar") está implícito, puede ser necesario añadirlo en la traducción.</p>
+            
+            <div class="example-box">
+                <p class="greek-text">ὁ ἄνθρωπος ἀγαθός</p>
+                <p>"El hombre es bueno." (con εἰμί implícito)</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>Resumen de Funciones</h3>
+            <ul class="usage-list">
+                <li><strong>Atributivo:</strong> Da una cualidad a un sustantivo (concuerda en caso, número y género)</li>
+                <li><strong>Sustantivado:</strong> Funciona como sustantivo (su género y número dependen de lo que representa)</li>
+                <li><strong>Predicativo:</strong> Afirma algo sobre el sujeto (usando implícita o explícitamente el verbo "ser")</li>
+                <li><strong>Forma léxica:</strong> Siempre es el nominativo singular masculino</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica: Funciones de los Adjetivos</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. En "ὁ ἀγαθὸς λόγος", ¿qué función cumple "ἀγαθὸς"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Atributiva</label>
+                    <label><input type="radio" name="q1" value="b"> Sustantivada</label>
+                    <label><input type="radio" name="q1" value="c"> Predicativa</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Cuál de estas frases contiene un adjetivo sustantivado?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> ὁ καλὸς ἄνθρωπος</label>
+                    <label><input type="radio" name="q2" value="b"> οἱ ἀγαθοὶ καὶ οἱ κακοί</label>
+                    <label><input type="radio" name="q2" value="c"> ὁ θεὸς ἀγαθός ἐστιν</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. En "ὁ ἄνθρωπος ἀγαθός", ¿qué función cumple "ἀγαθός"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Atributiva</label>
+                    <label><input type="radio" name="q3" value="b"> Sustantivada</label>
+                    <label><input type="radio" name="q3" value="c"> Predicativa</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'a',
+                q2: 'b',
+                q3: 'c'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

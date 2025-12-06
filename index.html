@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Griego - STBCO</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇬🇷</text></svg>">
+    <style>
+        /* Estilos inline para evitar problemas de carga */
+        .page { display: none; min-height: 100vh; flex-direction: column; }
+        .page.active { display: flex; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- Página de Login -->
+    <div id="login-page" class="page active">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-cross"></i>
+                    <div>
+                        <h1>Seminario Teológico Bautista</h1>
+                        <h2>Cuba Oriental</h2>
+                    </div>
+                </div>
+                <h1 class="course-title">Curso de Griego Bíblico</h1>
+                <p class="course-subtitle">12 lecciones para dominar los fundamentos del griego del Nuevo Testamento</p>
+            </div>
+
+            <div class="login-box">
+                <div class="form-container">
+                    <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+                    <form id="login-form">
+                        <div class="input-group">
+                            <label for="username">Usuario</label>
+                            <input type="text" id="username" placeholder="Tu nombre de usuario" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" placeholder="Tu contraseña" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Entrar al Curso
+                        </button>
+                    </form>
+                    
+                    <div class="demo-info">
+                        <h3>Credenciales de prueba:</h3>
+                        <p><strong>Usuario:</strong> estudiante1 | <strong>Contraseña:</strong> griego2024</p>
+                        <p><strong>Usuario:</strong> estudiante2 | <strong>Contraseña:</strong> griego2024</p>
+                    </div>
+                </div>
+
+                <div class="info-container">
+                    <h2><i class="fas fa-info-circle"></i> Información del Curso</h2>
+                    <div class="course-structure">
+                        <div class="structure-item">
+                            <i class="fas fa-book"></i>
+                            <span>12 Lecciones estructuradas</span>
+                        </div>
+                        <div class="structure-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>4 semanas de duración</span>
+                        </div>
+                        <div class="structure-item">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Ejercicios interactivos</span>
+                        </div>
+                        <div class="structure-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Seguimiento de progreso</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lessons-preview">
+                        <h3>Lecciones:</h3>
+                        <div class="lessons-grid">
+                            <div class="lesson-preview">1. Alfabeto</div>
+                            <div class="lesson-preview">2. Sustantivos</div>
+                            <div class="lesson-preview">3. 2ª Declinación</div>
+                            <div class="lesson-preview">4. 1ª Declinación</div>
+                            <div class="lesson-preview">5. Adjetivos</div>
+                            <div class="lesson-preview">6. Pronombres</div>
+                            <div class="lesson-preview">7. Preposiciones</div>
+                            <div class="lesson-preview">8. Verbo EIMI</div>
+                            <div class="lesson-preview">9. Verbos</div>
+                            <div class="lesson-preview">10. Presente</div>
+                            <div class="lesson-preview">11. Imperfecto</div>
+                            <div class="lesson-preview">12. Futuro</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Principal -->
+    <div id="dashboard-page" class="page">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo-small">
+                    <i class="fas fa-cross"></i>
+                    <span>STBCO Griego</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <h1>Curso de Griego Bíblico</h1>
+                <div class="progress-indicator">
+                    <span>Progreso: <strong id="global-progress">0%</strong></span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="global-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="user-details">
+                        <span id="current-user">Estudiante</span>
+                        <button id="logout-btn" class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i> Salir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="active"><a href="#" data-section="dashboard"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#" data-section="lessons"><i class="fas fa-book-open"></i> Lecciones</a></li>
+                    <li><a href="#" data-section="progress"><i class="fas fa-chart-line"></i> Mi Progreso</a></li>
+                    <li><a href="#" data-section="resources"><i class="fas fa-download"></i> Recursos</a></li>
+                    <li><a href="#" data-section="quizzes"><i class="fas fa-clipboard-check"></i> Quizzes</a></li>
+                </ul>
+
+                <div class="sidebar-footer">
+                    <div class="quick-stats">
+                        <div class="stat">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Completadas: <strong id="completed-count">0</strong>/12</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-clock"></i>
+                            <span>Tiempo: <strong id="study-time">0h</strong></span>
+                        </div>
+                    </div>
+                    <button class="btn-continue" id="sidebar-continue">
+                        <i class="fas fa-play"></i> Continuar Estudiando
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Contenido Dinámico -->
+            <main class="content-area">
+                <!-- Sección Dashboard -->
+                <section id="dashboard-section" class="content-section active">
+                    <div class="welcome-banner">
+                        <h2 id="welcome-message">Bienvenido al Curso de Griego</h2>
+                        <p>Tu progreso actual: <span id="welcome-progress">0%</span> - Continúa con la siguiente lección</p>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Continuar Aprendiendo -->
+                        <div class="card large-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-play-circle"></i> Continuar Aprendiendo</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="continue-lesson" id="continue-lesson-display">
+                                    <p>No hay lecciones en progreso. Comienza con la Lección 1.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Próximas Lecciones -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-list-ol"></i> Próximas Lecciones</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="lesson-list" id="upcoming-lessons">
+                                    <!-- Se llena dinámicamente -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Progreso Rápido -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> Tu Progreso</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress-circle">
+                                    <svg width="120" height="120" viewBox="0 0 120 120">
+                                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e0e0e0" stroke-width="12"/>
+                                        <circle cx="60" cy="60" r="54" fill="none" stroke="#4a6fa5" stroke-width="12" 
+                                                stroke-dasharray="339.292" stroke-dashoffset="339.292" 
+                                                stroke-linecap="round" transform="rotate(-90 60 60)" id="progress-circle-svg"/>
+                                    </svg>
+                                    <div class="progress-text">
+                                        <span id="circle-progress">0%</span>
+                                    </div>
+                                </div>
+                                <p class="progress-label" id="progress-status">Comienza con la Lección 1</p>
+                            </div>
+                        </div>
+
+                        <!-- Actividad Reciente -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-history"></i> Actividad Reciente</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-feed" id="activity-feed">
+                                    <!-- Se llena dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección Lecciones -->
+                <section id="lessons-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book-open"></i> Todas las Lecciones</h2>
+                        <p>Selecciona una lección para comenzar o continuar</p>
+                    </div>
+
+                    <div class="lessons-container" id="lessons-container">
+                        <!-- Se llena dinámicamente con las 12 lecciones -->
+                    </div>
+                </section>
+
+                <!-- Sección Progreso -->
+                <section id="progress-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Mi Progreso Detallado</h2>
+                        <p>Seguimiento completo de tu aprendizaje</p>
+                    </div>
+
+                    <div class="progress-details">
+                        <div class="progress-card">
+                            <h3>Progreso General</h3>
+                            <div class="progress-large">
+                                <div class="progress-bar-large">
+                                    <div class="progress-fill-large" id="detailed-progress-bar"></div>
+                                </div>
+                                <div class="progress-numbers">
+                                    <span id="detailed-percent">0%</span>
+                                    <span id="completed-details">0/12 lecciones</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="progress-card">
+                            <h3>Lecciones por Estado</h3>
+                            <div class="status-breakdown">
+                                <div class="status-item">
+                                    <span class="status-dot completed"></span>
+                                    <span>Completadas: <strong id="completed-breakdown">0</strong></span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot in-progress"></span>
+                                    <span>En progreso: <strong id="inprogress-breakdown">0</strong></span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-dot not-started"></span>
+                                    <span>No iniciadas: <strong id="notstarted-breakdown">12</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="progress-card full-width">
+                            <h3>Detalle por Lección</h3>
+                            <table class="progress-table">
+                                <thead>
+                                    <tr>
+                                        <th>Lección</th>
+                                        <th>Tema</th>
+                                        <th>Estado</th>
+                                        <th>Último acceso</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="progress-table-body">
+                                    <!-- Se llena dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección Recursos -->
+                <section id="resources-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-download"></i> Recursos de Estudio</h2>
+                        <p>Material complementario para tu aprendizaje</p>
+                    </div>
+
+                    <div class="resources-grid">
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <h3>Alfabeto Griego</h3>
+                            <p>Tabla completa con todas las letras, pronunciación y ejemplos</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-download"></i> Descargar PDF
+                            </button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-table"></i>
+                            </div>
+                            <h3>Tablas de Declinación</h3>
+                            <p>Declinaciones completas de sustantivos y adjetivos</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-download"></i> Descargar PDF
+                            </button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <h3>Conjugaciones Verbales</h3>
+                            <p>Tablas de conjugación para todos los tiempos verbales</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-download"></i> Descargar PDF
+                            </button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3>Vocabulario Esencial</h3>
+                            <p>300 palabras más comunes del Nuevo Testamento</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-download"></i> Descargar PDF
+                            </button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3>Videos de Pronunciación</h3>
+                            <p>Videos con la pronunciación correcta de palabras griegas</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-play"></i> Ver Videos
+                            </button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h3>Enlaces Útiles</h3>
+                            <p>Sitios web y herramientas para practicar griego en línea</p>
+                            <button class="btn-resource">
+                                <i class="fas fa-external-link-alt"></i> Visitar
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección Quizzes -->
+                <section id="quizzes-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-clipboard-check"></i> Quizzes y Evaluaciones</h2>
+                        <p>Pon a prueba tus conocimientos</p>
+                    </div>
+
+                    <div class="quizzes-container">
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-badge">Quiz 1-3</span>
+                                <span class="quiz-status available">Disponible</span>
+                            </div>
+                            <h3>Lecciones 1-3: Fundamentos</h3>
+                            <p>Alfabeto, pronunciación y sustantivos básicos</p>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>10 preguntas</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>15 minutos</span>
+                                </div>
+                            </div>
+                            <button class="btn-quiz" data-quiz="1">
+                                <i class="fas fa-external-link-alt"></i> Realizar Quiz (Google Forms)
+                            </button>
+                        </div>
+
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-badge">Quiz 4-6</span>
+                                <span class="quiz-status locked">Disponible en 7 días</span>
+                            </div>
+                            <h3>Lecciones 4-6: Gramática Básica</h3>
+                            <p>Declinaciones, artículos, adjetivos y pronombres</p>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>12 preguntas</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>20 minutos</span>
+                                </div>
+                            </div>
+                            <button class="btn-quiz locked" disabled>
+                                <i class="fas fa-lock"></i> Próximamente
+                            </button>
+                        </div>
+
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-badge">Quiz 7-9</span>
+                                <span class="quiz-status locked">Disponible en 14 días</span>
+                            </div>
+                            <h3>Lecciones 7-9: Preposiciones y Verbos</h3>
+                            <p>Preposiciones, verbo EIMI e introducción a verbos</p>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>15 preguntas</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>25 minutos</span>
+                                </div>
+                            </div>
+                            <button class="btn-quiz locked" disabled>
+                                <i class="fas fa-lock"></i> Próximamente
+                            </button>
+                        </div>
+
+                        <div class="quiz-card">
+                            <div class="quiz-header">
+                                <span class="quiz-badge">Quiz 10-12</span>
+                                <span class="quiz-status locked">Disponible en 21 días</span>
+                            </div>
+                            <h3>Lecciones 10-12: Sistema Verbal</h3>
+                            <p>Tiempos verbales: presente, imperfecto y futuro</p>
+                            <div class="quiz-info">
+                                <div class="info-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>20 preguntas</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>30 minutos</span>
+                                </div>
+                            </div>
+                            <button class="btn-quiz locked" disabled>
+                                <i class="fas fa-lock"></i> Próximamente
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>Seminario Teológico Bautista de Cuba Oriental &copy; 2024 - Curso de Griego Bíblico</p>
+        </footer>
+    </div>
+
+    <!-- Modal para Lecciones -->
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="lesson-title">Título de la Lección</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="lesson-navigation">
+                    <button class="btn-nav prev" disabled>
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span class="page-counter">Página <span id="current-page">1</span> de <span id="total-pages">3</span></span>
+                    <button class="btn-nav next">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="lesson-content" id="lesson-content-area">
+                    <!-- Contenido de la lección se carga aquí -->
+                </div>
+
+                <div class="lesson-actions">
+                    <div class="lesson-progress">
+                        <span>Progreso: </span>
+                        <div class="progress-bar-small">
+                            <div class="progress-fill-small" id="lesson-progress-bar"></div>
+                        </div>
+                        <span id="lesson-progress-text">0%</span>
+                    </div>
+                    <button class="btn-complete" id="mark-complete-btn">
+                        <i class="fas fa-check-circle"></i> Marcar como Completado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Mensajes -->
+    <div id="message-modal" class="modal">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <h3 id="message-title">Mensaje</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="message-text">Contenido del mensaje</p>
+            </div>
+            <div class="modal-footer">
+                <button id="message-close" class="btn-ok">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

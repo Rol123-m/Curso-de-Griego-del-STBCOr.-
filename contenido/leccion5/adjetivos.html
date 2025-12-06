@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a los Adjetivos - Lección 1</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+        }
+
+        .function-box {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Introducción a los Adjetivos en Español y Griego</h2>
+
+        <div class="intro-box">
+            <p>Un <strong>adjetivo</strong> es una palabra que modifica a un sustantivo o pronombre, describiéndolo o limitando su significado. En esta lección veremos cómo funcionan los adjetivos en español y las bases para entenderlos en griego koiné.</p>
+            
+            <p><strong>Características principales:</strong></p>
+            <ul class="usage-list">
+                <li>Modifican sustantivos o pronombres</li>
+                <li>Concuerdan en género y número con lo que modifican</li>
+                <li>Pueden aparecer antes o después del sustantivo</li>
+                <li>Cumplen diferentes funciones gramaticales</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h3>Funciones de los Adjetivos</h3>
+            
+            <div class="function-box">
+                <h4>1. Función Atributiva</h4>
+                <p>Otorga una cualidad (un atributo) al sustantivo que modifica.</p>
+                <div class="example-box">
+                    <p>"Ella aprendió <strong>griego moderno</strong>."</p>
+                    <p>El adjetivo <strong>moderno</strong> modifica al sustantivo <strong>griego</strong>, describiéndolo.</p>
+                </div>
+            </div>
+
+            <div class="function-box">
+                <h4>2. Adjetivo Sustantivado</h4>
+                <p>Funciona como si fuera un sustantivo, sustituyéndolo.</p>
+                <div class="example-box">
+                    <p>"<strong>Los buenos</strong>, <strong>los malos</strong> y <strong>los feos</strong> son bienvenidos."</p>
+                    <p>"Fuera <strong>lo viejo</strong> y dentro <strong>lo nuevo</strong>."</p>
+                </div>
+            </div>
+
+            <div class="function-box">
+                <h4>3. Función Predicativa</h4>
+                <p>Afirma algo sobre el sujeto, con el verbo "ser" o "estar" (expreso o implícito).</p>
+                <div class="example-box">
+                    <p>"Los estudiantes <strong>son buenos</strong>."</p>
+                    <p>"Dios <strong>es verdadero</strong>."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Comparación Español vs. Griego Koiné</h3>
+            <div class="note-box">
+                <p><strong>Diferencias clave:</strong></p>
+                <ul class="usage-list">
+                    <li><strong>Español:</strong> Concuerda en género (masc/fem) y número</li>
+                    <li><strong>Griego:</strong> Concuerda en género (masc/fem/neut), número <strong>y caso</strong></li>
+                    <li><strong>Español:</strong> Dos géneros gramaticales</li>
+                    <li><strong>Griego:</strong> Tres géneros gramaticales</li>
+                    <li><strong>Ambos:</strong> Posición del adjetivo puede cambiar el énfasis</li>
+                    <li><strong>Ambos:</strong> Uso similar de artículos con adjetivos sustantivados</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Ejemplos de Adjetivos en Griego Koiné</h3>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Adjetivo (Griego)</th>
+                        <th>Transliteración</th>
+                        <th>Significado</th>
+                        <th>Ejemplo Bíblico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="greek-text">ἀγαθός</td>
+                        <td>agathos</td>
+                        <td>bueno</td>
+                        <td class="greek-text">ὁ ἀγαθὸς ἄνθρωπος</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">μέγας</td>
+                        <td>megas</td>
+                        <td>grande</td>
+                        <td class="greek-text">ἡ μεγάλη πόλις</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">καλός</td>
+                        <td>kalos</td>
+                        <td>bueno, hermoso</td>
+                        <td class="greek-text">τὸ καλὸν ἔργον</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">πιστός</td>
+                        <td>pistos</td>
+                        <td>fiel</td>
+                        <td class="greek-text">ὁ πιστὸς θεός</td>
+                    </tr>
+                    <tr>
+                        <td class="greek-text">νέος</td>
+                        <td>neos</td>
+                        <td>nuevo</td>
+                        <td class="greek-text">ὁ νέος ἄνθρωπος</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica: Introducción a los Adjetivos</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. En "El libro sagrado", ¿qué función cumple "sagrado"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Atributiva</label>
+                    <label><input type="radio" name="q1" value="b"> Sustantivada</label>
+                    <label><input type="radio" name="q1" value="c"> Predicativa</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Cuál frase contiene adjetivo sustantivado?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> La casa grande</label>
+                    <label><input type="radio" name="q2" value="b"> Los ricos y los pobres</label>
+                    <label><input type="radio" name="q2" value="c"> El niño es inteligente</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. En griego, ¿en qué tres aspectos concuerda el adjetivo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Género, número y tiempo</label>
+                    <label><input type="radio" name="q3" value="b"> Género, número y caso</label>
+                    <label><input type="radio" name="q3" value="c"> Persona, número y voz</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'a',
+                q2: 'b',
+                q3: 'b'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

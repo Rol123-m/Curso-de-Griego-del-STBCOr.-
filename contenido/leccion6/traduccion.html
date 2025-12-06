@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Traducción de Pronombres - Griego Koiné</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .section-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .tip-box {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #0288d1;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .quote-box {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #9c27b0;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .procedure-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .procedure-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .procedure-list li:before {
+            content: "→";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Proceso de Traducción de Pronombres en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>En esta lección aprenderás el procedimiento sistemático para traducir pronombres griegos al español, considerando su función gramatical y posición en la oración.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>1. Identificar la Función del Pronombre</h3>
+            <ul class="procedure-list">
+                <li>Si el pronombre es <strong>sujeto</strong> o <strong>objeto directo</strong>, se traduce como cualquier otro sustantivo en esa función.</li>
+                <li>Si está en <strong>genitivo</strong>, funciona como <strong>posesivo</strong> ("de mí / mi").</li>
+            </ul>
+
+            <div class="example-box">
+                <p><strong>Ejemplo:</strong></p>
+                <p class="greek-text">ἐγὼ πιστεύω τὸν λόγον σου.</p>
+                <p><em>"Yo creo tu palabra."</em></p>
+                <ul>
+                    <li><span class="greek-text">ἐγὼ</span> (nominativo, sujeto) → "yo"</li>
+                    <li><span class="greek-text">σου</span> (genitivo, posesivo) → "tu"</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <h3>2. Posición del Posesivo</h3>
+            <p>Los pronombres posesivos (<span class="greek-text">μου, σου, ἡμῶν, ὑμῶν</span>) suelen ir <strong>después</strong> del sustantivo que modifican (a diferencia del español).</p>
+
+            <div class="example-box">
+                <p><strong>Ejemplo:</strong></p>
+                <p class="greek-text">κύριός μου εἶπεν…</p>
+                <p><em>"Mi Señor dijo…"</em> (lit. "Señor de mí")</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Repaso Intermedio</h3>
+            <ol class="procedure-list">
+                <li>Los pronombres son palabras que <strong>reemplazan</strong> a sustantivos.</li>
+                <li><strong>Personas gramaticales:</strong>
+                    <ul>
+                        <li><strong>Primera persona:</strong> El que habla (<span class="greek-text">ἐγὼ, ἡμεῖς</span> → "yo, nosotros")</li>
+                        <li><strong>Segunda persona:</strong> El interlocutor (<span class="greek-text">σύ, ὑμεῖς</span> → "tú, vosotros")</li>
+                        <li><strong>Tercera persona:</strong> De quien se habla (<span class="greek-text">αὐτός, αὐτή, αὐτό</span> → "él, ella, ello")</li>
+                    </ul>
+                </li>
+                <li><strong>Concordancia:</strong>
+                    <ul>
+                        <li>Los pronombres concuerdan con su antecedente en persona y número.</li>
+                        <li>Su caso lo determina su función en la oración.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="quote-box">
+                <p class="greek-text">ἐγὼ ἐβάπτισα ὑμᾶς… αὐτὸς δὲ βαπτίσει…</p>
+                <p><em>"Yo os bauticé… pero él os bautizará…"</em> (Marcos 1:8)</p>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <h3>Nota Final</h3>
+            <ul>
+                <li>En griego, el orden de palabras es flexible, pero los pronombres posesivos suelen ser <strong>postnominales</strong> (ej. "<span class="greek-text">ἡ ἀγάπη σου</span>" → "tu amor").</li>
+                <li>Las formas enfáticas (<span class="greek-text">ἐμοῦ, σοῦ</span>) se usan para contrastes o después de preposiciones.</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica de Traducción</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Cómo traducirías "<span class="greek-text">κύριός μου</span>" al español?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Mí Señor</label>
+                    <label><input type="radio" name="q1" value="b"> Mi Señor</label>
+                    <label><input type="radio" name="q1" value="c"> Señor mío</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Qué caso tiene "<span class="greek-text">σου</span>" en la frase "<span class="greek-text">ὁ λόγος σου</span>"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Nominativo</label>
+                    <label><input type="radio" name="q2" value="b"> Genitivo</label>
+                    <label><input type="radio" name="q2" value="c"> Acusativo</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Cuándo se usan las formas enfáticas como "<span class="greek-text">ἐμοῦ</span>"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Siempre en nominativo</label>
+                    <label><input type="radio" name="q3" value="b"> Para dar énfasis o después de preposiciones</label>
+                    <label><input type="radio" name="q3" value="c"> Solo en plural</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

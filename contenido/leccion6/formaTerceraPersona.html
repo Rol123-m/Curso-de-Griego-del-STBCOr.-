@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El pronombre αὐτός en Griego Koiné</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .section-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .definition-box {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #f3e5f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .tip-box {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #0288d1;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .declension-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .declension-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .declension-list li:before {
+            content: "•";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>El pronombre <span class="greek-text">αὐτός</span> en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>El pronombre <span class="greek-text">αὐτός</span> es fundamental en griego koiné. A diferencia de <span class="greek-text">ἐγώ</span> (yo) y <span class="greek-text">σύ</span> (tú), tiene género y sigue las terminaciones normales de caso.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Funcionamiento como Pronombre Personal</h3>
+            
+            <div class="definition-box">
+                <p><span class="greek-text">αὐτός</span> funciona como pronombre personal de tercera persona, significando:</p>
+                <ul class="declension-list">
+                    <li>"él" (<span class="greek-text">αὐτός</span>)</li>
+                    <li>"lo" (<span class="greek-text">αὐτόν</span>)</li>
+                    <li>"ella" (<span class="greek-text">αὐτή</span>)</li>
+                    <li>"la" (<span class="greek-text">αὐτήν</span>)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Tabla de Declinación de <span class="greek-text">αὐτός</span></h3>
+            
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Masculino</th>
+                        <th>Femenino</th>
+                        <th>Neutro</th>
+                        <th>Traducción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>nom. sg.</td>
+                        <td class="greek-text">αὐτός</td>
+                        <td class="greek-text">αὐτή</td>
+                        <td class="greek-text">αὐτό</td>
+                        <td>él / ella / ello</td>
+                    </tr>
+                    <tr>
+                        <td>gen. sg.</td>
+                        <td class="greek-text">αὐτοῦ</td>
+                        <td class="greek-text">αὐτῆς</td>
+                        <td class="greek-text">αὐτοῦ</td>
+                        <td>de él / de ella / su</td>
+                    </tr>
+                    <tr>
+                        <td>dat. sg.</td>
+                        <td class="greek-text">αὐτῷ</td>
+                        <td class="greek-text">αὐτῇ</td>
+                        <td class="greek-text">αὐτῷ</td>
+                        <td>a él / a ella / a ello</td>
+                    </tr>
+                    <tr>
+                        <td>ac. sg.</td>
+                        <td class="greek-text">αὐτόν</td>
+                        <td class="greek-text">αὐτήν</td>
+                        <td class="greek-text">αὐτό</td>
+                        <td>lo / la / ello</td>
+                    </tr>
+                    <tr>
+                        <td>nom. pl.</td>
+                        <td class="greek-text">αὐτοί</td>
+                        <td class="greek-text">αὐταί</td>
+                        <td class="greek-text">αὐτά</td>
+                        <td>ellos / ellas</td>
+                    </tr>
+                    <tr>
+                        <td>gen. pl.</td>
+                        <td class="greek-text">αὐτῶν</td>
+                        <td class="greek-text">αὐτῶν</td>
+                        <td class="greek-text">αὐτῶν</td>
+                        <td>de ellos / su</td>
+                    </tr>
+                    <tr>
+                        <td>dat. pl.</td>
+                        <td class="greek-text">αὐτοῖς</td>
+                        <td class="greek-text">αὐταῖς</td>
+                        <td class="greek-text">αὐτοῖς</td>
+                        <td>a ellos / a ellas</td>
+                    </tr>
+                    <tr>
+                        <td>ac. pl.</td>
+                        <td class="greek-text">αὐτούς</td>
+                        <td class="greek-text">αὐτάς</td>
+                        <td class="greek-text">αὐτά</td>
+                        <td>los / las</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-box">
+            <h3>Características de Forma</h3>
+            
+            <ul class="declension-list">
+                <li><span class="greek-text">αὐτός</span> usa terminaciones de caso como los adjetivos (2-1-2)</li>
+                <li>El femenino sigue la primera declinación (terminación en eta)</li>
+                <li>El masculino y neutro siguen la segunda declinación</li>
+                <li>En neutro nominativo/acusativo singular, no usa terminación (<span class="greek-text">αὐτό</span>)</li>
+                <li>Siempre lleva espíritu suave</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h3>Análisis Morfológico (Parsing)</h3>
+            
+            <div class="tip-box">
+                <p>Se analiza como un adjetivo: caso, número, género, forma léxica y significado.</p>
+                
+                <div class="example-box">
+                    <p><strong>Ejemplo:</strong></p>
+                    <p class="greek-text">αὐτοῖς</p>
+                    <ul>
+                        <li><strong>Caso:</strong> Dativo</li>
+                        <li><strong>Número:</strong> Plural</li>
+                        <li><strong>Género:</strong> Masculino/Neutro</li>
+                        <li><strong>Forma léxica:</strong> <span class="greek-text">αὐτός</span></li>
+                        <li><strong>Significado:</strong> "a ellos"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica con el pronombre <span class="greek-text">αὐτός</span></h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Cuál es la forma femenina singular en nominativo de <span class="greek-text">αὐτός</span>?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> <span class="greek-text">αὐτός</span></label>
+                    <label><input type="radio" name="q1" value="b"> <span class="greek-text">αὐτή</span></label>
+                    <label><input type="radio" name="q1" value="c"> <span class="greek-text">αὐτόν</span></label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Cómo se dice "a ellas" en griego usando <span class="greek-text">αὐτός</span>?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> <span class="greek-text">αὐταῖς</span></label>
+                    <label><input type="radio" name="q2" value="b"> <span class="greek-text">αὐτοῖς</span></label>
+                    <label><input type="radio" name="q2" value="c"> <span class="greek-text">αὐτῆς</span></label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Qué caso y número es <span class="greek-text">αὐτῶν</span>?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Genitivo singular</label>
+                    <label><input type="radio" name="q3" value="b"> Nominativo plural</label>
+                    <label><input type="radio" name="q3" value="c"> Genitivo plural</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'c'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

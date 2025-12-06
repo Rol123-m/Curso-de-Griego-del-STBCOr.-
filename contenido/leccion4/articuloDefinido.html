@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Artículo Definido - Lección 1</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+            position: relative;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "✓";
+            color: #27ae60;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>El Artículo Definido en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>En griego koiné, <strong>solo existe el artículo definido</strong> (ὁ, ἡ, τό), a diferencia del español que tiene también artículo indefinido ("un", "una"). Este artículo concuerda en género, número y caso con el sustantivo al que modifica.</p>
+            
+            <p>El artículo definido es fundamental porque:</p>
+            <ul class="usage-list">
+                <li>Revela el género, número y caso del sustantivo</li>
+                <li>Sirve como guía para identificar sustantivos</li>
+                <li>Sus terminaciones son similares a las de los sustantivos</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h3>Artículo Definido vs. Indefinido</h3>
+            <p>En español usamos:</p>
+            <ul class="usage-list">
+                <li><strong>Definido:</strong> "el libro", "la casa" (específico, conocido)</li>
+                <li><strong>Indefinido:</strong> "un libro", "una casa" (no específico)</li>
+            </ul>
+            <p>En griego koiné <strong>solo existe el artículo definido</strong>. Cuando no hay artículo, puede tener valor indefinido o cualitativo según el contexto.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Paradigma del Artículo Definido</h3>
+            <table class="greek-table">
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Masculino</th>
+                        <th>Femenino</th>
+                        <th>Neutro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nominativo</td>
+                        <td class="greek-text">ὁ</td>
+                        <td class="greek-text">ἡ</td>
+                        <td class="greek-text">τό</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo</td>
+                        <td class="greek-text">τοῦ</td>
+                        <td class="greek-text">τῆς</td>
+                        <td class="greek-text">τοῦ</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo</td>
+                        <td class="greek-text">τῷ</td>
+                        <td class="greek-text">τῇ</td>
+                        <td class="greek-text">τῷ</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo</td>
+                        <td class="greek-text">τόν</td>
+                        <td class="greek-text">τήν</td>
+                        <td class="greek-text">τό</td>
+                    </tr>
+                    <tr>
+                        <td>Nominativo plural</td>
+                        <td class="greek-text">οἱ</td>
+                        <td class="greek-text">αἱ</td>
+                        <td class="greek-text">τά</td>
+                    </tr>
+                    <tr>
+                        <td>Genitivo plural</td>
+                        <td class="greek-text">τῶν</td>
+                        <td class="greek-text">τῶν</td>
+                        <td class="greek-text">τῶν</td>
+                    </tr>
+                    <tr>
+                        <td>Dativo plural</td>
+                        <td class="greek-text">τοῖς</td>
+                        <td class="greek-text">ταῖς</td>
+                        <td class="greek-text">τοῖς</td>
+                    </tr>
+                    <tr>
+                        <td>Acusativo plural</td>
+                        <td class="greek-text">τούς</td>
+                        <td class="greek-text">τάς</td>
+                        <td class="greek-text">τά</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="example-box">
+                <p><strong>Notas importantes:</strong></p>
+                <ul>
+                    <li>El artículo comienza con espíritu fuerte (h) o tau (τ)</li>
+                    <li>Concuerda con el sustantivo en caso, número y género</li>
+                    <li>Es consistente, fácil de aprender y fundamental para la sintaxis</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Concordancia del Artículo</h3>
+            <p>El artículo concuerda completamente con el sustantivo que modifica:</p>
+            <div class="example-box">
+                <p class="greek-text">ὁ λόγος (nominativo singular masculino)</p>
+                <p class="greek-text">τῆς γραφῆς (genitivo singular femenino)</p>
+                <p class="greek-text">τοῖς ἀποστόλοις (dativo plural masculino)</p>
+            </div>
+            <p>Esto significa que si conoces el artículo, ¡ya conoces gran parte de la información gramatical del sustantivo!</p>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica del Artículo Definido</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Existe artículo indefinido en griego koiné?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Sí, igual que en español</label>
+                    <label><input type="radio" name="q1" value="b"> No, solo existe el artículo definido</label>
+                    <label><input type="radio" name="q1" value="c"> Solo en algunos dialectos</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Con qué debe concordar el artículo definido griego?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Solo con el género del sustantivo</label>
+                    <label><input type="radio" name="q2" value="b"> Con caso, número y género del sustantivo</label>
+                    <label><input type="radio" name="q2" value="c"> Solo con el número del sustantivo</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Cuál es la forma del artículo definido femenino singular en nominativo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> ὁ</label>
+                    <label><input type="radio" name="q3" value="b"> τό</label>
+                    <label><input type="radio" name="q3" value="c"> ἡ</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>4. ¿Qué forma del artículo usarías con un sustantivo masculino plural en dativo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q4" value="a"> τοῖς</label>
+                    <label><input type="radio" name="q4" value="b"> ταῖς</label>
+                    <label><input type="radio" name="q4" value="c"> τῶν</label>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'c',
+                q4: 'a'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

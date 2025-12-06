@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Tres Usos de αὐτός en Griego Koiné</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .section-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .usage-box {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .note-box {
+            background-color: #f3e5f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .tip-box {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #0288d1;
+        }
+
+        .warning-box {
+            background-color: #ffebee;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f44336;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .bible-ref {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "→";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .summary-box {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>Los Tres Usos de <span class="greek-text">αὐτός</span> en Griego Koiné</h2>
+
+        <div class="intro-box">
+            <p>No pienses en <span class="greek-text">αὐτός</span> solo como un pronombre de tercera persona, sino como una palabra con <strong>tres funciones distintas</strong> que debes aprender a distinguir.</p>
+        </div>
+
+        <div class="section-box">
+            <h3>1. Pronombre Personal (El Más Común)</h3>
+            
+            <div class="usage-box">
+                <p><strong>Traducción estándar:</strong></p>
+                <ul class="usage-list">
+                    <li><span class="greek-text">αὐτός</span> = él</li>
+                    <li><span class="greek-text">αὐτή</span> = ella</li>
+                    <li><span class="greek-text">αὐτό</span> = ello</li>
+                    <li><span class="greek-text">αὐτοί / αὐταί / αὐτά</span> = ellos / ellas</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>1.1. Sujeto:</h4>
+                <p class="greek-text">αὐτοὶ τὸν θεὸν ὄψονται</p>
+                <p class="bible-ref">(Mateo 5:8)</p>
+                <p><em>"Ellos verán a Dios."</em></p>
+            </div>
+
+            <div class="example-box">
+                <h4>1.2. Objeto Directo:</h4>
+                <p class="greek-text">παραλαμβάνει αὐτὸν ὁ διάβολος</p>
+                <p class="bible-ref">(Mateo 4:5)</p>
+                <p><em>"El diablo lo llevó."</em></p>
+            </div>
+
+            <div class="example-box">
+                <h4>1.3. Posesivo (Genitivo):</h4>
+                <p class="greek-text">καλέσεις τὸ ὄνομα αὐτοῦ Ἰησοῦν</p>
+                <p class="bible-ref">(Mateo 1:21)</p>
+                <p><em>"Llamarás su nombre Jesús."</em></p>
+            </div>
+
+            <div class="note-box">
+                <h4>1.4. Género:</h4>
+                <ul>
+                    <li>Si el antecedente es persona, sigue el género natural:
+                        <p class="greek-text">αὐτός ἐστιν Ἠλίας</p>
+                        <p class="bible-ref">(Mateo 11:14)</p>
+                        <p><em>"Él es Elías."</em></p>
+                    </li>
+                    <li>Si el antecedente es cosa, sigue el género gramatical:
+                        <p class="greek-text">ὀλίγοι εὑρίσκοντες αὐτήν</p>
+                        <p class="bible-ref">(Mateo 7:14)</p>
+                        <p><em>"Pocos la encuentran"</em> (refiriéndose a "la puerta estrecha", <span class="greek-text">πύλη</span>, femenino)</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>2. Uso Intensivo Adjetival</h3>
+            
+            <div class="tip-box">
+                <p>Cuando funciona como intensivo, <span class="greek-text">αὐτός</span> modifica a otro sustantivo (generalmente en posición predicativa) y se traduce como <strong>"mismo/a"</strong>.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Ejemplos:</h4>
+                <ul class="usage-list">
+                    <li><span class="greek-text">αὐτὸς ὁ ἀπόστολος</span> = "el apóstol mismo"</li>
+                    <li><span class="greek-text">αὐτὸ τὸ δῶρον</span> = "el regalo mismo"</li>
+                    <li><span class="greek-text">αὐτὸς γὰρ ὁ Ἡρῴδης...</span> <span class="bible-ref">(Marcos 6:17)</span> = "Porque Herodes mismo..."</li>
+                </ul>
+                <p>Concuerda en caso, número y género con el sustantivo que modifica.</p>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>No confundir con adjetivos predicativos normales:</strong></p>
+                <ul>
+                    <li><span class="greek-text">ὁ Ἰησοῦς ἀγαθός</span> = "Jesús es bueno"</li>
+                    <li><span class="greek-text">αὐτὸς ὁ Ἰησοῦς</span> = "Jesús mismo"</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>2.1. Intensivo en Nominativo</h4>
+                <p>Cuando <span class="greek-text">αὐτός</span> está en nominativo, suele enfatizar al sujeto:</p>
+                <p class="greek-text">αὐτὸς Δαυὶδ εἶπεν...</p>
+                <p class="bible-ref">(Marcos 12:36)</p>
+                <p><em>"El mismo David dijo..."</em></p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>3. Uso como Adjetivo Idéntico ("el mismo")</h3>
+            
+            <div class="tip-box">
+                <p>En este uso menos frecuente, <span class="greek-text">αὐτός</span> significa <strong>"el mismo"</strong> y suele estar en posición atributiva.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Ejemplos:</h4>
+                <ul class="usage-list">
+                    <li><span class="greek-text">τὸν αὐτὸν λόγον</span> <span class="bible-ref">(Marcos 14:39)</span> = "la misma palabra"</li>
+                    <li><span class="greek-text">ἐν αὐτῇ τῇ ὥρᾳ</span> <span class="bible-ref">(Lucas 13:31)</span> = "en la misma hora"</li>
+                    <li><span class="greek-text">τῇ αὐτῇ ἡμέρᾳ</span> = "el mismo día"</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>Resumen Final</h3>
+            <ol class="usage-list">
+                <li><span class="greek-text">αὐτός</span> sigue las terminaciones normales, excepto en neutro nominativo/acusativo singular (<span class="greek-text">αὐτό</span>)</li>
+                <li><strong>Como pronombre:</strong> su caso depende de su función; su género y número, del antecedente</li>
+                <li><strong>Como intensivo:</strong> se traduce "mismo/a" y va en posición predicativa</li>
+                <li><strong>Como adjetivo idéntico:</strong> significa "el mismo" y va en posición atributiva</li>
+            </ol>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica con los Usos de <span class="greek-text">αὐτός</span></h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Cómo se traduce <span class="greek-text">αὐτὸς ὁ βασιλεύς</span>?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> El rey</label>
+                    <label><input type="radio" name="q1" value="b"> El mismo rey</label>
+                    <label><input type="radio" name="q1" value="c"> Su rey</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. ¿Qué uso de <span class="greek-text">αὐτός</span> tenemos en <span class="greek-text">ἐν αὐτῇ τῇ ἡμέρᾳ</span> ("en el mismo día")?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Pronombre personal</label>
+                    <label><input type="radio" name="q2" value="b"> Intensivo adjetival</label>
+                    <label><input type="radio" name="q2" value="c"> Adjetivo idéntico</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. En <span class="greek-text">αὐτὸς εἶπεν</span> ("él dijo"), ¿qué función cumple <span class="greek-text">αὐτός</span>?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Pronombre personal sujeto</label>
+                    <label><input type="radio" name="q3" value="b"> Intensivo adjetival</label>
+                    <label><input type="radio" name="q3" value="c"> Adjetivo idéntico</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'c',
+                q3: 'a'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

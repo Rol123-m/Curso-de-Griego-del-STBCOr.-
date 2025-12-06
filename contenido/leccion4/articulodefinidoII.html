@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Artículo como Guía - Lección 2</title>
+    <style>
+        .lesson-content-container {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Merriweather', serif;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .intro-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .section-box {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2980b9;
+            position: relative;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .greek-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .greek-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .greek-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .greek-text {
+            font-family: 'Georgia', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #f9f7e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .usage-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .usage-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .usage-list li:before {
+            content: "✓";
+            color: #27ae60;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .summary-box {
+            background-color: #e8f6f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .quiz-section {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 2px solid #3498db;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .greek-table {
+                font-size: 14px;
+            }
+            
+            .greek-text {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greek-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-content-container">
+        <h2>El Artículo como Guía Gramatical</h2>
+
+        <div class="intro-box">
+            <p>El artículo definido griego no solo acompaña a los sustantivos, sino que actúa como una <strong>guía gramatical infalible</strong>. Si conoces bien las formas del artículo, tendrás la clave para entender la mayoría de los sustantivos en griego.</p>
+            
+            <div class="example-box">
+                <p class="greek-text">Ἐν ἀρχῇ ἦν ὁ λόγος (Juan 1:1)</p>
+                <p>"En el principio era el Verbo."</p>
+                <p><strong>Nota:</strong> Si no conociéramos λόγος, con solo mirar ὁ sabríamos que es <em>nominativo singular masculino</em>.</p>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>El Artículo Revela la Información Gramatical</h3>
+            <p><strong>Concordancia completa:</strong> El artículo concuerda en caso, género y número con el sustantivo al que modifica.</p>
+            
+            <ul class="usage-list">
+                <li>Si ves <span class="greek-text">τῆς</span> → sabes que el sustantivo es <strong>genitivo singular femenino</strong></li>
+                <li>Si ves <span class="greek-text">τοῖς</span> → sabes que el sustantivo es <strong>dativo plural masculino/neutro</strong></li>
+                <li>Si ves <span class="greek-text">αἱ</span> → sabes que el sustantivo es <strong>nominativo plural femenino</strong></li>
+            </ul>
+            
+            <p>¡Esto funciona incluso si no conoces el significado del sustantivo!</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Paradigma Completo 2-1-2</h3>
+            <p>Tabla completa del artículo definido con sustantivos de primera y segunda declinación:</p>
+            
+            <table class="greek-table">
+                <tr>
+                    <th>Caso</th>
+                    <th>Masculino (2ª)<br>λόγος</th>
+                    <th>Femenino (1ª)<br>γραφή</th>
+                    <th>Femenino (1ª)<br>ὥρα</th>
+                    <th>Neutro (2ª)<br>ἔργον</th>
+                </tr>
+                <tr>
+                    <td>Nom. sg</td>
+                    <td class="greek-text">ὁ λόγος</td>
+                    <td class="greek-text">ἡ γραφή</td>
+                    <td class="greek-text">ἡ ὥρα</td>
+                    <td class="greek-text">τὸ ἔργον</td>
+                </tr>
+                <tr>
+                    <td>Gen. sg</td>
+                    <td class="greek-text">τοῦ λόγου</td>
+                    <td class="greek-text">τῆς γραφῆς</td>
+                    <td class="greek-text">τῆς ὥρας</td>
+                    <td class="greek-text">τοῦ ἔργου</td>
+                </tr>
+                <tr>
+                    <td>Dat. sg</td>
+                    <td class="greek-text">τῷ λόγῳ</td>
+                    <td class="greek-text">τῇ γραφῇ</td>
+                    <td class="greek-text">τῇ ὥρᾳ</td>
+                    <td class="greek-text">τῷ ἔργῳ</td>
+                </tr>
+                <tr>
+                    <td>Acc. sg</td>
+                    <td class="greek-text">τὸν λόγον</td>
+                    <td class="greek-text">τὴν γραφήν</td>
+                    <td class="greek-text">τὴν ὥραν</td>
+                    <td class="greek-text">τὸ ἔργον</td>
+                </tr>
+                <tr>
+                    <td>Nom. pl</td>
+                    <td class="greek-text">οἱ λόγοι</td>
+                    <td class="greek-text">αἱ γραφαί</td>
+                    <td class="greek-text">αἱ ὥραί</td>
+                    <td class="greek-text">τὰ ἔργα</td>
+                </tr>
+                <tr>
+                    <td>Gen. pl</td>
+                    <td class="greek-text">τῶν λόγων</td>
+                    <td class="greek-text">τῶν γραφῶν</td>
+                    <td class="greek-text">τῶν ὥρῶν</td>
+                    <td class="greek-text">τῶν ἔργων</td>
+                </tr>
+                <tr>
+                    <td>Dat. pl</td>
+                    <td class="greek-text">τοῖς λόγοις</td>
+                    <td class="greek-text">ταῖς γραφαῖς</td>
+                    <td class="greek-text">ταῖς ὥραῖς</td>
+                    <td class="greek-text">τοῖς ἔργοις</td>
+                </tr>
+                <tr>
+                    <td>Acc. pl</td>
+                    <td class="greek-text">τοὺς λόγους</td>
+                    <td class="greek-text">τὰς γραφάς</td>
+                    <td class="greek-text">τὰς ὥράς</td>
+                    <td class="greek-text">τὰ ἔργα</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="summary-box">
+            <h3>Resumen Clave</h3>
+            <ul class="usage-list">
+                <li><strong>El artículo como guía:</strong> Su forma revela género, número y caso del sustantivo</li>
+                <li><strong>Patrón para sustantivos:</strong> Las terminaciones coinciden (ej. -ος en nominativo masculino)</li>
+                <li><strong>Estrategia de aprendizaje:</strong> Memorizar el artículo simplifica el estudio de los sustantivos</li>
+                <li><strong>Lectura de textos:</strong> El artículo actúa como "marcador gramatical" infalible</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h3>Práctica: El Artículo como Guía</h3>
+            
+            <div class="quiz-question">
+                <p><strong>1. ¿Qué información gramatical nos proporciona el artículo sobre el sustantivo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Solo el género</label>
+                    <label><input type="radio" name="q1" value="b"> Género, número y caso</label>
+                    <label><input type="radio" name="q1" value="c"> Solo el significado</label>
+                </div>
+                <div class="result" id="result1"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. Si encuentras "τῆς" en un texto, ¿qué sabes del sustantivo?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Es nominativo plural femenino</label>
+                    <label><input type="radio" name="q2" value="b"> Es genitivo singular femenino</label>
+                    <label><input type="radio" name="q2" value="c"> Es acusativo singular neutro</label>
+                </div>
+                <div class="result" id="result2"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. ¿Qué forma de artículo esperarías con un sustantivo dativo plural femenino?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> ταῖς</label>
+                    <label><input type="radio" name="q3" value="b"> τοῖς</label>
+                    <label><input type="radio" name="q3" value="c"> τῶν</label>
+                </div>
+                <div class="result" id="result3"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>4. En "ὁ λόγος", ¿qué caso es "λόγος"?</strong></p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q4" value="a"> Genitivo singular</label>
+                    <label><input type="radio" name="q4" value="b"> Nominativo singular</label>
+                    <label><input type="radio" name="q4" value="c"> Acusativo plural</label>
+                </div>
+                <div class="result" id="result4"></div>
+            </div>
+
+            <button onclick="checkAnswers()">Comprobar Respuestas</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'a',
+                q4: 'b'
+            };
+
+            for (const question in answers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${question.slice(1)}`);
+                
+                if (selectedOption) {
+                    if (selectedOption.value === answers[question]) {
+                        resultElement.textContent = "✓ ¡Correcto!";
+                        resultElement.className = "result correct";
+                    } else {
+                        resultElement.textContent = "✗ Incorrecto. La respuesta correcta es la opción " + 
+                            (answers[question] === 'a' ? 'A' : answers[question] === 'b' ? 'B' : 'C');
+                        resultElement.className = "result incorrect";
+                    }
+                } else {
+                    resultElement.textContent = "Por favor, selecciona una respuesta.";
+                    resultElement.className = "result incorrect";
+                }
+            }
+
+            document.querySelectorAll('.quiz-options input').forEach(input => {
+                input.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>
