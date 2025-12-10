@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Escritura Griega - Lección 1</title>
+    <title>Simulador de Escritura Griega - Seminario Teológico Bautista de Cuba Oriental - Lección 1</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos adaptados al sistema del curso */
+        /* Estilos anteriores se mantienen igual */
         :root {
             --color-primario: #2c3e50;
             --color-secundario: #3498db;
@@ -51,11 +51,23 @@
             font-size: 2.5em;
         }
 
-        .simulator-header p {
+        .simulator-header .subtitle {
             color: #666;
             font-size: 1.1em;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 10px;
+        }
+
+        .institution-badge {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .simulator-layout {
@@ -413,7 +425,10 @@
     <div class="simulator-container">
         <div class="simulator-header">
             <h1><i class="fas fa-pen-nib"></i> Simulador de Escritura Griega</h1>
-            <p>Practica la escritura de cada letra griega siguiendo las guías visuales. Usa el lápiz en pantalla para trazar cada caracter.</p>
+            <p class="subtitle">Practica la escritura de cada letra griega siguiendo las guías visuales. Usa el lápiz en pantalla para trazar cada caracter.</p>
+            <div class="institution-badge">
+                <i class="fas fa-church"></i> Seminario Teológico Bautista de Cuba Oriental
+            </div>
         </div>
 
         <div class="simulator-layout">
@@ -511,7 +526,7 @@
     </div>
 
     <script>
-        // Datos de las letras griegas
+        // Datos de las letras griegas (sin cambios)
         const greekLetters = [
             { upper: "Α", lower: "α", name: "Alfa", instruction: "El sonido es como una a larga, ej. casa." },
             { upper: "Β", lower: "β", name: "Beta", instruction: "El sonido corresponde a la B española. ej. Barco" },
@@ -543,7 +558,6 @@
         let currentLetterIndex = 0;
         let canvas, ctx;
         let isDrawing = false;
-        let scaleFactor = 1;
         let practiceStats = {
             lettersPracticed: 0,
             startTime: new Date(),
@@ -585,13 +599,10 @@
             canvas = document.getElementById('writingCanvas');
             ctx = canvas.getContext('2d');
             
-            // Ajustar canvas para pantallas retina
-            const dpr = window.devicePixelRatio || 1;
+            // Establecer tamaño del canvas igual a su tamaño visual
             const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.scale(dpr, dpr);
-            scaleFactor = dpr;
+            canvas.width = rect.width;
+            canvas.height = rect.height;
             
             resetCanvas();
             setupDrawingEvents();
@@ -600,7 +611,7 @@
         function resetCanvas() {
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.lineWidth = 4 * scaleFactor;
+            ctx.lineWidth = 4;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             ctx.strokeStyle = '#2c3e50';
@@ -616,22 +627,40 @@
             // Eventos para touch
             canvas.addEventListener('touchstart', (e) => {
                 e.preventDefault();
-                startDrawing(e.touches[0]);
-            }, { passive: false });
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            });
             
             canvas.addEventListener('touchmove', (e) => {
                 e.preventDefault();
-                draw(e.touches[0]);
-            }, { passive: false });
+                if (e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            });
             
-            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchend', () => {
+                const mouseEvent = new MouseEvent('mouseup');
+                canvas.dispatchEvent(mouseEvent);
+            });
         }
 
         function getCanvasCoordinates(e) {
+            // Obtener las coordenadas relativas al canvas de forma simple
             const rect = canvas.getBoundingClientRect();
             return {
-                x: (e.clientX - rect.left) * scaleFactor,
-                y: (e.clientY - rect.top) * scaleFactor
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
             };
         }
 
@@ -727,7 +756,7 @@
         }
 
         function startPracticeTimer() {
-            setInterval(updateStats, 60000); // Actualizar cada minuto
+            setInterval(updateStats, 60000);
         }
 
         // Event Listeners
@@ -755,10 +784,8 @@
         });
         
         completeBtn.addEventListener('click', () => {
-            // En un sistema integrado, esto marcaría la página como completada
             showFeedback('¡Práctica completada! Puedes continuar con la siguiente lección.');
             
-            // Simular guardado de progreso
             setTimeout(() => {
                 if (window.parent && typeof window.parent.markPageComplete === 'function') {
                     window.parent.markPageComplete();
@@ -784,6 +811,7 @@
                     }
                     break;
                 case ' ':
+                    e.preventDefault();
                     speakLetter();
                     break;
                 case 'Escape':
