@@ -1,7 +1,15 @@
  // Datos iniciales
 const students = [
     { id: 1, username: 'Rolando', password: 'griego2025', name: 'Rolando Desdín' },
-    { id: 2, username: 'Dannier', password: 'griego2025', name: 'Dannier' }
+    { id: 2, username: 'Dannier', password: 'griego2025', name: 'Dannier' },
+    { id: 3, username: 'Joel', password: 'griego2025', name: 'Rector Joel Gutuíerrez' },
+    { id: 4, username: 'Jaikel', password: 'griego2025', name: 'Jaikel' },
+    { id: 5, username: 'Mariano', password: 'griego2025', name: 'Mariano' },
+    { id: 6, username: 'Diosmel', password: 'griego2025', name: 'Diosmel' },
+    { id: 7, username: 'Diosdelkis', password: 'griego2025', name: 'Diosdelkis' },
+    { id: 8, username: 'José', password: 'griego2025', name: 'José' },
+    { id: 9, username: 'Leonardo', password: 'griego2025', name: 'Leonardo' },
+    { id: 10, username: 'Eliennel', password: 'griego2025', name: 'Eliennel' }
 ];
 
 // Estructura de las 12 lecciones
