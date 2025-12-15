@@ -1,4 +1,4 @@
- // Datos iniciales
+// Datos iniciales
 const students = [
     { id: 1, username: 'Rolando', password: 'griego2025', name: 'Rolando Desdín' },
     { id: 2, username: 'Dannier', password: 'griego2025', name: 'Dannier' },
@@ -14,59 +14,55 @@ const students = [
 
 // Estructura de las 12 lecciones
 const lessonsData = [
-   // En el array lessonsData, actualiza la lección 1:
-// En el array lessonsData, actualiza la lección 1:
-{
-    id: 1,
-    title: "ALFABETO Y PRONUNCIACIÓN",
-    description: "Aprende las 24 letras del alfabeto griego y su correcta pronunciación.",
-    duration: "45 min",
-    pages: 3, // Cambiado de 2 a 3
-    content: [
-        { 
-            title: "Introducción al alfabeto", 
-            type: "html", 
-            content: `<iframe src="contenido/leccion1/alfabeto.html" style="width:100%; height:500px; border:none;"></iframe>` 
-        },
-        { 
-            title: "Acentos y puntuación", 
-            type: "html", 
-            content: `<iframe src="contenido/leccion1/acentos.html" style="width:100%; height:500px; border:none;"></iframe>` 
-        },
-        { 
-            title: "Práctica de escritura", 
-            type: "html", 
-            content: `<iframe src="contenido/leccion1/simulador.html" style="width:100%; height:600px; border:none;"></iframe>` 
-        }
-    ]
-},
-
-   // En el array lessonsData, actualiza la lección 2:
-{
-    id: 2,
-    title: "INTRODUCCIÓN A LOS SUSTANTIVOS",
-    description: "Conceptos básicos sobre los sustantivos griegos, componentes gramaticales y casos gramaticales.",
-    duration: "50 min",
-    pages: 2,
-    content: [
-        { 
-            title: "Componentes del sustantivo", 
-            type: "html", 
-            content: `<iframe src="contenido/leccion2/sustantivos.html" style="width:100%; height:500px; border:none;"></iframe>` 
-        },
-        { 
-            title: "Los casos gramaticales", 
-            type: "html", 
-            content: `<iframe src="contenido/leccion2/casos.html" style="width:100%; height:500px; border:none;"></iframe>` 
-        }
-    ]
-},
+    {
+        id: 1,
+        title: "ALFABETO Y PRONUNCIACIÓN",
+        description: "Aprende las 24 letras del alfabeto griego y su correcta pronunciación.",
+        duration: "45 min",
+        pages: 3,
+        content: [
+            { 
+                title: "Introducción al alfabeto", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion1/alfabeto.html" style="width:100%; height:500px; border:none;"></iframe>` 
+            },
+            { 
+                title: "Acentos y puntuación", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion1/acentos.html" style="width:100%; height:500px; border:none;"></iframe>` 
+            },
+            { 
+                title: "Práctica de escritura", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion1/simulador.html" style="width:100%; height:600px; border:none;"></iframe>` 
+            }
+        ]
+    },
+    {
+        id: 2,
+        title: "INTRODUCCIÓN A LOS SUSTANTIVOS",
+        description: "Conceptos básicos sobre los sustantivos griegos, componentes gramaticales y casos gramaticales.",
+        duration: "50 min",
+        pages: 2,
+        content: [
+            { 
+                title: "Componentes del sustantivo", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion2/sustantivos.html" style="width:100%; height:500px; border:none;"></iframe>` 
+            },
+            { 
+                title: "Los casos gramaticales", 
+                type: "html", 
+                content: `<iframe src="contenido/leccion2/casos.html" style="width:100%; height:500px; border:none;"></iframe>` 
+            }
+        ]
+    },
     {
         id: 3,
         title: "DECLINACIONES Y CASOS BÁSICOS",
         description: "Introducción a las declinaciones griegas y estudio de los casos nominativo y acusativo.",
         duration: "60 min",
-        pages: 3, // Aumentado de 2 a 4 páginas
+        pages: 3,
         content: [
             { 
                 title: "Introducción a las Declinaciones", 
@@ -78,20 +74,20 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion3/nominativo-acusativo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Juego de declinaciones.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion3/juegoDeclinaciones.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
-        },
+        ] 
+    },
     {
         id: 4,
         title: "SUSTANTIVOS PRIMERA DECLINACIÓN Y ARTÍCULO DEFINIDO",
         description: "Sustantivos de la primera declinación y uso del artículo definido.",
         duration: "55 min",
         pages: 3,
-       content: [
+        content: [
             { 
                 title: "Introducción al Artículo Definido", 
                 type: "html", 
@@ -102,12 +98,12 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion4/articulodefinidoII.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Más sobre sustantivos.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion4/sustantivos.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
+        ] 
     },
     {
         id: 5,
@@ -126,17 +122,17 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion5/adjetivos2.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Funciones de los adjetivos.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion5/funcionesAdjetivos.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Otros detalles.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion5/masDetalles.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
+        ] 
     },
     {
         id: 6,
@@ -155,27 +151,27 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion6/MasPronombres.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Funciones de los pronombres.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion6/funcionesPronombre.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Tercera Persona.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion6/tercerapersona.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Forma de la tercera persona.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion6/formaTerceraPersona.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Ayuda para la traducción.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion6/traduccion.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
+        ] 
     },
     {
         id: 7,
@@ -183,7 +179,7 @@ const lessonsData = [
         description: "Preposiciones griegas y sus casos regidos.",
         duration: "55 min",
         pages: 4,
-         content: [
+        content: [
             { 
                 title: "Introducción a las preposiciones", 
                 type: "html", 
@@ -194,17 +190,17 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion7/Más_sobre_preposiciones.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Frase preposicional.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion7/Frase_preposicional.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Tabla de las preposiciones.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion7/tabla_de_preposiciones.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
+        ] 
     },
     {
         id: 8,
@@ -212,7 +208,7 @@ const lessonsData = [
         description: "Estudio del verbo ser/estar en griego.",
         duration: "60 min",
         pages: 2,
-       content: [
+        content: [
             { 
                 title: "Verbo Eimi", 
                 type: "html", 
@@ -223,7 +219,7 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion8/Nominativo_Predicativo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ] 
+        ] 
     },
     {
         id: 9,
@@ -242,17 +238,17 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion9/componentes_basicos.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Presente Activo Indicativo", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion9/presente_activo_indicativo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-              { 
+            { 
                 title: "Más sobre verbos", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion9/mas_contenido.html" style="width:100%; height:550px; border:none;"></iframe>` 
             }
-         ]
+        ]
     },
     {
         id: 10,
@@ -260,7 +256,7 @@ const lessonsData = [
         description: "Conjugación del presente en voz media/pasiva.",
         duration: "70 min",
         pages: 2,
-      content: [
+        content: [
             { 
                 title: "Presente medio Pasivo Indicativo", 
                 type: "html", 
@@ -271,7 +267,7 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion10/voz_media.html" style="width:100%; height:550px; border:none;"></iframe>` 
             } 
-         ]
+        ]
     },
     {
         id: 11,
@@ -279,7 +275,7 @@ const lessonsData = [
         description: "Uso y conjugación del tiempo imperfecto.",
         duration: "65 min",
         pages: 5,
-      content: [
+        content: [
             { 
                 title: "Introducción al imperfecto.", 
                 type: "html", 
@@ -290,22 +286,22 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion11/imperfecto_activo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Imperfecto Pasivo Indicativo.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion11/imperfecto_pasivo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Características del imperfecto.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion11/caracteristicas.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Resumen.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion11/resumen.html" style="width:100%; height:550px; border:none;"></iframe>` 
             } 
-         ]
+        ]
     },
     {
         id: 12,
@@ -313,7 +309,7 @@ const lessonsData = [
         description: "Conjugación del futuro en voces activa y media.",
         duration: "60 min",
         pages: 5,
-       content: [
+        content: [
             { 
                 title: "Introducción al Futuro.", 
                 type: "html", 
@@ -324,22 +320,22 @@ const lessonsData = [
                 type: "html", 
                 content: `<iframe src="contenido/leccion12/mas_futuro.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Futuro medio Indicativo.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion12/futuro_medio_indicativo.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Futuro del verbo Eimi.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion12/futuro_eimi.html" style="width:100%; height:550px; border:none;"></iframe>` 
             },
-             { 
+            { 
                 title: "Futuro Líquido.", 
                 type: "html", 
                 content: `<iframe src="contenido/leccion12/futuro_liquido.html" style="width:100%; height:550px; border:none;"></iframe>` 
             } 
-         ]
+        ]
     }
 ];
 
@@ -348,6 +344,7 @@ let currentUser = null;
 let userProgress = null;
 let currentLesson = null;
 let currentPage = 0;
+let updateProgressCircle = null;
 
 // Elementos del DOM
 const loginPage = document.getElementById('login-page');
@@ -397,18 +394,229 @@ const quizUrls = [
     "https://forms.gle/YiLgKfkdJyZWTGEU7"
 ];
 
+// Verificar si estamos en GitHub Pages
+const isGitHubPages = window.location.hostname.includes('github.io');
+
+// Función para obtener rutas correctas según el entorno
+function getContentPath(relativePath) {
+    if (isGitHubPages) {
+        const repoName = window.location.pathname.split('/')[1] || '';
+        if (repoName) {
+            return `/${repoName}/${relativePath}`;
+        }
+    }
+    return relativePath;
+}
+
+// Actualizar las rutas en lessonsData para GitHub Pages
+function updateContentPaths() {
+    if (isGitHubPages) {
+        lessonsData.forEach(lesson => {
+            lesson.content.forEach(page => {
+                if (page.type === 'html' && page.content.includes('<iframe src="')) {
+                    const srcMatch = page.content.match(/src="([^"]+)"/);
+                    if (srcMatch) {
+                        const oldSrc = srcMatch[1];
+                        const newSrc = getContentPath(oldSrc);
+                        page.content = page.content.replace(`src="${oldSrc}"`, `src="${newSrc}"`);
+                    }
+                }
+            });
+        });
+        console.log('Rutas actualizadas para GitHub Pages');
+    }
+}
+
 // Inicialización
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== CURSO DE GRIEGO - INICIANDO ===');
+    console.log('URL:', window.location.href);
+    console.log('GitHub Pages:', isGitHubPages);
+    console.log('localStorage disponible:', typeof localStorage !== 'undefined');
+    
+    // Actualizar rutas antes de inicializar
+    updateContentPaths();
+    
+    init();
+});
 
 function init() {
+    console.log('Inicializando aplicación...');
+    
+    // Verificar localStorage
+    if (!isLocalStorageAvailable()) {
+        showMessage('Error de configuración', 'Tu navegador no soporta almacenamiento local. La aplicación no funcionará correctamente.');
+        return;
+    }
+    
+    // Inicializar datos PRIMERO
+    initStorageData();
+    
     // Verificar si hay usuario logueado
     checkLoggedInUser();
     
     // Configurar event listeners
     setupEventListeners();
     
-    // Inicializar datos si no existen
+    console.log('Aplicación inicializada correctamente');
+}
+
+// Función para verificar localStorage
+function isLocalStorageAvailable() {
+    try {
+        const test = 'test';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch (e) {
+        console.error('localStorage no disponible:', e);
+        return false;
+    }
+}
+
+// Función mejorada de inicialización de datos
+function initStorageData() {
+    console.log('Inicializando datos de almacenamiento...');
+    
+    try {
+        let progressData = localStorage.getItem('greekCourseProgress');
+        
+        if (!progressData) {
+            console.log('Creando datos iniciales...');
+            const initialProgress = {
+                students: {},
+                lessons: lessonsData.map(lesson => ({
+                    id: lesson.id,
+                    completed: false,
+                    currentPage: 0,
+                    lastAccessed: null,
+                    timeSpent: 0
+                })),
+                activities: [],
+                version: '1.0',
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('greekCourseProgress', JSON.stringify(initialProgress));
+            console.log('Datos iniciales creados exitosamente');
+        } else {
+            console.log('Datos existentes encontrados');
+            
+            // Verificar que la estructura sea válida
+            const parsedData = JSON.parse(progressData);
+            if (!parsedData.students) {
+                parsedData.students = {};
+                localStorage.setItem('greekCourseProgress', JSON.stringify(parsedData));
+                console.log('Estructura de students reparada');
+            }
+        }
+    } catch (error) {
+        console.error('Error en initStorageData:', error);
+        // Crear estructura limpia si hay error
+        const cleanProgress = {
+            students: {},
+            lessons: lessonsData.map(lesson => ({
+                id: lesson.id,
+                completed: false,
+                currentPage: 0,
+                lastAccessed: null,
+                timeSpent: 0
+            })),
+            activities: [],
+            version: '1.0',
+            createdAt: new Date().toISOString(),
+            errorRecovery: true
+        };
+        localStorage.setItem('greekCourseProgress', JSON.stringify(cleanProgress));
+        console.log('Datos recreados tras error');
+    }
+}
+
+function checkLoggedInUser() {
+    // Primero asegurarse de que los datos estén inicializados
     initStorageData();
+    
+    const userData = localStorage.getItem('currentUser');
+    
+    if (userData) {
+        try {
+            currentUser = JSON.parse(userData);
+            console.log('Usuario encontrado:', currentUser.name);
+            userProgress = getUserProgress(currentUser.id);
+            showDashboard();
+        } catch (error) {
+            console.error('Error al cargar usuario:', error);
+            showLogin();
+        }
+    } else {
+        showLogin();
+    }
+}
+
+function getUserProgress(userId) {
+    console.log(`Obteniendo progreso para usuario ID: ${userId}`);
+    
+    try {
+        const progressDataStr = localStorage.getItem('greekCourseProgress');
+        
+        if (!progressDataStr) {
+            console.warn('No se encontró greekCourseProgress, inicializando...');
+            initStorageData();
+        }
+        
+        const progressData = JSON.parse(localStorage.getItem('greekCourseProgress'));
+        
+        // Asegurar estructura válida
+        if (!progressData) {
+            console.error('progressData es null, recreando...');
+            initStorageData();
+            return getUserProgress(userId); // Intentar de nuevo
+        }
+        
+        if (!progressData.students) {
+            progressData.students = {};
+        }
+        
+        // Crear entrada para usuario si no existe
+        if (!progressData.students[userId]) {
+            console.log(`Creando entrada para nuevo usuario: ${userId}`);
+            progressData.students[userId] = {
+                lessons: lessonsData.map(lesson => ({
+                    id: lesson.id,
+                    completed: false,
+                    currentPage: 0,
+                    lastAccessed: null,
+                    timeSpent: 0
+                })),
+                totalTime: 0,
+                lastLogin: new Date().toISOString(),
+                created: new Date().toISOString()
+            };
+            
+            localStorage.setItem('greekCourseProgress', JSON.stringify(progressData));
+        }
+        
+        return progressData.students[userId];
+        
+    } catch (error) {
+        console.error('Error en getUserProgress:', error);
+        
+        // Crear estructura de emergencia
+        const emergencyProgress = {
+            lessons: lessonsData.map(lesson => ({
+                id: lesson.id,
+                completed: false,
+                currentPage: 0,
+                lastAccessed: null,
+                timeSpent: 0
+            })),
+            totalTime: 0,
+            lastLogin: new Date().toISOString(),
+            errorState: true
+        };
+        
+        return emergencyProgress;
+    }
 }
 
 function setupEventListeners() {
@@ -471,64 +679,12 @@ function setupEventListeners() {
     // Círculo de progreso animado
     const progressCircle = document.getElementById('progress-circle-svg');
     if (progressCircle) {
-        // Esta función se llama cuando se actualiza el progreso
         updateProgressCircle = function(percent) {
             const circumference = 339.292;
             const offset = circumference - (percent / 100 * circumference);
             progressCircle.style.strokeDashoffset = offset;
         };
     }
-}
-
-function initStorageData() {
-    // Inicializar datos de progreso si no existen
-    if (!localStorage.getItem('greekCourseProgress')) {
-        const initialProgress = {
-            students: {},
-            lessons: lessonsData.map(lesson => ({
-                id: lesson.id,
-                completed: false,
-                currentPage: 0,
-                lastAccessed: null,
-                timeSpent: 0
-            })),
-            activities: []
-        };
-        localStorage.setItem('greekCourseProgress', JSON.stringify(initialProgress));
-    }
-}
-
-function checkLoggedInUser() {
-    const userData = localStorage.getItem('currentUser');
-    
-    if (userData) {
-        currentUser = JSON.parse(userData);
-        userProgress = getUserProgress(currentUser.id);
-        showDashboard();
-    } else {
-        showLogin();
-    }
-}
-
-function getUserProgress(userId) {
-    const progressData = JSON.parse(localStorage.getItem('greekCourseProgress'));
-    
-    if (!progressData.students[userId]) {
-        progressData.students[userId] = {
-            lessons: lessonsData.map(lesson => ({
-                id: lesson.id,
-                completed: false,
-                currentPage: 0,
-                lastAccessed: null,
-                timeSpent: 0
-            })),
-            totalTime: 0,
-            lastLogin: new Date().toISOString()
-        };
-        localStorage.setItem('greekCourseProgress', JSON.stringify(progressData));
-    }
-    
-    return progressData.students[userId];
 }
 
 function handleLogin(e) {
@@ -556,7 +712,7 @@ function handleLogin(e) {
         
         showMessage('¡Bienvenido!', `Hola ${student.name}, has iniciado sesión correctamente.`);
     } else {
-        showMessage('Error de acceso', 'Usuario o contraseña incorrectos. Intenta con: estudiante1 / griego2024');
+        showMessage('Error de acceso', 'Usuario o contraseña incorrectos. Intenta con uno de los usuarios de prueba.');
     }
 }
 
@@ -1060,6 +1216,26 @@ function loadLessonPage() {
             </div>
         `}
     `;
+    
+    // Manejar errores en iframes
+    const iframes = lessonContentArea.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+        iframe.onerror = function() {
+            console.error('Error cargando iframe:', this.src);
+            this.parentElement.innerHTML = `
+                <div style="padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px;">
+                    <h4>Contenido no disponible</h4>
+                    <p>No se pudo cargar el contenido. Verifica que el archivo exista en:</p>
+                    <p><code>${this.src}</code></p>
+                    <p><strong>Solución:</strong> Asegúrate de que el archivo HTML exista en esa ruta en tu servidor.</p>
+                    <button onclick="window.open('${this.src}', '_blank')" 
+                            style="margin-top: 10px; padding: 5px 15px; background: #f39c12; color: white; border: none; border-radius: 3px;">
+                        Intentar abrir en nueva pestaña
+                    </button>
+                </div>
+            `;
+        };
+    });
 }
 
 function goToPrevPage() {
@@ -1160,5 +1336,41 @@ function showMessage(title, text) {
     showModal(messageModal);
 }
 
+// Función para debug y reset (útil para desarrollo)
+function resetApplication() {
+    if (confirm('¿Estás seguro de que quieres resetear toda la aplicación? Se perderán todos los datos.')) {
+        localStorage.clear();
+        location.reload();
+    }
+}
+
 // Funciones globales para usar en onclick
 window.startLesson = startLesson;
+window.resetApplication = resetApplication;
+
+// Añadir botón de debug en desarrollo
+if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const debugBtn = document.createElement('button');
+        debugBtn.textContent = 'Debug';
+        debugBtn.style.position = 'fixed';
+        debugBtn.style.bottom = '10px';
+        debugBtn.style.right = '10px';
+        debugBtn.style.zIndex = '9999';
+        debugBtn.style.padding = '5px 10px';
+        debugBtn.style.backgroundColor = '#e74c3c';
+        debugBtn.style.color = 'white';
+        debugBtn.style.border = 'none';
+        debugBtn.style.borderRadius = '3px';
+        debugBtn.style.cursor = 'pointer';
+        debugBtn.onclick = function() {
+            console.log('=== DEBUG INFO ===');
+            console.log('currentUser:', currentUser);
+            console.log('userProgress:', userProgress);
+            console.log('localStorage currentUser:', localStorage.getItem('currentUser'));
+            console.log('localStorage progress:', localStorage.getItem('greekCourseProgress'));
+            console.log('=== FIN DEBUG ===');
+        };
+        document.body.appendChild(debugBtn);
+    });
+}
