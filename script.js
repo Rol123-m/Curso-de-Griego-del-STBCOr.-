@@ -390,8 +390,7 @@ const quizButtons = document.querySelectorAll('.btn-quiz');
 
 // URLs de los quizzes (Google Forms)
 const quizUrls = [
-    "https://forms.gle/SsEB2hBppxBxhWpE9",
-    "https://forms.gle/YiLgKfkdJyZWTGEU7"
+    "https://forms.gle/JLseeF9ikDwtnHSD9"
 ];
 
 // Verificar si estamos en GitHub Pages
