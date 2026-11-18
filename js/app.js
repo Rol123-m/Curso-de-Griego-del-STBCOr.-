@@ -1,0 +1,281 @@
+(() => {
+'use strict';
+const C = window.CONFIG, L = window.LESSONS, KEY = 'stbcor.v2', REP = 'stbcor.reports';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+const sha = async t => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)))].map(b => b.toString(16).padStart(2, '0')).join('');
+const fmtD = (iso, o) => new Date(iso).toLocaleDateString('es', o || { day: 'numeric', month: 'short', year: 'numeric' });
+const fmtT = s => { const m = Math.round(s / 60); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; };
+const ago = iso => { if (!iso) return 'Nunca'; const m = (Date.now() - new Date(iso)) / 60000; return m < 1 ? 'Hace un momento' : m < 60 ? `Hace ${Math.floor(m)} min` : m < 1440 ? `Hace ${Math.floor(m / 60)} h` : m < 2880 ? 'Ayer' : fmtD(iso); };
+
+/* ---------- almacenamiento ---------- */
+const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+let db = read(KEY, { users: {}, session: null });
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { toast('No se pudo guardar: almacenamiento lleno o bloqueado.'); } };
+const stu = () => C.students.find(s => s.u === db.session);
+const isTeacher = () => stu()?.role === 'profesor';
+function me() {
+  if (!db.users[db.session]) {
+    const u = db.users[db.session] = { lessons: {}, exams: {}, log: [], sent: null };
+    const old = read('greekCourseProgress', null)?.students?.[stu().id]; // migración de la versión anterior
+    old?.lessons?.forEach(l => { if (l.completed) u.lessons[l.id] = { visited: L[l.id - 1].pages.map((_, i) => i), done: true, secs: 0, last: l.lastAccessed }; });
+  }
+  return db.users[db.session];
+}
+const les = id => me().lessons[id] || (me().lessons[id] = { visited: [], done: false, secs: 0, last: null });
+const log = (t, i) => { const l = me().log; l.unshift({ t, i, at: new Date().toISOString() }); l.length = Math.min(l.length, 40); };
+function stats() {
+  const ls = L.map(l => { const p = me().lessons[l.id] || {}; const v = (p.visited || []).length; return { id: l.id, done: !!p.done, v, t: l.pages.length, pct: p.done ? 100 : Math.round(v / l.pages.length * 100), secs: p.secs || 0, last: p.last || null }; });
+  const done = ls.filter(x => x.done).length;
+  return { ls, done, pct: Math.round(done / L.length * 100), secs: ls.reduce((a, x) => a + x.secs, 0), next: ls.find(x => !x.done) };
+}
+
+/* ---------- utilidades UI ---------- */
+function toast(msg, action, fn) {
+  const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<span>${esc(msg)}</span>` + (action ? `<button>${esc(action)}</button>` : '');
+  if (action) $('button', t).onclick = () => { fn(); t.remove(); };
+  $('#toasts').append(t); setTimeout(() => t.remove(), action ? 12000 : 3800);
+}
+function dialog(title, body) {
+  const d = $('#dlg'); d.innerHTML = `<div class="dh"><h3>${title}</h3><button aria-label="Cerrar" id="dx">&times;</button></div><div class="db">${body}</div>`;
+  $('#dx').onclick = () => d.close(); if (!d.open) d.showModal(); return d;
+}
+const ring = (p, cls = '') => `<div class="ring ${cls}" style="--p:${p}"><b>${p}%</b></div>`;
+function download(name, text, type = 'application/json') {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ---------- evaluaciones ---------- */
+function examState(e) {
+  if (!e.open) return e.url ? { k: 'open', t: 'Disponible' } : { k: 'tbd', t: 'Enlace por publicar' };
+  const o = new Date(e.open + 'T00:00:00'), c = new Date(e.close + 'T23:59:59'), now = new Date();
+  if (e.abierto || (now >= o && now <= c)) return { k: 'open', t: 'Disponible ahora' };
+  if (now < o) return { k: 'soon', t: `Abre en ${Math.ceil((o - now) / 864e5)} días` };
+  return { k: 'closed', t: 'Cerrado' };
+}
+const range = e => { if (!e.open) return `Semana ${e.week} · vence el domingo, 11:59 pm`; const o = new Date(e.open + 'T12:00'), c = new Date(e.close + 'T12:00'); return `${o.getDate()}${o.getMonth() === c.getMonth() ? '' : ' de ' + o.toLocaleDateString('es', { month: 'long' })}–${c.getDate()} de ${c.toLocaleDateString('es', { month: 'long', year: 'numeric' })}`; };
+const unseen = () => C.announcements.filter(a => !(db.seen || []).includes(a.id)).length;
+
+/* ---------- informe de progreso ---------- */
+async function report() {
+  const s = stats(), u = me();
+  const r = { v: 2, course: C.course, user: stu().u, name: stu().name, at: new Date().toISOString(), done: s.done, total: L.length, mins: Math.round(s.secs / 60),
+    lessons: s.ls.map(x => ({ id: x.id, done: x.done, pages: x.v, of: x.t, mins: Math.round(x.secs / 60), last: x.last })),
+    exams: C.exams.map(e => ({ n: e.n, title: e.title, score: u.exams[e.n]?.score ?? null })) };
+  r.sig = await sha(JSON.stringify(r) + C.salt); return r;
+}
+const summary = r => `Progreso del Curso de Griego I (${r.course})\nEstudiante: ${r.name}\nLecciones completadas: ${r.done}/${r.total}\nTiempo de estudio: ${r.mins} min\n` +
+  r.exams.map(e => `${e.title}: ${e.score == null ? 'sin nota registrada' : e.score}`).join('\n') + `\nFecha: ${fmtD(r.at)}`;
+const fname = r => `progreso_${norm(r.user)}_${r.at.slice(0, 10)}.json`;
+const enc = r => 'STBCOR1:' + btoa(unescape(encodeURIComponent(JSON.stringify(r))));
+async function dec(txt) {
+  const m = String(txt).match(/STBCOR1:([A-Za-z0-9+/=]+)/); if (!m) throw new Error('sin código');
+  const r = JSON.parse(decodeURIComponent(escape(atob(m[1])))), { sig, ...rest } = r;
+  if (r.v !== 2 || sig !== await sha(JSON.stringify(rest) + C.salt)) throw new Error('firma');
+  return r;
+}
+async function sendDialog() {
+  const r = await report(), T = C.teacher, text = summary(r) + '\n\nCódigo de progreso (no lo modifiques):\n' + enc(r);
+  const q = `subject=${encodeURIComponent('Progreso Griego I · ' + r.name)}&body=${encodeURIComponent(text)}`;
+  const d = dialog('Enviar progreso al profesor', `<p>Se enviará un resumen de tu avance: <b>${r.done}/${r.total}</b> lecciones, <b>${r.mins} min</b> de estudio y las notas que hayas registrado. El mensaje incluye un código que el profesor puede importar.</p>
+  <a class="opt" data-a="send" href="https://wa.me/${T.whatsapp}?text=${encodeURIComponent(text)}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i><span><b>Enviar por WhatsApp</b><small>Abre el chat con ${esc(T.name)}; solo pulsa enviar</small></span></a>
+  <a class="opt" data-a="send" href="mailto:${T.email}?${q}"><i class="fas fa-envelope"></i><span><b>Enviar por correo</b><small>Abre tu aplicación de correo con el mensaje listo</small></span></a>
+  <a class="opt" data-a="send" href="https://outlook.office.com/mail/deeplink/compose?to=${T.email}&${q}" target="_blank" rel="noopener"><i class="fas fa-globe"></i><span><b>Correo desde el navegador (Outlook)</b><small>Si no tienes una app de correo configurada</small></span></a>
+  ${T.endpoint ? '<button class="opt" data-a="endpoint"><i class="fas fa-paper-plane"></i><span><b>Enviar directamente</b><small>Llega a la hoja del profesor</small></span></button>' : ''}
+  <button class="opt" data-a="copy"><i class="fas fa-copy"></i><span><b>Copiar el mensaje</b><small>Pégalo donde prefieras (Telegram, SMS…)</small></span></button>
+  <button class="opt" data-a="file"><i class="fas fa-download"></i><span><b>Guardar copia (.json)</b><small>Respaldo en tu dispositivo</small></span></button>`);
+  const mark = () => { me().sent = new Date().toISOString(); log('Envió su progreso al profesor', 'fa-paper-plane'); save(); };
+  $$('.opt', d).forEach(b => b.addEventListener('click', async () => {
+    const a = b.dataset.a;
+    try {
+      if (a === 'send') { mark(); setTimeout(() => { d.close(); route(); }, 400); return; }
+      if (a === 'endpoint') { await fetch(T.endpoint, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(r) }); mark(); toast('Progreso enviado al profesor ✓'); }
+      if (a === 'copy') { await navigator.clipboard.writeText(text); toast('Mensaje copiado ✓'); }
+      if (a === 'file') { download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
+    } catch { toast('No se pudo completar. Prueba otra opción.'); }
+    d.close(); route();
+  }));
+}
+function addReport(r) { const reps = read(REP, {}); if (!reps[r.user] || reps[r.user].at < r.at) reps[r.user] = r; localStorage.setItem(REP, JSON.stringify(reps)); }
+function pasteDialog() {
+  const d = dialog('Importar código de progreso', '<p>Pega el mensaje que te envió el estudiante (con la línea «STBCOR1:…»).</p><textarea id="pc" rows="6" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:.6rem;font:inherit"></textarea><button class="btn" id="pb">Importar</button>');
+  $('#pb').onclick = async () => { try { const r = await dec($('#pc').value); addReport(r); d.close(); toast(`Reporte de ${r.name} importado ✓`); route(); } catch { toast('Código inválido o modificado.'); } };
+}
+function moreDialog() {
+  dialog('Más secciones', NAV.slice(4).concat(isTeacher() ? [PROF] : []).map(n => `<a class="opt" href="#/${n[0]}"><i class="fas ${n[1]}"></i><span><b>${n[2]}</b></span></a>`).join(''));
+}
+function restore() {
+  const i = Object.assign(document.createElement('input'), { type: 'file', accept: '.json,application/json' });
+  i.onchange = async () => {
+    try {
+      const r = JSON.parse(await i.files[0].text());
+      if (r.user !== db.session) return toast('Esa copia pertenece a otro usuario.');
+      const { sig, ...rest } = r; if (sig !== await sha(JSON.stringify(rest) + C.salt)) return toast('El archivo fue modificado o está dañado.');
+      r.lessons.forEach(x => { const l = les(x.id); if (x.done) l.done = true; l.secs = Math.max(l.secs, x.mins * 60); for (let k = 0; k < x.pages; k++) if (!l.visited.includes(k)) l.visited.push(k); l.last = x.last || l.last; });
+      r.exams.forEach(x => { if (x.score != null) me().exams[x.n] = { ...(me().exams[x.n] || {}), score: x.score }; });
+      save(); toast('Progreso restaurado ✓'); route();
+    } catch { toast('No se pudo leer el archivo.'); }
+  };
+  i.click();
+}
+
+/* ---------- vistas ---------- */
+const V = {};
+V.inicio = () => {
+  const s = stats(), nx = s.next, ex = C.exams.map(e => ({ e, st: examState(e) })).find(x => me().exams[x.e.n]?.score == null);
+  const first = stu().name.split(' ').filter(w => !/^(rector|prof)/i.test(w))[0];
+  return `<div class="banner"><div class="grow"><h2>Bienvenido, ${esc(first)}</h2><p>${nx ? `Tu siguiente paso: Lección ${nx.id} · ${esc(L[nx.id - 1].title)}` : '¡Has completado todas las lecciones!'}</p>
+    ${nx ? `<a class="btn sm" style="margin-top:.9rem;background:#f2c96b;color:#0d2742" href="#/leccion/${nx.id}">${nx.v ? 'Continuar' : 'Comenzar'} <i class="fas fa-arrow-right"></i></a>` : ''}</div>${ring(s.pct)}</div>
+  <div class="grid g4" style="margin-bottom:1.2rem">
+    <div class="card stat"><i class="fas fa-check-double"></i><div><b>${s.done}/${L.length}</b><span>Lecciones completadas</span></div></div>
+    <div class="card stat"><i class="fas fa-hourglass-half"></i><div><b>${fmtT(s.secs)}</b><span>Tiempo de estudio</span></div></div>
+    <div class="card stat"><i class="fas fa-clipboard-check"></i><div><b>${C.exams.filter(e => me().exams[e.n]?.score != null).length}/${C.exams.length}</b><span>Evaluaciones con nota</span></div></div>
+    <div class="card stat"><i class="fas fa-paper-plane"></i><div><b style="font-size:1rem">${me().sent ? ago(me().sent) : 'Pendiente'}</b><span>Último envío al profesor</span></div></div></div>
+  <div class="grid g2">
+    <div class="card"><h3><i class="fas fa-clipboard-check"></i> Próximo quiz</h3>${ex ? `<p><b>${esc(ex.e.title)}</b> · ${esc(ex.e.topic)}</p><p style="color:var(--mut);margin:.3rem 0 .8rem">${range(ex.e)} · <span class="tag ${ex.st.k}">${ex.st.t}</span></p><a class="btn sec sm" href="#/evaluaciones">Ver evaluaciones</a>` : '<p style="color:var(--mut)">No hay evaluaciones próximas.</p>'}
+      <hr style="border:0;border-top:1px solid var(--line);margin:1rem 0"><h3><i class="fas fa-paper-plane"></i> Envía tu progreso</h3><p style="color:var(--mut);font-size:.9rem;margin-bottom:.8rem">Compártelo con el profesor cuando termines una lección o antes de cada evaluación.</p><button class="btn sm" data-act="send">Enviar al profesor</button></div>
+    <div class="card"><h3><i class="fas fa-bullhorn"></i> Último anuncio</h3>${(a => a ? `<p><b>${esc(a.title)}</b></p><p style="color:var(--mut);font-size:.9rem;margin:.3rem 0 .8rem">${esc(a.body.slice(0, 150))}${a.body.length > 150 ? '…' : ''}</p><a class="btn sec sm" href="#/anuncios">Ver anuncios</a>` : '<p>Sin anuncios.</p>')(C.announcements[0])}<hr style="border:0;border-top:1px solid var(--line);margin:1rem 0"><h3><i class="fas fa-clock-rotate-left"></i> Actividad reciente</h3><ul class="list">${me().log.slice(0, 6).map(a => `<li><i class="fas ${a.i || 'fa-circle-check'}"></i><div>${esc(a.t)}<small>${ago(a.at)}</small></div></li>`).join('') || '<li><i class="fas fa-circle-info"></i><div>Aún no hay actividad<small>Empieza una lección para verla aquí</small></div></li>'}</ul></div></div>`;
+};
+V.lecciones = () => {
+  const s = stats(), f = V._f || 'todas', show = x => f === 'todas' || (f === 'hechas' ? x.done : !x.done);
+  const card = l => { const x = s.ls[l.id - 1], st = x.done ? ['done', 'Completada'] : x.v ? ['prog', 'En progreso'] : ['', 'Sin iniciar'];
+    return `<article class="card lc"><div class="row">${ring(x.pct, 'sm')}<div><span class="tag ${st[0]}">${st[1]}</span><h3 style="margin-top:.35rem">Lección ${l.id}</h3></div></div>
+    <h3 style="font-size:.98rem">${esc(l.title)}</h3><p>${esc(l.desc)}</p><div class="meta"><span><i class="far fa-clock"></i> ${l.min} min</span><span><i class="far fa-file-lines"></i> ${l.pages.length} páginas</span></div>
+    <a class="btn ${x.done ? 'sec' : ''}" href="#/leccion/${l.id}">${x.done ? 'Repasar' : x.v ? 'Continuar' : 'Comenzar'}</a></article>`; };
+  const weeks = C.weeks.map(w => { const ls = w.lessons.map(id => s.ls[id - 1]), done = ls.filter(x => x.done).length, cur = s.next && w.lessons.includes(s.next.id), shown = ls.filter(show);
+    if (!shown.length) return '';
+    return `<section class="wk ${cur ? 'cur' : ''}"><header class="wkh"><div class="wkn">${w.n}<small>semana</small></div><div class="grow"><h3>Semana ${w.n} · Lecciones ${w.lessons[0]}–${w.lessons[w.lessons.length - 1]} ${cur ? '<span class="tag prog">Semana actual</span>' : done === ls.length ? '<span class="tag done">Completa</span>' : ''}</h3>
+    <div class="chips">${w.fechas ? `<span class="ch"><i class="far fa-calendar"></i>${esc(w.fechas)}</span>` : ''}${w.items.map(i => `<span class="ch">${esc(i)}</span>`).join('')}</div></div>
+    <div class="wkp"><b>${done}/${ls.length}</b><div class="bar"><i style="width:${Math.round(done / ls.length * 100)}%"></i></div></div></header><div class="grid gA">${shown.map(x => card(L[x.id - 1])).join('')}</div></section>`; }).join('');
+  return `<div class="ph"><h2>Lecciones</h2><p>4 semanas intensivas · 3 lecciones por semana · Todas las tareas vencen el domingo a las 11:59 pm</p></div>
+  <div class="notice"><i class="fas fa-pen-to-square"></i> <b>Trabajo previo:</b> dominar la escritura y pronunciación del alfabeto griego y entregar la hoja del alfabeto a uno de los alumnos ayudantes el primer día.</div>
+  <div class="tabs">${[['todas', 'Todas'], ['pend', 'Pendientes'], ['hechas', 'Completadas']].map(([k, t]) => `<button data-f="${k}" class="${f === k ? 'on' : ''}">${t}</button>`).join('')}</div>${weeks || '<p>No hay lecciones en esta categoría.</p>'}`;
+};
+V.anuncios = () => { const seen = db.seen || [], A = [...C.announcements].sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0));
+  return `<div class="ph"><h2>Anuncios</h2><p>Avisos del profesor para el curso ${C.course}</p></div><div class="grid">${A.map(a => `<article class="card ann ${a.pin ? 'pin' : ''}"><div class="ahd"><span class="tag ${a.pin ? 'prog' : ''}">${a.pin ? '<i class="fas fa-thumbtack"></i> ' : ''}${esc(a.tag || 'Aviso')}</span>${a.date ? `<small>${fmtD(a.date)}</small>` : ''}${!seen.includes(a.id) ? '<span class="new">Nuevo</span>' : ''}</div><h3>${esc(a.title)}</h3><p>${esc(a.body)}</p></article>`).join('') || '<p>No hay anuncios.</p>'}</div>`; };
+V.silabo = () => { const S = window.SILABO;
+  const pts = '<div class="pts">' + S.points.map(p => `<i style="flex:${p[1]};background:${p[2]}" title="${p[0]}: ${p[1]}"></i>`).join('') + '</div><ul class="leg">' + S.points.map(p => `<li><i style="background:${p[2]}"></i>${p[0]} <b>${p[1]}</b></li>`).join('') + '</ul>';
+  const wk = '<div class="grid g2" style="margin:.8rem 0">' + C.weeks.map(w => `<div class="card"><h3>Semana ${w.n} · Lecciones ${w.lessons[0]}–${w.lessons[w.lessons.length - 1]}</h3><ul class="list">${w.lessons.map(id => `<li><i class="fas fa-book-open"></i><div>${esc(L[id - 1].title)}</div></li>`).join('')}${w.items.map(i => `<li><i class="fas fa-circle-check"></i><div>${esc(i)}</div></li>`).join('')}</ul></div>`).join('') + '</div>';
+  return `<div class="ph"><h2>Sílabo · Idioma Griego I</h2><p>Seminario Teológico Bautista de Cuba Oriental · Curso ${C.course}</p></div>
+  <div class="card" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:1.1rem"><div class="grow" style="flex:1;min-width:220px"><h3 style="margin:0">Documento oficial</h3><p style="color:var(--mut);font-size:.9rem">Descárgalo o ábrelo en PDF.</p></div><a class="btn" href="${S.pdf}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Abrir PDF</a><a class="btn sec" href="${S.pdf}" download><i class="fas fa-download"></i> Descargar</a></div>
+  <div class="grid g2" style="margin-bottom:1.1rem">${S.teachers.map(t => `<div class="card"><span class="tag">${t.rol}</span><h3 style="margin:.5rem 0 .3rem">${esc(t.n)}</h3><p style="color:var(--mut);font-size:.88rem"><i class="fas fa-phone"></i> ${esc(t.tel)}</p><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem"><a class="btn sec sm" href="mailto:${t.mail}"><i class="fas fa-envelope"></i> ${esc(t.mail)}</a><a class="btn sec sm" href="https://wa.me/${t.wa}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a></div></div>`).join('')}</div>
+  ${S.sections.map(x => `<details class="card acc" ${x.open ? 'open' : ''}><summary><i class="fas ${x.i}"></i> ${x.t}</summary><div class="accb">${x.h.replace('@POINTS@', pts).replace('@WEEKS@', wk)}</div></details>`).join('')}`; };
+V.evaluaciones = () => { const sc = C.exams.map(e => me().exams[e.n]?.score), got = sc.filter(x => x != null), est = got.reduce((a, x) => a + x / 100 * 6.25, 0);
+  return `<div class="ph"><h2>Evaluaciones</h2><p>Un quiz semanal en Google Forms, con una sola oportunidad. Cada uno vale 6.25 puntos (25 en total). Al terminar, registra aquí tu nota.</p></div>
+  <div class="notice"><i class="fas fa-ban"></i> No se permite usar material de clases, libros, IA ni otras herramientas durante los quizzes.</div>
+  <div class="grid g2">${C.exams.map(e => { const st = examState(e), u = me().exams[e.n] || {}, can = e.url && st.k === 'open';
+  return `<article class="card exam ${st.k === 'tbd' ? 'tbd' : ''}"><div class="hd"><span class="nb">${esc(e.title)}</span><span class="tag ${st.k}">${st.t}</span></div><h3>${esc(e.topic)}</h3><p style="color:var(--mut);font-size:.9rem">${esc(e.desc)}</p>
+  <div class="info"><span><i class="far fa-calendar"></i> ${range(e)}</span>${e.q ? `<span><i class="fas fa-circle-question"></i> ${esc(e.q)}</span>` : ''}</div>
+  ${e.url ? `<a class="btn ${can ? '' : 'sec'}" ${can ? `href="${esc(e.url)}" target="_blank" rel="noopener" data-exam="${e.n}"` : 'aria-disabled="true" style="pointer-events:none;opacity:.55"'}><i class="fas ${can ? 'fa-up-right-from-square' : 'fa-lock'}"></i> ${can ? 'Realizar quiz' : st.k === 'closed' ? 'Quiz cerrado' : 'Aún no disponible'}</a>` : `<span class="tag">El profesor publicará el enlace esta semana</span>`}
+  <div class="score"><label for="sc${e.n}" style="font-size:.85rem">Mi nota (0–100):</label><input id="sc${e.n}" type="number" min="0" max="100" step="0.5" value="${u.score ?? ''}" data-score="${e.n}" placeholder="—"></div></article>`; }).join('')}</div>
+  <div class="card" style="margin-top:1.1rem"><h3>Aporte estimado de los quizzes</h3><p style="color:var(--mut);font-size:.9rem;margin-bottom:.6rem">Según las notas que has registrado (referencia personal; la nota oficial la da el profesor).</p><div class="bar"><i style="width:${est / 25 * 100}%"></i></div><p style="margin-top:.4rem"><b>${est.toFixed(2)}</b> / 25 puntos · ${got.length} de ${C.exams.length} quizzes registrados</p></div>`; };
+V.progreso = () => { const s = stats();
+  return `<div class="ph"><h2>Mi progreso</h2><p>Todo se guarda automáticamente en este dispositivo.</p></div>
+  <div class="grid g2" style="margin-bottom:1.2rem"><div class="card" style="display:flex;gap:1.2rem;align-items:center">${ring(s.pct, 'sm')}<div><h3 style="margin:0">${s.done} de ${L.length} lecciones</h3><p style="color:var(--mut);font-size:.9rem">${fmtT(s.secs)} de estudio · último envío: ${me().sent ? ago(me().sent) : 'nunca'}</p></div></div>
+  <div class="card"><h3>Guardar y enviar</h3><div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar al profesor</button><button class="btn sec sm" data-act="backup"><i class="fas fa-download"></i> Guardar copia</button><button class="btn sec sm" data-act="restore"><i class="fas fa-upload"></i> Restaurar</button></div></div></div>
+  <div class="card tw"><table><thead><tr><th>Lección</th><th>Tema</th><th>Avance</th><th>Tiempo</th><th>Último acceso</th><th></th></tr></thead><tbody>${s.ls.map(x => `<tr><td>${x.id}</td><td>${esc(L[x.id - 1].title)}</td><td style="min-width:130px"><div class="bar"><i style="width:${x.pct}%"></i></div><small style="color:var(--mut)">${x.done ? 'Completada' : x.v + '/' + x.t + ' páginas'}</small></td><td>${x.secs ? fmtT(x.secs) : '—'}</td><td>${ago(x.last)}</td><td><a class="btn sec sm" href="#/leccion/${x.id}">Abrir</a></td></tr>`).join('')}</tbody></table></div>`; };
+V.recursos = () => `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${C.resources.map(r => `<div class="card res"><i class="fas ${r.i} big"></i><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p><a class="btn sec sm" href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.b)} <i class="fas fa-up-right-from-square"></i></a></div>`).join('')}</div>`;
+V.profesor = () => {
+  const reps = read(REP, {}), rows = Object.values(reps).sort((a, b) => a.name.localeCompare(b.name));
+  return `<div class="ph"><h2>Panel del profesor</h2><p>Importa los archivos de progreso que te envían los estudiantes para ver el avance del grupo.</p></div>
+  <div class="card" style="margin-bottom:1.2rem;display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="paste"><i class="fas fa-paste"></i> Pegar código</button><button class="btn sec sm" data-act="import"><i class="fas fa-file-import"></i> Importar archivo (.json)</button><button class="btn sec sm" data-act="csv" ${rows.length ? '' : 'disabled'}><i class="fas fa-file-csv"></i> Exportar CSV</button>${C.teacher.sheetUrl ? `<a class="btn sec sm" href="${esc(C.teacher.sheetUrl)}" target="_blank" rel="noopener"><i class="fas fa-table"></i> Abrir hoja de resultados</a>` : ''}<button class="btn sec sm" data-act="clearrep" ${rows.length ? '' : 'disabled'}>Vaciar</button></div>
+  <div class="card tw"><table><thead><tr><th>Estudiante</th><th>Lecciones</th><th>Tiempo</th>${C.exams.map(e => `<th>${esc(e.title)}</th>`).join('')}<th>Reporte</th></tr></thead><tbody>${rows.map(r => `<tr><td><b>${esc(r.name)}</b></td><td style="min-width:120px"><div class="bar"><i style="width:${Math.round(r.done / r.total * 100)}%"></i></div><small>${r.done}/${r.total}</small></td><td>${r.mins} min</td>${C.exams.map(e => `<td>${r.exams.find(x => x.n === e.n)?.score ?? '—'}</td>`).join('')}<td>${fmtD(r.at)}</td></tr>`).join('') || `<tr><td colspan="${4 + C.exams.length}" style="text-align:center;color:var(--mut);padding:2rem">Aún no has importado reportes.</td></tr>`}</tbody></table></div>`;
+};
+
+/* ---------- lector ---------- */
+let rd = null, tick = null;
+function reader(id, pg) {
+  const l = L[id - 1]; if (!l) return location.hash = '#/lecciones';
+  const p = les(id); pg = Math.min(Math.max(pg ?? Math.min(p.visited.length ? Math.max(...p.visited) : 0, l.pages.length - 1), 0), l.pages.length - 1);
+  if (!p.visited.includes(pg)) { if (!p.visited.length) log(`Comenzó la Lección ${id}`, 'fa-book-open'); p.visited.push(pg); }
+  p.last = new Date().toISOString(); rd = { id, pg };
+  if (!p.done && p.visited.length === l.pages.length) { p.done = true; log(`Completó la Lección ${id}: ${l.title}`, 'fa-trophy'); toast(`¡Lección ${id} completada! 🎉`, 'Enviar progreso', sendDialog); }
+  save();
+  $('#view').innerHTML = `<div class="reader"><nav class="toc" id="toc"><h3>Lección ${id} · ${esc(l.title)}</h3>${l.pages.map((x, i) => `<a href="#/leccion/${id}/${i}" class="${i === pg ? 'on' : ''} ${p.visited.includes(i) ? 'seen' : ''}"><i class="fas ${p.visited.includes(i) ? 'fa-circle-check' : 'fa-circle'}"></i><span>${esc(x.t)}</span></a>`).join('')}</nav>
+  <section class="rmain"><div class="rbar"><button class="btn sec sm menu" id="tgl"><i class="fas fa-list"></i></button><h3>Página ${pg + 1} de ${l.pages.length} · ${esc(l.pages[pg].t)}</h3><a class="btn sec sm" href="#/lecciones"><i class="fas fa-xmark"></i> Cerrar</a></div>
+  <div class="stage"><iframe class="lesson" title="${esc(l.pages[pg].t)}" src="${esc(l.pages[pg].src)}"></iframe></div>
+  <div class="rfoot"><a class="btn sec" ${pg ? `href="#/leccion/${id}/${pg - 1}"` : 'aria-disabled="true" style="opacity:.4;pointer-events:none"'}><i class="fas fa-chevron-left"></i> Anterior</a>
+  <button class="btn sec sm" data-act="done" ${p.done ? 'disabled' : ''}><i class="fas fa-check"></i> ${p.done ? 'Completada' : 'Marcar completada'}</button>
+  ${pg < l.pages.length - 1 ? `<a class="btn" href="#/leccion/${id}/${pg + 1}">Siguiente <i class="fas fa-chevron-right"></i></a>` : `<a class="btn ok" href="#/lecciones">Terminar <i class="fas fa-flag-checkered"></i></a>`}</div></section></div>`;
+  $('#tgl')?.addEventListener('click', () => $('#toc').classList.toggle('show'));
+}
+setInterval(() => { if (rd && document.visibilityState === 'visible' && document.hasFocus() !== false && db.session) { les(rd.id).secs += 5; save(); } }, 5000);
+
+/* ---------- router y shell ---------- */
+const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos']];
+const PROF = ['profesor', 'fa-chalkboard-user', 'Profesor'];
+const navLink = n => `<a href="#/${n[0]}" data-r="${n[0]}"><i class="fas ${n[1]}"></i>${n[2]}${n[0] === 'anuncios' && unseen() ? `<em class="bdg">${unseen()}</em>` : ''}</a>`;
+function shell() {
+  const s = stu(), nav = isTeacher() ? [...NAV, PROF] : NAV;
+  $('#app').innerHTML = `<header class="top"><a class="brand" href="#/inicio"><img src="assets/logo.png" alt="STBCOr"><span><b>Curso de Griego I</b><small>Seminario Teológico Bautista de Cuba Oriental</small></span></a><span class="chip">${C.course}</span><span class="sp"></span>
+    <button class="icn" id="inst" hidden title="Instalar app"><i class="fas fa-download"></i></button><div class="who"><span>${esc(s.name)}</span><div class="av">${esc(s.name.replace(/^(Rector|Prof\.?)\s+/i, '')[0])}</div></div><button class="icn" id="out" title="Salir" aria-label="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button></header>
+    <div class="layout"><aside class="side">${nav.map(navLink).join('')}<span class="grow"></span><button class="btn sec sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar progreso</button><div class="mini">© ${C.course} · STBCOr</div></aside><main id="view"></main></div>
+    <nav class="bnav">${NAV.slice(0, 4).map(navLink).join('')}<a href="#/mas" data-act="more"><i class="fas fa-ellipsis"></i>Más</a></nav>`;
+  $('#out').onclick = () => { db.session = null; save(); rd = null; location.hash = ''; boot(); };
+  syncInstall();
+}
+function route() {
+  if (!db.session) return;
+  if (!$('#view')) shell();
+  const [r, a, b] = (location.hash.slice(2) || 'inicio').split('/'); rd = null;
+  $$('[data-r]').forEach(x => x.classList.toggle('on', x.dataset.r === r || (r === 'leccion' && x.dataset.r === 'lecciones')));
+  if (r === 'leccion') return reader(+a, b === undefined ? undefined : +b);
+  const v = V[r] && !(r === 'profesor' && !isTeacher()) ? r : 'inicio'; $('#view').innerHTML = V[v]();
+  if (v === 'anuncios') { db.seen = C.announcements.map(a => a.id); save(); $$('.bdg').forEach(x => x.remove()); }
+  window.scrollTo(0, 0);
+}
+document.addEventListener('click', async e => {
+  if (e.target.closest('#dlg a[href^="#/"]')) $('#dlg').close();
+  const t = e.target.closest('[data-act],[data-f],[data-exam]'); if (!t) return;
+  if (t.dataset.act === 'more') { e.preventDefault(); return moreDialog(); }
+  if (t.dataset.f) { V._f = t.dataset.f; return route(); }
+  if (t.dataset.exam) { log(`Abrió ${C.exams[t.dataset.exam - 1].title}`, 'fa-clipboard-check'); save(); return; }
+  const a = t.dataset.act;
+  if (a === 'send') sendDialog();
+  if (a === 'paste') pasteDialog();
+  if (a === 'backup') { const r = await report(); download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
+  if (a === 'restore') restore();
+  if (a === 'done') { const l = les(rd.id); l.done = true; log(`Completó la Lección ${rd.id}: ${L[rd.id - 1].title}`, 'fa-trophy'); save(); toast('Lección marcada como completada ✓'); reader(rd.id, rd.pg); }
+  if (a === 'import') { const i = Object.assign(document.createElement('input'), { type: 'file', accept: '.json', multiple: true });
+    i.onchange = async () => { let n = 0; for (const f of i.files) { try { const r = JSON.parse(await f.text()), { sig, ...rest } = r; if (r.v !== 2 || sig !== await sha(JSON.stringify(rest) + C.salt)) { toast(`${f.name}: archivo inválido`); continue; } addReport(r); n++; } catch { toast(`${f.name}: no se pudo leer`); } } toast(`${n} reporte(s) importado(s)`); route(); }; i.click(); }
+  if (a === 'csv') { const rows = Object.values(read(REP, {})); const h = ['Estudiante', 'Lecciones', 'Minutos', ...C.exams.map(e => e.title), 'Fecha']; download('progreso_grupo.csv', '\ufeff' + [h, ...rows.map(r => [r.name, `${r.done}/${r.total}`, r.mins, ...C.exams.map(e => r.exams.find(x => x.n === e.n)?.score ?? ''), r.at.slice(0, 10)])].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n'), 'text/csv'); }
+  if (a === 'clearrep' && confirm('¿Vaciar los reportes importados?')) { localStorage.removeItem(REP); route(); }
+});
+document.addEventListener('change', e => { const n = e.target.dataset?.score; if (!n) return; const v = e.target.value === '' ? null : Math.min(100, Math.max(0, +e.target.value)); me().exams[n] = { ...(me().exams[n] || {}), score: v }; if (v != null) log(`Registró su nota del ${C.exams[n - 1].title}: ${v}`, 'fa-clipboard-check'); save(); toast('Nota guardada ✓'); });
+window.addEventListener('hashchange', route);
+
+/* ---------- login ---------- */
+function boot() {
+  if (db.session && stu()) { shell(); return route(); }
+  db.session = null;
+  $('#app').innerHTML = `<div class="login"><section class="hero"><img src="assets/logo.png" alt="Logo del Seminario"><span class="pill">CURSO ${C.course}</span><h1>Curso de Griego I</h1><p class="sub">${C.school}. Doce lecciones para leer el Nuevo Testamento en su lengua original.</p>
+    <div class="feats"><div><i class="fas fa-book-open"></i>12 lecciones con 43 páginas de estudio</div><div><i class="fas fa-chart-line"></i>Progreso guardado y enviable al profesor</div><div><i class="fas fa-clipboard-check"></i>Cuatro evaluaciones durante el curso</div><div><i class="fas fa-mobile-screen"></i>Instálala en tu teléfono; funciona sin conexión</div></div></section>
+    <section class="formside"><form class="form" id="lf" autocomplete="on"><h2>Iniciar sesión</h2><p class="s">Entra con tu usuario del seminario.</p>
+    <div class="fld"><label for="u">Usuario</label><div class="in"><input id="u" name="username" autocomplete="username" required autocapitalize="none"></div></div>
+    <div class="fld"><label for="p">Contraseña</label><div class="in"><input id="p" name="password" type="password" autocomplete="current-password" required><button type="button" id="eye" aria-label="Mostrar contraseña"><i class="fas fa-eye"></i></button></div></div>
+    <div class="err" id="er" role="alert"></div><button class="btn" type="submit">Entrar al curso <i class="fas fa-arrow-right"></i></button><p class="foot-note">¿Olvidaste tu contraseña? Consúltala con tu profesor.<br>© ${C.course} · STBCOr</p></form></section></div>`;
+  $('#eye').onclick = () => { const p = $('#p'); p.type = p.type === 'password' ? 'text' : 'password'; };
+  $('#lf').onsubmit = async e => {
+    e.preventDefault(); const u = norm($('#u').value), s = C.students.find(x => norm(x.u) === u);
+    if (!crypto?.subtle) return $('#er').textContent = 'Abre la plataforma desde su dirección https para iniciar sesión.';
+    if (!s || s.h !== await sha(`${C.salt}|${u}|${$('#p').value}`)) return $('#er').textContent = 'Usuario o contraseña incorrectos.';
+    db.session = s.u; me(); log('Inició sesión', 'fa-right-to-bracket'); save(); boot();
+  };
+}
+
+/* ---------- PWA ---------- */
+let deferred = null;
+const ios = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+function syncInstall() {
+  const b = $('#inst'); if (!b || standalone) return; if (deferred || ios) b.hidden = false;
+  b.onclick = async () => { if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; b.hidden = true; } else dialog('Instalar en iPhone / iPad', '<p>Toca <b>Compartir</b> <i class="fas fa-arrow-up-from-bracket"></i> en Safari y elige <b>«Añadir a pantalla de inicio»</b>.</p>'); };
+}
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; syncInstall(); });
+window.addEventListener('appinstalled', () => toast('Aplicación instalada ✓'));
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').then(reg => {
+  reg.addEventListener('updatefound', () => { const w = reg.installing; w?.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) toast('Hay una nueva versión del curso.', 'Actualizar', () => w.postMessage('SKIP_WAITING')); }); });
+}).catch(() => {});
+let reloaded = false; navigator.serviceWorker?.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; location.reload(); } });
+boot();
+})();

@@ -510,3 +510,12 @@ footer {
     margin: 0.3rem 0;
   }
 }
+
+/* ---- Márgenes de lectura (v2.2): el contenedor de las lecciones no tenía estilo ---- */
+.lesson-content-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.75rem clamp(1.1rem, 5vw, 3rem) 3rem;
+}
+.lesson-content-container > h2:first-child { margin-top: 0; }
