@@ -109,3 +109,43 @@ details.sub{border:1px solid var(--line);border-radius:12px;margin:.6rem 0;paddi
 .pts{display:flex;height:16px;border-radius:99px;overflow:hidden;margin:.8rem 0 .5rem}.pts i{display:block;border-right:2px solid #fff}
 .leg{list-style:none;margin:0 0 .6rem!important;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.3rem;font-size:.88rem}.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.5rem}
 @media(max-width:860px){.wkh{flex-wrap:wrap}.wkp{width:100%;text-align:left}.stage{padding:.6rem .7rem}.reader{height:calc(100vh - 64px - 62px)}}
+/* ---- v2.3 · mejoras de diseño responsive móvil (solo CSS; contenido y lógica intactos) ---- */
+/* Evita que contenidos anchos (tablas de progreso) expandan la columna principal */
+.layout>main{min-width:0}
+@media(max-width:860px){
+  /* Lector de lecciones: pie con botones que ceden y no desbordan */
+  .rfoot{flex-wrap:wrap;gap:.5rem}
+  .rfoot .btn{flex:1 1 auto;min-width:0;padding:.55rem .7rem;font-size:.85rem;-webkit-tap-highlight-color:transparent}
+  .rfoot .btn:active{filter:brightness(.94)}
+  /* Chip del curso: que no se parta en dos líneas dentro de la barra */
+  .top .chip{white-space:nowrap;flex:none}
+  /* Cuadrículas de tarjetas: aprovechar mejor el ancho en pantallas medianas */
+  .gA{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  /* Botones con área táctil cómoda */
+  .btn{min-height:44px}
+  .btn.sm{min-height:38px}
+  .tabs button{min-height:36px;-webkit-tap-highlight-color:transparent}
+}
+@media(max-width:480px){
+  /* Barra superior: el chip del curso sobra en pantallas estrechas */
+  .top .chip{display:none}
+  .top{padding:0 .8rem;gap:.7rem}
+  .top .brand img{width:38px;height:38px}
+}
+@media(max-width:400px){
+  main{padding:.9rem .7rem 6rem}
+  .card{padding:1rem}
+  .banner{padding:1.1rem}
+  .banner h2{font-size:1.25rem}
+  .ph h2{font-size:1.35rem}
+  .gA{grid-template-columns:1fr}
+  .stage{padding:.5rem}
+  .wkh{padding:.8rem .9rem}
+  .wkn{width:46px;height:46px;font-size:1.2rem}
+  table{font-size:.84rem}
+  th,td{padding:.55rem .6rem}
+}
+@media(hover:none){
+  .btn:active{filter:brightness(.92)}
+  .opt:active{background:var(--navy-l)}
+}

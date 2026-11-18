@@ -366,6 +366,12 @@
             .btn {
                 width: 100%;
                 max-width: 300px;
+                min-height: 48px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .btn:active {
+                transform: scale(0.98);
             }
 
             .stats-panel {
@@ -384,6 +390,21 @@
 
             .letter-guide {
                 font-size: 6em;
+            }
+
+            .controls {
+                gap: 10px;
+            }
+
+            .btn {
+                min-width: 0;
+            }
+
+            /* Aviso fijo: centrado y sin desbordar en pantallas estrechas */
+            .feedback-message {
+                left: 15px;
+                right: 15px;
+                text-align: center;
             }
         }
 
