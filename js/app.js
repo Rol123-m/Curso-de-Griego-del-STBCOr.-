@@ -51,6 +51,21 @@ async function syncProgress(showMessage) {
     if (showMessage) toast('No se pudo sincronizar. El progreso permanece guardado en este dispositivo.');
   } finally { cloudBusy = false; }
 }
+let remoteContent = { announcements: [], resources: [], posts: [] }, teacherData = null;
+const adminToken = () => localStorage.getItem('stbcor.adminToken') || '';
+async function loadContent() {
+ try { const d=await cloudJSONP({action:'content'}); if(d?.ok){remoteContent=d;if($('#view'))route();} }
+ catch(e){console.warn('Contenido remoto no disponible',e);}
+}
+async function loadTeacherData(token) {
+ const d=await cloudJSONP({action:'teacherData',token});if(!d?.ok)throw new Error(d?.error||'No se pudo cargar el progreso');
+ teacherData=d;route();
+}
+async function adminRequest(action,extra={}) {
+ const token=adminToken();if(!token)throw new Error('Introduce el token administrativo.');
+ const d=await cloudJSONP({action,token,...extra});if(!d?.ok)throw new Error(d?.error||'Operación no completada.');return d;
+}
+
 async function loadCloudProgress() {
   const user = db.session;
   if (!user || !C.teacher?.endpoint || cloudLoaded[user] || !navigator.onLine) return;
@@ -221,8 +236,10 @@ V.lecciones = () => {
   <div class="notice"><i class="fas fa-pen-to-square"></i> <b>Trabajo previo:</b> dominar la escritura y pronunciación del alfabeto griego y entregar la hoja del alfabeto a uno de los alumnos ayudantes el primer día.</div>
   <div class="tabs">${[['todas', 'Todas'], ['pend', 'Pendientes'], ['hechas', 'Completadas']].map(([k, t]) => `<button data-f="${k}" class="${f === k ? 'on' : ''}">${t}</button>`).join('')}</div>${weeks || '<p>No hay lecciones en esta categoría.</p>'}`;
 };
-V.anuncios = () => { const seen = db.seen || [], A = [...C.announcements].sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0));
-  return `<div class="ph"><h2>Anuncios</h2><p>Avisos del profesor para el curso ${C.course}</p></div><div class="grid">${A.map(a => `<article class="card ann ${a.pin ? 'pin' : ''}"><div class="ahd"><span class="tag ${a.pin ? 'prog' : ''}">${a.pin ? '<i class="fas fa-thumbtack"></i> ' : ''}${esc(a.tag || 'Aviso')}</span>${a.date ? `<small>${fmtD(a.date)}</small>` : ''}${!seen.includes(a.id) ? '<span class="new">Nuevo</span>' : ''}</div><h3>${esc(a.title)}</h3><p>${esc(a.body)}</p></article>`).join('') || '<p>No hay anuncios.</p>'}</div>`; };
+V.anuncios = () => {
+ const seen=db.seen||[],A=[...C.announcements,...(remoteContent.announcements||[])].sort((x,y)=>(y.pin?1:0)-(x.pin?1:0));
+ return `<div class="ph"><h2>Anuncios y notificaciones</h2><p>Avisos del curso ${C.course}</p></div><div class="grid">${A.map(x=>`<article class="card ann ${x.pin?'pin':''}"><div class="ahd"><span class="tag">${esc(x.tag||'Aviso')}</span>${x.date?`<small>${fmtD(x.date)}</small>`:''}${!seen.includes(x.id)?'<span class="new">Nuevo</span>':''}</div><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></article>`).join('')||'<p>No hay anuncios.</p>'}</div>`;
+};
 V.silabo = () => { const S = window.SILABO;
   const pts = '<div class="pts">' + S.points.map(p => `<i style="flex:${p[1]};background:${p[2]}" title="${p[0]}: ${p[1]}"></i>`).join('') + '</div><ul class="leg">' + S.points.map(p => `<li><i style="background:${p[2]}"></i>${p[0]} <b>${p[1]}</b></li>`).join('') + '</ul>';
   const wk = '<div class="grid g2" style="margin:.8rem 0">' + C.weeks.map(w => `<div class="card"><h3>Semana ${w.n} · Lecciones ${w.lessons[0]}–${w.lessons[w.lessons.length - 1]}</h3><ul class="list">${w.lessons.map(id => `<li><i class="fas fa-book-open"></i><div>${esc(L[id - 1].title)}</div></li>`).join('')}${w.items.map(i => `<li><i class="fas fa-circle-check"></i><div>${esc(i)}</div></li>`).join('')}</ul></div>`).join('') + '</div>';
@@ -246,13 +263,22 @@ V.progreso = () => { const s = stats();
   <div class="grid g2" style="margin-bottom:1.2rem"><div class="card" style="display:flex;gap:1.2rem;align-items:center">${ring(s.pct, 'sm')}<div><h3 style="margin:0">${s.done} de ${L.length} lecciones</h3><p style="color:var(--mut);font-size:.9rem">${fmtT(s.secs)} de estudio · último envío: ${me().sent ? ago(me().sent) : 'nunca'}</p></div></div>
   <div class="card"><h3>Guardar y enviar</h3><div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar al profesor</button><button class="btn sec sm" data-act="backup"><i class="fas fa-download"></i> Guardar copia</button><button class="btn sec sm" data-act="restore"><i class="fas fa-upload"></i> Restaurar</button></div></div></div>
   <div class="card tw"><table><thead><tr><th>Lección</th><th>Tema</th><th>Avance</th><th>Tiempo</th><th>Último acceso</th><th></th></tr></thead><tbody>${s.ls.map(x => `<tr><td>${x.id}</td><td>${esc(L[x.id - 1].title)}</td><td style="min-width:130px"><div class="bar"><i style="width:${x.pct}%"></i></div><small style="color:var(--mut)">${x.done ? 'Completada' : x.v + '/' + x.t + ' páginas'}</small></td><td>${x.secs ? fmtT(x.secs) : '—'}</td><td>${ago(x.last)}</td><td><a class="btn sec sm" href="#/leccion/${x.id}">Abrir</a></td></tr>`).join('')}</tbody></table></div>`; };
-V.recursos = () => `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${C.resources.map(r => `<div class="card res"><i class="fas ${r.i} big"></i><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p>${r.u ? `<a class="btn sec sm" href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.b)} <i class="fas fa-up-right-from-square"></i></a>` : `<span class="tag">El profesor publicará el enlace aquí</span>`}</div>`).join('')}</div>`;
+V.recursos = () => {
+ const items=[...C.resources,...(remoteContent.resources||[])];
+ return `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${items.map(x=>`<div class="card res"><i class="fas ${esc(x.i||'fa-link')} big"></i><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>${x.u?`<a class="btn sec sm" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.b||'Abrir recurso')}</a>`:'<span class="tag">Enlace por publicar</span>'}</div>`).join('')}</div>`;
+};
+V.foro = () => {
+ const posts=remoteContent.posts||[];
+ return `<div class="ph"><h2>Foro del curso</h2><p>Preguntas y debates académicos.</p></div><div class="card" style="margin-bottom:1rem"><form id="forum-form"><label><b>Publicar un mensaje</b></label><textarea id="forum-message" maxlength="2000" required rows="3" style="width:100%;margin:.6rem 0;padding:.7rem;border:1px solid var(--line);border-radius:10px;font:inherit" placeholder="Escribe una pregunta o comentario…"></textarea><button class="btn" type="submit">Publicar</button></form></div><div class="grid">${posts.slice().reverse().map(p=>`<article class="card"><div class="ahd"><b>${esc(p.name)}</b><small>${p.date?fmtD(p.date):''}</small></div><p style="white-space:pre-wrap">${esc(p.message)}</p></article>`).join('')||'<div class="card">Todavía no hay publicaciones.</div>'}</div>`;
+};
 V.vocabulario = () => window.vocabView();
 V.profesor = () => {
-  const reps = read(REP, {}), rows = Object.values(reps).sort((a, b) => a.name.localeCompare(b.name));
-  return `<div class="ph"><h2>Panel del profesor</h2><p>Importa los archivos de progreso que te envían los estudiantes para ver el avance del grupo.</p></div>
-  <div class="card" style="margin-bottom:1.2rem;display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="paste"><i class="fas fa-paste"></i> Pegar código</button><button class="btn sec sm" data-act="import"><i class="fas fa-file-import"></i> Importar archivo (.json)</button><button class="btn sec sm" data-act="csv" ${rows.length ? '' : 'disabled'}><i class="fas fa-file-csv"></i> Exportar CSV</button>${C.teacher.sheetUrl ? `<a class="btn sec sm" href="${esc(C.teacher.sheetUrl)}" target="_blank" rel="noopener"><i class="fas fa-table"></i> Abrir hoja de resultados</a>` : ''}<button class="btn sec sm" data-act="clearrep" ${rows.length ? '' : 'disabled'}>Vaciar</button></div>
-  <div class="card tw"><table><thead><tr><th>Estudiante</th><th>Lecciones</th><th>Tiempo</th>${C.exams.map(e => `<th>${esc(e.title)}</th>`).join('')}<th>Reporte</th></tr></thead><tbody>${rows.map(r => `<tr><td><b>${esc(r.name)}</b></td><td style="min-width:120px"><div class="bar"><i style="width:${Math.round(r.done / r.total * 100)}%"></i></div><small>${r.done}/${r.total}</small></td><td>${r.mins} min</td>${C.exams.map(e => `<td>${r.exams.find(x => x.n === e.n)?.score ?? '—'}</td>`).join('')}<td>${fmtD(r.at)}</td></tr>`).join('') || `<tr><td colspan="${4 + C.exams.length}" style="text-align:center;color:var(--mut);padding:2rem">Aún no has importado reportes.</td></tr>`}</tbody></table></div>`;
+ const rows=teacherData?.progress||[],token=adminToken();
+ return `<div class="ph"><h2>Panel del profesor</h2><p>Seguimiento automático del grupo y administración del contenido. La hoja de resultados permanece privada.</p></div>
+ <div class="card" style="margin-bottom:1rem"><form id="admin-token-form"><label for="admin-token"><b>Clave administrativa</b></label><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><input id="admin-token" type="password" required value="${esc(token)}" placeholder="Token de Apps Script" style="flex:1;min-width:220px;padding:.65rem;border:1px solid var(--line);border-radius:8px"><button class="btn" type="submit">Actualizar progreso</button></div><small>Se guarda en este navegador.</small></form></div>
+ ${teacherData?`<div class="card tw" style="margin-bottom:1rem"><h3>Progreso de estudiantes</h3><table><thead><tr><th>Estudiante</th><th>Lecciones</th><th>Avance</th><th>Tiempo</th><th>Exámenes 1–4</th><th>Última actividad</th></tr></thead><tbody>${rows.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${p.done}/${p.total}</td><td><div class="bar"><i style="width:${p.percent}%"></i></div><small>${p.percent}%</small></td><td>${p.mins} min</td><td>${p.examScores.map(x=>x==null?'—':x+'/100').join(' · ')}</td><td>${p.updated?ago(p.updated):'—'}</td></tr>`).join('')||'<tr><td colspan="6">Todavía no hay registros.</td></tr>'}</tbody></table></div>`:''}
+ <div class="grid g2"><div class="card"><h3>Publicar anuncio</h3><form id="announcement-form"><input name="tag" placeholder="Categoría" required style="width:100%;padding:.6rem;margin:.35rem 0"><input name="title" placeholder="Título" required style="width:100%;padding:.6rem;margin:.35rem 0"><textarea name="body" placeholder="Contenido" required rows="3" style="width:100%;padding:.6rem;margin:.35rem 0"></textarea><label><input type="checkbox" name="pin"> Fijar arriba</label><button class="btn" type="submit">Publicar</button></form></div>
+ <div class="card"><h3>Añadir recurso</h3><form id="resource-form"><input name="title" placeholder="Nombre" required style="width:100%;padding:.6rem;margin:.35rem 0"><input name="description" placeholder="Descripción" style="width:100%;padding:.6rem;margin:.35rem 0"><input name="url" type="url" placeholder="https://…" required style="width:100%;padding:.6rem;margin:.35rem 0"><button class="btn" type="submit">Guardar recurso</button></form></div></div>`;
 };
 
 /* ---------- lector ---------- */
@@ -275,7 +301,7 @@ function reader(id, pg) {
 setInterval(() => { if (rd && document.visibilityState === 'visible' && document.hasFocus() !== false && db.session) { les(rd.id).secs += 5; save(); } }, 5000);
 
 /* ---------- router y shell ---------- */
-const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['vocabulario', 'fa-spell-check', 'Vocabulario'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos']];
+const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['vocabulario', 'fa-spell-check', 'Vocabulario'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos'], ['foro', 'fa-comments', 'Foro']];
 const PROF = ['profesor', 'fa-chalkboard-user', 'Profesor'];
 const navLink = n => `<a href="#/${n[0]}" data-r="${n[0]}"><i class="fas ${n[1]}"></i>${n[2]}${n[0] === 'anuncios' && unseen() ? `<em class="bdg">${unseen()}</em>` : ''}</a>`;
 function shell() {
@@ -293,6 +319,7 @@ function route() {
   const [r, a, b] = (location.hash.slice(2) || 'inicio').split('/'); rd = null;
   $$('[data-r]').forEach(x => x.classList.toggle('on', x.dataset.r === r || (r === 'leccion' && x.dataset.r === 'lecciones')));
   if (r === 'leccion') return reader(+a, b === undefined ? undefined : +b);
+  if (r === 'profesor' && isTeacher() && adminToken() && !teacherData) loadTeacherData(adminToken()).catch(e => console.warn(e));
   const v = V[r] && !(r === 'profesor' && !isTeacher()) ? r : 'inicio'; $('#view').innerHTML = V[v]();
   if (v === 'anuncios') { db.seen = C.announcements.map(a => a.id); save(); $$('.bdg').forEach(x => x.remove()); }
   window.scrollTo(0, 0);
@@ -314,6 +341,16 @@ document.addEventListener('click', async e => {
   if (a === 'csv') { const rows = Object.values(read(REP, {})); const h = ['Estudiante', 'Lecciones', 'Minutos', ...C.exams.map(e => e.title), 'Fecha']; download('progreso_grupo.csv', '\ufeff' + [h, ...rows.map(r => [r.name, `${r.done}/${r.total}`, r.mins, ...C.exams.map(e => r.exams.find(x => x.n === e.n)?.score ?? ''), r.at.slice(0, 10)])].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n'), 'text/csv'); }
   if (a === 'clearrep' && confirm('¿Vaciar los reportes importados?')) { localStorage.removeItem(REP); route(); }
 });
+document.addEventListener('submit',async e=>{
+ const f=e.target;
+ try{
+  if(f.id==='admin-token-form'){e.preventDefault();const t=$('#admin-token').value.trim();localStorage.setItem('stbcor.adminToken',t);await loadTeacherData(t);toast('Progreso actualizado ✓');}
+  if(f.id==='announcement-form'){e.preventDefault();const x=new FormData(f),item={tag:x.get('tag'),title:x.get('title'),body:x.get('body'),pin:x.get('pin')==='on'};await adminRequest('saveAnnouncement',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Anuncio publicado ✓');}
+  if(f.id==='resource-form'){e.preventDefault();const x=new FormData(f),item={title:x.get('title'),description:x.get('description'),url:x.get('url')};await adminRequest('saveResource',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Recurso añadido ✓');}
+  if(f.id==='forum-form'){e.preventDefault();const s=stu(),message=$('#forum-message').value.trim(),d=await cloudJSONP({action:'forumPost',user:s.u,name:s.name,message});if(!d?.ok)throw new Error(d?.error||'No se pudo publicar');$('#forum-message').value='';await loadContent();toast('Mensaje publicado ✓');}
+ }catch(err){toast(err.message||'No se pudo completar');}
+});
+
 document.addEventListener('change', e => { const n = e.target.dataset?.score; if (!n) return; const v = e.target.value === '' ? null : Math.min(100, Math.max(0, +e.target.value)); me().exams[n] = { ...(me().exams[n] || {}), score: v }; if (v != null) log(`Registró su nota del ${C.exams[n - 1].title}: ${v}`, 'fa-clipboard-check'); save(); toast('Nota guardada ✓'); });
 window.addEventListener('hashchange', route);
 window.addEventListener('online', () => { cloudLast = 0; syncProgress(false); });
@@ -321,7 +358,7 @@ window.addEventListener('pagehide', () => { if (db.session && C.teacher?.endpoin
 
 /* ---------- login ---------- */
 function boot() {
-  if (db.session && stu()) { shell(); route(); loadCloudProgress(); return; }
+  if (db.session && stu()) { shell(); route(); loadCloudProgress(); loadContent(); return; }
   db.session = null;
   $('#app').innerHTML = `<div class="login"><section class="hero"><img src="assets/logo.png" alt="Logo del Seminario"><span class="pill">CURSO ${C.course}</span><h1>Curso de Griego I</h1><p class="sub">${C.school}. Doce lecciones para leer el Nuevo Testamento en su lengua original.</p>
     <div class="feats"><div><i class="fas fa-book-open"></i>12 lecciones con 43 páginas de estudio</div><div><i class="fas fa-chart-line"></i>Progreso guardado y enviable al profesor</div><div><i class="fas fa-clipboard-check"></i>Cuatro evaluaciones durante el curso</div><div><i class="fas fa-mobile-screen"></i>Instálala en tu teléfono; funciona sin conexión</div></div></section>
@@ -334,7 +371,7 @@ function boot() {
     e.preventDefault(); const u = norm($('#u').value), s = C.students.find(x => norm(x.u) === u);
     if (!crypto?.subtle) return $('#er').textContent = 'Abre la plataforma desde su dirección https para iniciar sesión.';
     if (!s || s.h !== await sha(`${C.salt}|${u}|${$('#p').value}`)) return $('#er').textContent = 'Usuario o contraseña incorrectos.';
-    db.session = s.u; me(); log('Inició sesión', 'fa-right-to-bracket'); save(); boot(); loadCloudProgress();
+    db.session = s.u; me(); log('Inició sesión', 'fa-right-to-bracket'); save(); boot(); loadCloudProgress(); loadContent();
   };
 }
 
