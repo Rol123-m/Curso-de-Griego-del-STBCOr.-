@@ -371,7 +371,7 @@ function route() {
 }
 document.addEventListener('click', async e => {
   if (e.target.closest('#dlg a[href^="#/"]')) $('#dlg').close();
-  const t = e.target.closest('[data-act],[data-f],[data-exam]'); if (!t) return;
+  const t = e.target.closest('[data-act],[data-f],[data-exam],[data-forum-status],[data-forum-delete]'); if (!t) return;
   if (t.dataset.act === 'more') { e.preventDefault(); return moreDialog(); }
   if (t.dataset.f) { V._f = t.dataset.f; return route(); }
   if (t.dataset.exam) { log(`Abrió ${C.exams[t.dataset.exam - 1].title}`, 'fa-clipboard-check'); save(); return; }
