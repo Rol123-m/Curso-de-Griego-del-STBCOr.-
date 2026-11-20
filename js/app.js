@@ -64,7 +64,8 @@ async function loadCloudProgress() {
     remote.lessons.forEach(x => {
       if (!x.id || x.id < 1 || x.id > L.length) return;
       const p = les(x.id), count = Math.min(L[x.id - 1].pages.length, Number(x.pages) || 0);
-      for (let i = 0; i < count; i++) if (!p.visited.includes(i)) p.visited.push(i);
+      const visited = Array.isArray(x.visited) ? x.visited : Array.from({ length: count }, (_, i) => i);
+      visited.forEach(i => { if (Number.isInteger(i) && i >= 0 && i < L[x.id - 1].pages.length && !p.visited.includes(i)) p.visited.push(i); });
       p.done = p.done || !!x.done;
       p.secs = Math.max(p.secs || 0, (Number(x.mins) || 0) * 60);
       p.last = p.last || x.last || null;
@@ -129,7 +130,7 @@ const unseen = () => C.announcements.filter(a => !(db.seen || []).includes(a.id)
 async function report() {
   const s = stats(), u = me();
   const r = { v: 2, course: C.course, user: stu().u, name: stu().name, at: new Date().toISOString(), done: s.done, total: L.length, mins: Math.round(s.secs / 60),
-    lessons: s.ls.map(x => ({ id: x.id, done: x.done, pages: x.v, of: x.t, mins: Math.round(x.secs / 60), last: x.last })),
+    lessons: s.ls.map(x => ({ id: x.id, done: x.done, pages: x.v, visited: [...(u.lessons[x.id]?.visited || [])], of: x.t, mins: Math.round(x.secs / 60), last: x.last })),
     exams: C.exams.map(e => ({ n: e.n, title: e.title, score: u.exams[e.n]?.score ?? null })) };
   r.sig = await sha(JSON.stringify(r) + C.salt); return r;
 }
