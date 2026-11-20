@@ -108,6 +108,15 @@ function doGet(e) {
     } else if (action === 'teacherData') {
       requireAdmin_(p.token);
       result = getTeacherData_();
+    } else if (action === 'forumPost') {
+      result = saveForumPost_(p);
+    } else if (action === 'saveAnnouncement' || action === 'saveResource' || action === 'deleteContent' || action === 'deleteForumPost') {
+      requireAdmin_(p.token);
+      const item = p.item ? JSON.parse(p.item) : {};
+      if (action === 'saveAnnouncement') result = saveContentItem_('Anuncios', item);
+      else if (action === 'saveResource') result = saveContentItem_('Recursos', item);
+      else if (action === 'deleteContent') result = deleteContentItem_(p.kind, p.id);
+      else result = deleteForumPost_(p.id);
     } else {
       result = { ok: true, service: 'STBCOr Greek Course API', version: '1.0', actions: ['exam','grade','progress'] };
     }
