@@ -12,7 +12,76 @@ const ago = iso => { if (!iso) return 'Nunca'; const m = (Date.now() - new Date(
 /* ---------- almacenamiento ---------- */
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 let db = read(KEY, { users: {}, session: null });
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { toast('No se pudo guardar: almacenamiento lleno o bloqueado.'); } };
+let cloudTimer = null, cloudBusy = false, cloudLast = 0, cloudLoaded = {};
+const save = () => {
+  try { localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch { toast('No se pudo guardar: almacenamiento lleno o bloqueado.'); }
+  if (db.session && C.teacher?.endpoint) {
+    clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(() => syncProgress(false), 12000);
+  }
+};
+function cloudJSONP(params) {
+  return new Promise((resolve, reject) => {
+    const cb = 'stbcCloud_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { cleanup(); reject(new Error('Tiempo de espera agotado')); }, 15000);
+    function cleanup() { clearTimeout(timer); delete window[cb]; script.remove(); }
+    window[cb] = data => { cleanup(); resolve(data); };
+    script.onerror = () => { cleanup(); reject(new Error('No se pudo contactar con Google Sheets')); };
+    script.src = C.teacher.endpoint + '?' + new URLSearchParams({ ...params, callback: cb }).toString();
+    document.head.appendChild(script);
+  });
+}
+async function syncProgress(showMessage) {
+  if (!db.session || !C.teacher?.endpoint || cloudBusy || !navigator.onLine) return;
+  if (Date.now() - cloudLast < 10000 && !showMessage) return;
+  cloudBusy = true;
+  try {
+    const r = await report();
+    // Apps Script recibe text/plain para evitar el preflight CORS de JSON.
+    // no-cors oculta la respuesta, pero permite entregar el POST a /exec.
+    await fetch(C.teacher.endpoint, {
+      method: 'POST', mode: 'no-cors', redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(r), keepalive: true
+    });
+    cloudLast = Date.now();
+    if (showMessage) toast('Sincronización enviada a Google Sheets. Comprueba la hoja si es el primer envío.');
+  } catch (err) {
+    if (showMessage) toast('No se pudo sincronizar. El progreso permanece guardado en este dispositivo.');
+  } finally { cloudBusy = false; }
+}
+async function loadCloudProgress() {
+  const user = db.session;
+  if (!user || !C.teacher?.endpoint || cloudLoaded[user] || !navigator.onLine) return;
+  cloudLoaded[user] = true;
+  try {
+    const result = await cloudJSONP({ action: 'progress', user });
+    if (!result?.ok || !result.progress?.detail) return;
+    const remote = typeof result.progress.detail === 'string' ? JSON.parse(result.progress.detail) : result.progress.detail;
+    if (remote.user !== user || !Array.isArray(remote.lessons)) return;
+    const local = me();
+    remote.lessons.forEach(x => {
+      if (!x.id || x.id < 1 || x.id > L.length) return;
+      const p = les(x.id), count = Math.min(L[x.id - 1].pages.length, Number(x.pages) || 0);
+      for (let i = 0; i < count; i++) if (!p.visited.includes(i)) p.visited.push(i);
+      p.done = p.done || !!x.done;
+      p.secs = Math.max(p.secs || 0, (Number(x.mins) || 0) * 60);
+      p.last = p.last || x.last || null;
+    });
+    (remote.exams || []).forEach(x => {
+      if (x.score != null) {
+        const prior = local.exams[x.n]?.score;
+        if (prior == null) local.exams[x.n] = { ...(local.exams[x.n] || {}), score: Number(x.score) };
+      }
+    });
+    save();
+    if (document.querySelector('#view')) route();
+  } catch (err) {
+    console.warn('No se pudo recuperar el progreso remoto:', err);
+  }
+}
 const stu = () => C.students.find(s => s.u === db.session);
 const isTeacher = () => stu()?.role === 'profesor';
 function me() {
@@ -90,7 +159,7 @@ async function sendDialog() {
     const a = b.dataset.a;
     try {
       if (a === 'send') { mark(); setTimeout(() => { d.close(); route(); }, 400); return; }
-      if (a === 'endpoint') { await fetch(T.endpoint, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(r) }); mark(); toast('Progreso enviado al profesor ✓'); }
+      if (a === 'endpoint') { await syncProgress(true); mark(); }
       if (a === 'copy') { await navigator.clipboard.writeText(text); toast('Mensaje copiado ✓'); }
       if (a === 'file') { download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
     } catch { toast('No se pudo completar. Prueba otra opción.'); }
@@ -245,10 +314,12 @@ document.addEventListener('click', async e => {
 });
 document.addEventListener('change', e => { const n = e.target.dataset?.score; if (!n) return; const v = e.target.value === '' ? null : Math.min(100, Math.max(0, +e.target.value)); me().exams[n] = { ...(me().exams[n] || {}), score: v }; if (v != null) log(`Registró su nota del ${C.exams[n - 1].title}: ${v}`, 'fa-clipboard-check'); save(); toast('Nota guardada ✓'); });
 window.addEventListener('hashchange', route);
+window.addEventListener('online', () => { cloudLast = 0; syncProgress(false); });
+window.addEventListener('pagehide', () => { if (db.session && C.teacher?.endpoint) syncProgress(false); });
 
 /* ---------- login ---------- */
 function boot() {
-  if (db.session && stu()) { shell(); return route(); }
+  if (db.session && stu()) { shell(); route(); loadCloudProgress(); return; }
   db.session = null;
   $('#app').innerHTML = `<div class="login"><section class="hero"><img src="assets/logo.png" alt="Logo del Seminario"><span class="pill">CURSO ${C.course}</span><h1>Curso de Griego I</h1><p class="sub">${C.school}. Doce lecciones para leer el Nuevo Testamento en su lengua original.</p>
     <div class="feats"><div><i class="fas fa-book-open"></i>12 lecciones con 43 páginas de estudio</div><div><i class="fas fa-chart-line"></i>Progreso guardado y enviable al profesor</div><div><i class="fas fa-clipboard-check"></i>Cuatro evaluaciones durante el curso</div><div><i class="fas fa-mobile-screen"></i>Instálala en tu teléfono; funciona sin conexión</div></div></section>
@@ -261,7 +332,7 @@ function boot() {
     e.preventDefault(); const u = norm($('#u').value), s = C.students.find(x => norm(x.u) === u);
     if (!crypto?.subtle) return $('#er').textContent = 'Abre la plataforma desde su dirección https para iniciar sesión.';
     if (!s || s.h !== await sha(`${C.salt}|${u}|${$('#p').value}`)) return $('#er').textContent = 'Usuario o contraseña incorrectos.';
-    db.session = s.u; me(); log('Inició sesión', 'fa-right-to-bracket'); save(); boot();
+    db.session = s.u; me(); log('Inició sesión', 'fa-right-to-bracket'); save(); boot(); loadCloudProgress();
   };
 }
 
