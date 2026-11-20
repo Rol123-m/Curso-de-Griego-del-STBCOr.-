@@ -175,7 +175,8 @@ V.progreso = () => { const s = stats();
   <div class="grid g2" style="margin-bottom:1.2rem"><div class="card" style="display:flex;gap:1.2rem;align-items:center">${ring(s.pct, 'sm')}<div><h3 style="margin:0">${s.done} de ${L.length} lecciones</h3><p style="color:var(--mut);font-size:.9rem">${fmtT(s.secs)} de estudio · último envío: ${me().sent ? ago(me().sent) : 'nunca'}</p></div></div>
   <div class="card"><h3>Guardar y enviar</h3><div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar al profesor</button><button class="btn sec sm" data-act="backup"><i class="fas fa-download"></i> Guardar copia</button><button class="btn sec sm" data-act="restore"><i class="fas fa-upload"></i> Restaurar</button></div></div></div>
   <div class="card tw"><table><thead><tr><th>Lección</th><th>Tema</th><th>Avance</th><th>Tiempo</th><th>Último acceso</th><th></th></tr></thead><tbody>${s.ls.map(x => `<tr><td>${x.id}</td><td>${esc(L[x.id - 1].title)}</td><td style="min-width:130px"><div class="bar"><i style="width:${x.pct}%"></i></div><small style="color:var(--mut)">${x.done ? 'Completada' : x.v + '/' + x.t + ' páginas'}</small></td><td>${x.secs ? fmtT(x.secs) : '—'}</td><td>${ago(x.last)}</td><td><a class="btn sec sm" href="#/leccion/${x.id}">Abrir</a></td></tr>`).join('')}</tbody></table></div>`; };
-V.recursos = () => `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${C.resources.map(r => `<div class="card res"><i class="fas ${r.i} big"></i><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p><a class="btn sec sm" href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.b)} <i class="fas fa-up-right-from-square"></i></a></div>`).join('')}</div>`;
+V.recursos = () => `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${C.resources.map(r => `<div class="card res"><i class="fas ${r.i} big"></i><h3>${esc(r.t)}</h3><p>${esc(r.d)}</p>${r.u ? `<a class="btn sec sm" href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.b)} <i class="fas fa-up-right-from-square"></i></a>` : `<span class="tag">El profesor publicará el enlace aquí</span>`}</div>`).join('')}</div>`;
+V.vocabulario = () => window.vocabView();
 V.profesor = () => {
   const reps = read(REP, {}), rows = Object.values(reps).sort((a, b) => a.name.localeCompare(b.name));
   return `<div class="ph"><h2>Panel del profesor</h2><p>Importa los archivos de progreso que te envían los estudiantes para ver el avance del grupo.</p></div>
@@ -203,7 +204,7 @@ function reader(id, pg) {
 setInterval(() => { if (rd && document.visibilityState === 'visible' && document.hasFocus() !== false && db.session) { les(rd.id).secs += 5; save(); } }, 5000);
 
 /* ---------- router y shell ---------- */
-const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos']];
+const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['vocabulario', 'fa-spell-check', 'Vocabulario'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos']];
 const PROF = ['profesor', 'fa-chalkboard-user', 'Profesor'];
 const navLink = n => `<a href="#/${n[0]}" data-r="${n[0]}"><i class="fas ${n[1]}"></i>${n[2]}${n[0] === 'anuncios' && unseen() ? `<em class="bdg">${unseen()}</em>` : ''}</a>`;
 function shell() {

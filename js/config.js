@@ -45,6 +45,8 @@ window.CONFIG = {
   ],
 
   resources: [
+    // Pega aquí el enlace del PDF de vocabulario cuando lo publiques (ej. Google Drive, u:'…'). Sin enlace, se muestra como «por publicar».
+    { i: 'fa-file-pdf', t: 'Vocabulario de las 12 lecciones', d: 'PDF muy visual con todo el vocabulario del curso, organizado por semanas y lecciones.', u: '', b: 'Abrir PDF' },
     { i: 'fa-font', t: 'Alfabeto griego', d: 'Tabla completa con letras, pronunciación y ejemplos.', u: 'https://drive.google.com/file/d/1jl1WD-wGcFiMHxq2Sw7-PcxF4oBZwtcb/view?usp=sharing', b: 'Abrir PDF' },
     { i: 'fa-table', t: 'Tablas de declinación', d: 'Declinaciones completas de sustantivos y adjetivos.', u: 'https://drive.google.com/file/d/1aUbpL0_-yvKFl2rTquxQY0vFdKeCuvsv/view?usp=sharing', b: 'Abrir PDF' },
     { i: 'fa-language', t: 'Conjugaciones verbales', d: 'Tablas de conjugación para los tiempos verbales.', u: 'https://drive.google.com/file/d/1jSKAVZ_Q0OcxBN7hAm6DnFE6dghepk9z/view?usp=sharing', b: 'Abrir PDF' },

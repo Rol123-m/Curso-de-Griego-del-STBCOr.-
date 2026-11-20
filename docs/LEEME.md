@@ -12,7 +12,13 @@ Plataforma web instalable (PWA). Funciona en GitHub Pages sin servidor.
 - `exams`: pega el enlace de Google Forms de cada quiz en `url` cuando lo publiques; con enlace, el quiz se habilita. Si prefieres limitar por fechas, rellena `open` y `close` (`AAAA-MM-DD`).
 - `weeks`: plan semanal; puedes escribir las fechas de cada semana en `fechas`.
 - `announcements`: la pestaña de anuncios. Agrega un objeto nuevo arriba de la lista (con `id` distinto) y a los estudiantes les aparece como «Nuevo».
+- `resources`: el primer recurso es el **PDF del vocabulario de las 12 lecciones**; pega su enlace en `u:''` cuando lo publiques (Drive, GitHub…) y aparecerá el botón «Abrir PDF».
 - `js/silabo.js`: contenido de la pestaña Sílabo. El PDF está en `assets/`.
+
+## Pestaña Vocabulario (nueva en v2.4)
+- `js/vocabulario.js` contiene todo el vocabulario del curso (194 palabras) organizado por semana y lección, tomado de las páginas de las 12 lecciones.
+- Incluye dos prácticas: **selección múltiple** (12 preguntas al azar, griego↔español) y **tarjetas** (flashcards con «La sé / No la sabía»). La mejor puntuación se guarda en el dispositivo del estudiante (`stbcor.vocab`).
+- Para editar una palabra o añadir más, busca la semana y la lección en `js/vocabulario.js` (`g` griego, `t` transliteración, `e` significado, `i` dato gramatical).
 
 ## Cada vez que publiques cambios
 Sube el número de `VERSION` en `sw.js` (por ejemplo `v2.0.1`) para que los estudiantes reciban la actualización.

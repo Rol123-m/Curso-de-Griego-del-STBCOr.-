@@ -1,0 +1,213 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cronograma Griego Koiné//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Cronograma Griego Koiné
+X-WR-TIMEZONE:America/Mexico_City
+BEGIN:VTIMEZONE
+TZID:America/Mexico_City
+BEGIN:STANDARD
+DTSTART:19700101T000000
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:19700405T020000
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+END:DAYLIGHT
+END:VTIMEZONE
+
+BEGIN:VEVENT
+UID:semana1-martes-20261215@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:Semana 1 - Orientaciones. Introducción al idioma griego. Alfabeto y pronunciación (lección 1). Introducción a los sustantivos (lección 2)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana1-miercoles-20261216@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261216
+DTEND;VALUE=DATE:20261217
+SUMMARY:Semana 1 - Sustantivos de segunda declinación (lección 3)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo. Deben participar a lo largo del día miércoles 16 de diciembre.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana1-jueves-20261217@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Semana 1 - Sustantivos de primera declinación y artículo definido (lección 4)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana1-viernes-20261218@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20261218T143000
+DTEND;TZID=America/Mexico_City:20261218T153000
+SUMMARY:Semana 1 - Audiollamada de grupo
+DESCRIPTION:Modalidad: Online Sincrónica. Sesión para aclarar dudas. Practicar Guía de Ejercicios. Iniciar la práctica de lectura bíblica.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana1-domingo-20261220@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20261220T000000
+DTEND;TZID=America/Mexico_City:20261220T235900
+SUMMARY:Semana 1 - Cierre de semana: entrega de tarjetas (lecciones 1–4) y Quiz semanal 1
+DESCRIPTION:Modalidad: Online asincrónica. Tarjetas lecciones 1–4. Quiz semanal 1. Todas las tareas vencen el domingo a las 11:59 pm.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana2-martes-20261222@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261222
+DTEND;VALUE=DATE:20261223
+SUMMARY:Semana 2 - Los adjetivos (lección 5)
+DESCRIPTION:Modalidad: Online asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana2-miercoles-20261223@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:Semana 2 - Pronombres personales (lección 6)
+DESCRIPTION:Modalidad: Online asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana2-jueves-20261224@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20261225
+SUMMARY:Semana 2 - Las preposiciones (lección 7)
+DESCRIPTION:Modalidad: Online asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana2-viernes-20261225@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20261225T143000
+DTEND;TZID=America/Mexico_City:20261225T153000
+SUMMARY:Semana 2 - Audiollamada de grupo
+DESCRIPTION:Modalidad: Online Sincrónica. Sesión para aclarar dudas. Practicar Guía de Ejercicios. Continuar la práctica de lectura bíblica.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana2-domingo-20261227@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20261227T000000
+DTEND;TZID=America/Mexico_City:20261227T235900
+SUMMARY:Semana 2 - Cierre de semana: entrega de tarjetas (lecciones 5–7) y Quiz semanal 2
+DESCRIPTION:Modalidad: Online asincrónica. Tarjetas lecciones 5–7. Quiz semanal 2. Todas las tareas vencen el domingo a las 11:59 pm.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:descanso-20261228@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261228
+DTEND;VALUE=DATE:20270104
+SUMMARY:Semana de Descanso por fin de año
+DESCRIPTION:28 de diciembre al 3 de enero de 2027.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana3-martes-20270105@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270105
+DTEND;VALUE=DATE:20270106
+SUMMARY:Semana 3 - El verbo eimi (lección 8). Introducción al verbo griego (lección 9)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana3-miercoles-20270106@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270106T000000
+DTEND;TZID=America/Mexico_City:20270106T220000
+SUMMARY:Semana 3 - Foro Debate No 1
+DESCRIPTION:Modalidad: Online Asincrónico. Abierto todo el día para el debate. Cierra a las 10 pm con las conclusiones por el profesor. Pregunta: ¿Cómo influye el griego koiné en lo relacionado al papel de la mujer en la iglesia? Analice 1 Tim 2.11-15. Brinde sus aportes y conclusiones desde el griego koiné en no menos de 350 palabras. Escriba su reporte en el chat de grupo. Interactúe con la respuesta de uno de sus compañeros en no menos de 150 palabras.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana3-jueves-20270107@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270107
+DTEND;VALUE=DATE:20270108
+SUMMARY:Semana 3 - Verbo presente medio pasivo indicativo (lección 10)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana3-viernes-20270108@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270108T143000
+DTEND;TZID=America/Mexico_City:20270108T153000
+SUMMARY:Semana 3 - Audiollamada de grupo
+DESCRIPTION:Modalidad: Online Sincrónica. Sesión para aclarar dudas. Practicar Guía de Ejercicios. Continuar la práctica de lectura bíblica.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana3-domingo-20270110@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270110T000000
+DTEND;TZID=America/Mexico_City:20270110T235900
+SUMMARY:Semana 3 - Cierre de semana: tarjetas (lecciones 8–10) y Quiz semanal 3
+DESCRIPTION:Modalidad: Online asincrónica. Tarjetas lecciones 8–10. Quiz semanal 3. Todas las tareas vencen el domingo a las 11:59 pm.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana4-martes-20270112@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270112
+DTEND;VALUE=DATE:20270113
+SUMMARY:Semana 4 - Verbo imperfecto indicativo (lección 11)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana4-miercoles-20270113@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270113T000000
+DTEND;TZID=America/Mexico_City:20270113T220000
+SUMMARY:Semana 4 - Foro Debate No 2
+DESCRIPTION:Modalidad: Online. Abierto todo el día para el debate. Cierra a las 10 pm con las conclusiones por el profesor. Orientación: Interpreta usando el griego koiné la severa advertencia de Hebreos 6.4-6. Escribe el resumen de su estudio en el chat en no menos de 350 palabras. Interactúe con uno de sus compañeros en no menos de 150 palabras.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana4-jueves-20270114@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270114
+DTEND;VALUE=DATE:20270115
+SUMMARY:Semana 4 - Verbo futuro activo y medio (lección 12)
+DESCRIPTION:Modalidad: Online Asincrónica. Evaluación: Participación en grupo.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana4-viernes-20270115@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270115T143000
+DTEND;TZID=America/Mexico_City:20270115T153000
+SUMMARY:Semana 4 - Audiollamada de grupo. Repaso integral de las 12 lecciones
+DESCRIPTION:Modalidad: Online Sincrónica. Sesión para aclarar dudas. Repaso integral de las 12 lecciones. Consolidación de paradigmas, vocabulario y traducción. Continuar la práctica de lectura bíblica. Entrega de la Guía de Ejercicios.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:semana4-domingo-20270117@cronograma
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=America/Mexico_City:20270117T000000
+DTEND;TZID=America/Mexico_City:20270117T235900
+SUMMARY:Semana 4 - Cierre de semana: Quiz semanal 4 y cierre de tarjetas resumen. Fin de la asignatura
+DESCRIPTION:Modalidad: Online asincrónica. Quiz semanal 4. Cierre de tarjetas resumen. Fin de la asignatura. Todas las tareas vencen el domingo a las 11:59 pm.
+END:VEVENT
+
+END:VCALENDAR
