@@ -119,7 +119,8 @@ function doGet(e) {
       if (action === 'saveAnnouncement') result = saveContentItem_('Anuncios', item);
       else if (action === 'saveResource') result = saveContentItem_('Recursos', item);
       else if (action === 'deleteContent') result = deleteContentItem_(p.kind, p.id);
-      else result = deleteForumPost_(p.id);
+      else if (action === 'deleteForumPost') result = deleteForumPost_(p.id);
+      else result = deleteForumConversation_(p.id);
     } else {
       result = { ok: true, service: 'STBCOr Greek Course API', version: '1.0', actions: ['exam','grade','progress'] };
     }
@@ -142,6 +143,7 @@ function doPost(e) {
       else if (data.action === 'saveResource') result = saveContentItem_('Recursos', data.item);
       else if (data.action === 'deleteContent') result = deleteContentItem_(data.kind, data.id);
       else if (data.action === 'deleteForumPost') result = deleteForumPost_(data.id);
+      else if (data.action === 'deleteForumConversation') result = deleteForumConversation_(data.id);
       else if (data.action === 'forumStatus') result = setForumStatus_(data.id, data.status);
       else result = { ok: false, error: 'Acción no válida' };
     }
@@ -291,6 +293,18 @@ function setForumStatus_(id,status) {
   const i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id)&&String(r[5]||'')==='');
   if(i<1)throw new Error('No se encontró el tema.');
   sh.getRange(i+1,8).setValue(status);return {ok:true,id,status};
+}
+function deleteForumConversation_(id) {
+  const sh=sheet_('Foro'), rows=sh.getDataRange().getValues();
+  const root=rows.find((r,n)=>n>0&&String(r[0])===String(id)&&String(r[5]||'')==='');
+  if(!root)throw new Error('No se encontró la conversación.');
+  let removed=0;
+  rows.forEach((r,n)=>{
+    if(n>0&&(String(r[0])===String(id)||String(r[5]||'')===String(id))&&String(r[6])!=='No'){
+      sh.getRange(n+1,7).setValue('No');removed++;
+    }
+  });
+  return {ok:true,id,removed};
 }
 function deleteForumPost_(id) {
   const sh=sheet_('Foro'),rows=sh.getDataRange().getValues(),i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id));
