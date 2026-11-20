@@ -53,10 +53,12 @@ async function syncProgress(showMessage) {
 }
 let remoteContent = { announcements: [], resources: [], posts: [] }, teacherData = null;
 const adminToken = () => localStorage.getItem('stbcor.adminToken') || '';
+const deanToken = () => localStorage.getItem('stbcor.deanToken') || '';
 async function loadContent() {
  try { const d=await cloudJSONP({action:'content'}); if(d?.ok){remoteContent=d;if($('#view'))route();} }
  catch(e){console.warn('Contenido remoto no disponible',e);}
 }
+async function loadDeanData(token) { const d=await cloudJSONP({action:'deanData',token});if(!d?.ok)throw new Error(d?.error||'No se pudo cargar el informe');teacherData=d;route(); }
 async function loadTeacherData(token) {
  const d=await cloudJSONP({action:'teacherData',token});if(!d?.ok)throw new Error(d?.error||'No se pudo cargar el progreso');
  teacherData=d;route();
@@ -107,6 +109,7 @@ document.addEventListener('stbc:exam-graded', e => {
 });
 const stu = () => C.students.find(s => s.u === db.session);
 const isTeacher = () => stu()?.role === 'profesor';
+const isDean = () => stu()?.role === 'decano';
 function me() {
   if (!db.users[db.session]) {
     const u = db.users[db.session] = { lessons: {}, exams: {}, log: [], sent: null };
@@ -195,7 +198,7 @@ function pasteDialog() {
   $('#pb').onclick = async () => { try { const r = await dec($('#pc').value); addReport(r); d.close(); toast(`Reporte de ${r.name} importado ✓`); route(); } catch { toast('Código inválido o modificado.'); } };
 }
 function moreDialog() {
-  dialog('Más secciones', NAV.slice(4).concat(isTeacher() ? [PROF] : []).map(n => `<a class="opt" href="#/${n[0]}"><i class="fas ${n[1]}"></i><span><b>${n[2]}</b></span></a>`).join(''));
+  dialog('Más secciones', NAV.slice(4).concat(isTeacher() ? [PROF] : isDean() ? [DEAN] : []).map(n => `<a class="opt" href="#/${n[0]}"><i class="fas ${n[1]}"></i><span><b>${n[2]}</b></span></a>`).join(''));
 }
 function restore() {
   const i = Object.assign(document.createElement('input'), { type: 'file', accept: '.json,application/json' });
@@ -330,6 +333,13 @@ V.foro = () => {
 };
 
 V.vocabulario = () => window.vocabView();
+V.decano = () => {
+ const rows=teacherData?.progress||[],token=deanToken();
+ return `<div class="ph"><h2>Panel del decano</h2><p>Consulta de solo lectura del progreso, las calificaciones y la actividad académica.</p></div>
+ <div class="card" style="margin-bottom:1rem"><form id="dean-token-form"><label for="dean-token"><b>Clave de consulta del decanato</b></label><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><input id="dean-token" type="password" required value="${esc(token)}" placeholder="Clave de solo lectura" style="flex:1;min-width:220px;padding:.65rem;border:1px solid var(--line);border-radius:8px"><button class="btn" type="submit">Consultar informes</button></div><small>Se guarda únicamente en este navegador.</small></form></div>
+ ${teacherData?`<div class="card tw" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;gap:.5rem;align-items:center;flex-wrap:wrap"><h3>Progreso de estudiantes</h3><button class="btn sec sm" data-act="refresh-dean">Actualizar ahora</button></div><table><thead><tr><th>Estudiante</th><th>Lecciones</th><th>Avance</th><th>Tiempo</th><th>Exámenes 1–4</th><th>Última actividad</th></tr></thead><tbody>${rows.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${p.done}/${p.total}</td><td><div class="bar"><i style="width:${p.percent}%"></i></div><small>${p.percent}%</small></td><td>${p.mins} min</td><td>${p.examScores.map(x=>x==null?'—':x+'/100').join(' · ')}</td><td>${p.updated?ago(p.updated):'—'}</td></tr>`).join('')||'<tr><td colspan="6">Todavía no hay registros.</td></tr>'}</tbody></table></div>
+ ${teacherData.activity?.length?`<div class="card tw"><h3>Actividad reciente</h3><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Actividad</th><th>Detalle</th></tr></thead><tbody>${teacherData.activity.slice(0,40).map(x=>`<tr><td>${x.date?ago(x.date):'—'}</td><td>${esc(x.name)}</td><td>${esc(x.type)}</td><td>${esc(x.detail)}</td></tr>`).join('')}</tbody></table></div>`:''}`:'<div class="card"><p>Introduce la clave de consulta para ver los informes.</p></div>'}`;
+};
 V.profesor = () => {
  const rows=teacherData?.progress||[],token=adminToken();
  return `<div class="ph"><h2>Panel del profesor</h2><p>Seguimiento automático del grupo y administración del contenido. La hoja de resultados permanece privada.</p></div>
@@ -362,9 +372,10 @@ setInterval(() => { if (rd && document.visibilityState === 'visible' && document
 /* ---------- router y shell ---------- */
 const NAV = [['inicio', 'fa-house', 'Inicio'], ['anuncios', 'fa-bullhorn', 'Anuncios'], ['lecciones', 'fa-book-open', 'Lecciones'], ['vocabulario', 'fa-spell-check', 'Vocabulario'], ['evaluaciones', 'fa-clipboard-check', 'Quizzes'], ['progreso', 'fa-chart-line', 'Progreso'], ['silabo', 'fa-file-lines', 'Sílabo'], ['recursos', 'fa-folder-open', 'Recursos'], ['foro', 'fa-comments', 'Foro']];
 const PROF = ['profesor', 'fa-chalkboard-user', 'Profesor'];
+const DEAN = ['decano', 'fa-chart-line', 'Decanato'];
 const navLink = n => `<a href="#/${n[0]}" data-r="${n[0]}"><i class="fas ${n[1]}"></i>${n[2]}${n[0] === 'anuncios' && unseen() ? `<em class="bdg">${unseen()}</em>` : ''}</a>`;
 function shell() {
-  const s = stu(), nav = isTeacher() ? [...NAV, PROF] : NAV;
+  const s = stu(), nav = isTeacher() ? [...NAV, PROF] : isDean() ? [...NAV, DEAN] : NAV;
   $('#app').innerHTML = `<header class="top"><a class="brand" href="#/inicio"><img src="assets/logo.png" alt="STBCOr"><span><b>Curso de Griego I</b><small>Seminario Teológico Bautista de Cuba Oriental</small></span></a><span class="chip">${C.course}</span><span class="sp"></span>
     <button class="icn" id="inst" hidden title="Instalar app"><i class="fas fa-download"></i></button><div class="who"><span>${esc(s.name)}</span><div class="av">${esc(s.name.replace(/^(Rector|Prof\.?)\s+/i, '')[0])}</div></div><button class="icn" id="out" title="Salir" aria-label="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button></header>
     <div class="layout"><aside class="side">${nav.map(navLink).join('')}<span class="grow"></span><button class="btn sec sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar progreso</button><div class="mini">© ${C.course} · STBCOr</div></aside><main id="view"></main></div>
@@ -379,7 +390,8 @@ function route() {
   $$('[data-r]').forEach(x => x.classList.toggle('on', x.dataset.r === r || (r === 'leccion' && x.dataset.r === 'lecciones')));
   if (r === 'leccion') return reader(+a, b === undefined ? undefined : +b);
   if (r === 'profesor' && isTeacher() && adminToken() && !teacherData) loadTeacherData(adminToken()).catch(e => console.warn(e));
-  const v = V[r] && !(r === 'profesor' && !isTeacher()) ? r : 'inicio'; $('#view').innerHTML = V[v]();
+  if (r === 'decano' && isDean() && deanToken() && !teacherData) loadDeanData(deanToken()).catch(e => console.warn(e));
+  const v = V[r] && !(r === 'profesor' && !isTeacher()) && !(r === 'decano' && !isDean()) ? r : 'inicio'; $('#view').innerHTML = V[v]();
   if (v === 'anuncios') { db.seen = [...C.announcements, ...(remoteContent.announcements || [])].map(a => a.id); save(); $$('.bdg').forEach(x => x.remove()); }
   window.scrollTo(0, 0);
 }
@@ -394,6 +406,7 @@ document.addEventListener('click', async e => {
   if (t.dataset.forumStatus) { e.preventDefault(); try { await adminRequest('forumStatus',{id:t.dataset.forumStatus,status:t.dataset.status}); await loadContent(); toast(t.dataset.status==='Cerrado'?'Tema cerrado ✓':'Tema reabierto ✓'); } catch(err) { toast(err.message); } return; }
   if (t.dataset.forumDelete) { e.preventDefault(); if (!confirm('¿Eliminar esta conversación y todas sus respuestas? Esta acción no se puede deshacer.')) return; try { await adminRequest('deleteForumConversation',{id:t.dataset.forumDelete}); await loadContent(); toast('Conversación eliminada ✓'); } catch(err) { toast(err.message); } return; }
   if (a === 'refresh-teacher') { try { await loadTeacherData(adminToken()); toast('Datos actualizados ✓'); } catch (err) { toast(err.message); } }
+   if (a === 'refresh-dean') { try { await loadDeanData(deanToken()); toast('Informes actualizados ✓'); } catch (err) { toast(err.message); } }
   if (a === 'paste') pasteDialog();
   if (a === 'backup') { const r = await report(); download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
   if (a === 'restore') restore();
@@ -407,6 +420,7 @@ document.addEventListener('submit',async e=>{
  const f=e.target;
  try{
   if(f.id==='admin-token-form'){e.preventDefault();const t=$('#admin-token').value.trim();localStorage.setItem('stbcor.adminToken',t);await loadTeacherData(t);toast('Progreso actualizado ✓');}
+  if(f.id==='dean-token-form'){e.preventDefault();const token=$('#dean-token').value.trim();localStorage.setItem('stbcor.deanToken',token);teacherData=null;await loadDeanData(token);toast('Informe cargado ✓');}
   if(f.id==='announcement-form'){e.preventDefault();const x=new FormData(f),item={tag:x.get('tag'),title:x.get('title'),body:x.get('body'),pin:x.get('pin')==='on'};await adminRequest('saveAnnouncement',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Anuncio publicado ✓');}
   if(f.id==='resource-form'){e.preventDefault();const x=new FormData(f),item={title:x.get('title'),description:x.get('description'),url:x.get('url')};await adminRequest('saveResource',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Recurso añadido ✓');}
   if(f.id==='forum-form'){e.preventDefault();const s=stu(),message=$('#forum-message').value.trim(),d=await cloudJSONP({action:'forumPost',user:s.u,name:s.name,message});if(!d?.ok)throw new Error(d?.error||'No se pudo publicar');$('#forum-message').value='';await loadContent();toast('Tema publicado ✓');}
