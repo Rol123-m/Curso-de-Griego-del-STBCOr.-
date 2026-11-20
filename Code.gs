@@ -114,6 +114,7 @@ function doPost(e) {
   try {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (data.action === 'saveProgress') result = saveProgress_(data.report);
+    else if (data.user && data.lessons) result = saveProgress_(data); // compatibilidad con el envío actual de la app
     else result = { ok: false, error: 'Acción no válida' };
   } catch (err) {
     result = { ok: false, error: String(err && err.message || err) };
