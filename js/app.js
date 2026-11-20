@@ -97,6 +97,14 @@ async function loadCloudProgress() {
     console.warn('No se pudo recuperar el progreso remoto:', err);
   }
 }
+document.addEventListener('stbc:exam-graded', e => {
+  const { exam, score } = e.detail || {};
+  if (!db.session || !Number.isInteger(Number(exam)) || !Number.isFinite(Number(score))) return;
+  me().exams[Number(exam)] = { ...(me().exams[Number(exam)] || {}), score: Number(score), at: new Date().toISOString() };
+  log('Completó ' + (C.exams[Number(exam)-1]?.title || ('Examen ' + exam)) + ': ' + score + '/100', 'fa-clipboard-check');
+  save();
+  if (document.querySelector('#view') && location.hash.includes('evaluaciones')) route();
+});
 const stu = () => C.students.find(s => s.u === db.session);
 const isTeacher = () => stu()?.role === 'profesor';
 function me() {
@@ -259,7 +267,7 @@ V.evaluaciones = () => {
   <div class="card" style="margin-top:1.1rem"><h3>Aporte estimado de los exámenes</h3><p style="color:var(--mut);font-size:.9rem;margin-bottom:.6rem">Según las calificaciones registradas en tu cuenta.</p><div class="bar"><i style="width:${est / 25 * 100}%"></i></div><p style="margin-top:.4rem"><b>${est.toFixed(2)}</b> / 25 puntos · ${got.length} de ${C.exams.length} exámenes completados</p></div>`;
 };
 V.progreso = () => { const s = stats();
-  return `<div class="ph"><h2>Mi progreso</h2><p>Todo se guarda automáticamente en este dispositivo.</p></div>
+  return `<div class="ph"><h2>Mi progreso</h2><p>Tu avance se guarda automáticamente en este dispositivo y se sincroniza con el servidor cuando hay conexión.</p></div>
   <div class="grid g2" style="margin-bottom:1.2rem"><div class="card" style="display:flex;gap:1.2rem;align-items:center">${ring(s.pct, 'sm')}<div><h3 style="margin:0">${s.done} de ${L.length} lecciones</h3><p style="color:var(--mut);font-size:.9rem">${fmtT(s.secs)} de estudio · último envío: ${me().sent ? ago(me().sent) : 'nunca'}</p></div></div>
   <div class="card"><h3>Guardar y enviar</h3><div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn sm" data-act="send"><i class="fas fa-paper-plane"></i> Enviar al profesor</button><button class="btn sec sm" data-act="backup"><i class="fas fa-download"></i> Guardar copia</button><button class="btn sec sm" data-act="restore"><i class="fas fa-upload"></i> Restaurar</button></div></div></div>
   <div class="card tw"><table><thead><tr><th>Lección</th><th>Tema</th><th>Avance</th><th>Tiempo</th><th>Último acceso</th><th></th></tr></thead><tbody>${s.ls.map(x => `<tr><td>${x.id}</td><td>${esc(L[x.id - 1].title)}</td><td style="min-width:130px"><div class="bar"><i style="width:${x.pct}%"></i></div><small style="color:var(--mut)">${x.done ? 'Completada' : x.v + '/' + x.t + ' páginas'}</small></td><td>${x.secs ? fmtT(x.secs) : '—'}</td><td>${ago(x.last)}</td><td><a class="btn sec sm" href="#/leccion/${x.id}">Abrir</a></td></tr>`).join('')}</tbody></table></div>`; };
