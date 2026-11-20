@@ -276,22 +276,43 @@ V.recursos = () => {
  return `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${items.map(x=>`<div class="card res"><i class="fas ${esc(x.i||'fa-link')} big"></i><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>${x.u?`<a class="btn sec sm" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.b||'Abrir recurso')}</a>`:'<span class="tag">Enlace por publicar</span>'}</div>`).join('')}</div>`;
 };
 V.foro = () => {
- const posts=remoteContent.posts||[], roots=posts.filter(p=>!p.parent);
- const canModerate=isTeacher();
- return `<div class="ph"><h2>Foro del curso</h2><p>Publica preguntas y participa en conversaciones académicas.</p></div>
- <div class="card" style="margin-bottom:1rem"><form id="forum-form"><label><b>Nueva pregunta o tema</b></label><textarea id="forum-message" maxlength="2000" required rows="3" style="width:100%;margin:.6rem 0;padding:.7rem;border:1px solid var(--line);border-radius:10px;font:inherit" placeholder="Escribe tu pregunta o inicia un debate…"></textarea><button class="btn" type="submit">Publicar tema</button></form></div>
- <div class="grid">${roots.slice().reverse().map(p=>{
-  const replies=posts.filter(x=>x.parent===p.id);
-  const open=(p.status||'Abierto')==='Abierto';
-  return `<article class="card" style="margin-bottom:1rem"><div class="ahd"><b>${esc(p.name)}</b><small>${p.date?fmtD(p.date):''}</small><span class="tag ${open?'done':'tbd'}">${open?'Abierto':'Cerrado'}</span></div><h3 style="margin:.6rem 0 .35rem">Pregunta / tema</h3><p style="white-space:pre-wrap">${esc(p.message)}</p>
-  <div style="margin:.8rem 0 0 1rem;padding-left:1rem;border-left:3px solid var(--line)">
-   <b>${replies.length} ${replies.length===1?'respuesta':'respuestas'}</b>
-   ${replies.map(x=>`<div style="padding:.7rem 0;border-bottom:1px solid var(--line)"><div class="ahd"><b>${esc(x.name)} ${x.user===p.user?'(autor)':''}</b><small>${x.date?fmtD(x.date):''}</small></div><p style="white-space:pre-wrap;margin:.3rem 0">${esc(x.message)}</p></div>`).join('')}
-   ${open?`<form class="forum-reply-form" data-parent="${esc(p.id)}" style="margin-top:.7rem"><textarea name="message" maxlength="2000" required rows="2" style="width:100%;padding:.6rem;border:1px solid var(--line);border-radius:9px;font:inherit" placeholder="Responder a este tema…"></textarea><button class="btn sec sm" type="submit" style="margin-top:.4rem">Responder a esta pregunta</button></form>`:'<p class="muted" style="margin-top:.6rem">Este tema está cerrado y no admite nuevas respuestas.</p>'}
-  </div>
-  ${canModerate?`<div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:.8rem"><button class="btn sec sm" data-forum-status="${esc(p.id)}" data-status="${open?'Cerrado':'Abierto'}">${open?'Cerrar tema':'Reabrir tema'}</button></div>`:''}
+ const posts=remoteContent.posts||[],roots=posts.filter(p=>!p.parent),canModerate=isTeacher();
+ const avatar=n=>esc((n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase());
+ return `<style>
+ .forum-shell{max-width:900px;margin:0 auto}.forum-compose{border:1px solid var(--line);border-radius:16px;padding:1rem;background:var(--card);margin-bottom:1rem}
+ .forum-compose textarea,.forum-reply-form textarea{box-sizing:border-box;width:100%;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:.8rem;background:var(--bg);color:var(--text);font:inherit;outline:none}
+ .forum-compose textarea:focus,.forum-reply-form textarea:focus{border-color:var(--accent)}
+ .forum-thread{border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;margin-bottom:1rem}
+ .forum-thread-head{display:flex;align-items:center;gap:.75rem;padding:1rem 1rem .7rem}
+ .forum-avatar{width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;background:var(--surface-secondary,#e9eef5);font-weight:700;font-size:.78rem}
+ .forum-author{font-weight:700}.forum-date{font-size:.76rem;color:var(--muted)}
+ .forum-bubble{margin:.25rem 1rem 1rem 3.9rem;padding:.85rem 1rem;border-radius:4px 16px 16px 16px;background:var(--surface-secondary,#f1f4f8);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+ .forum-thread-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:0 1rem .8rem 3.9rem;font-size:.8rem;color:var(--muted)}
+ .forum-replies{border-top:1px solid var(--line);padding:.85rem 1rem .3rem 3.9rem;background:color-mix(in srgb,var(--card) 90%,var(--bg))}
+ .forum-reply{display:flex;gap:.65rem;margin-bottom:.85rem;align-items:flex-start}
+ .forum-reply .forum-avatar{width:30px;height:30px;flex-basis:30px;font-size:.68rem}
+ .forum-reply-content{min-width:0;flex:1}.forum-reply-bubble{display:inline-block;max-width:100%;padding:.65rem .85rem;border-radius:4px 14px 14px 14px;background:var(--surface-secondary,#f1f4f8);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin-top:.25rem}
+ .forum-reply-form{display:flex;gap:.5rem;align-items:flex-end;padding:.8rem 1rem .9rem 3.9rem}.forum-reply-form textarea{min-height:44px;max-height:130px;flex:1}
+ .forum-actions{display:flex;gap:.45rem;flex-wrap:wrap;margin-left:auto}.forum-empty{text-align:center;padding:2rem;color:var(--muted)}
+ @media(max-width:600px){.forum-bubble{margin-left:1rem}.forum-thread-meta{padding-left:1rem}.forum-replies,.forum-reply-form{padding-left:1rem}.forum-thread-head{padding:.85rem}.forum-actions{width:100%;margin-left:0}}
+ </style>
+ <div class="forum-shell">
+ <div class="ph"><h2><i class="fas fa-comments"></i> Foro del curso</h2><p>Un espacio para preguntar, compartir ideas y aprender en comunidad.</p></div>
+ <div class="forum-compose"><form id="forum-form"><label><b>Iniciar una conversación</b></label><textarea id="forum-message" maxlength="2000" required rows="3" style="margin:.65rem 0" placeholder="¿Qué te gustaría preguntar o compartir?"></textarea><div style="display:flex;justify-content:flex-end"><button class="btn" type="submit"><i class="fas fa-paper-plane"></i> Publicar tema</button></div></form></div>
+ <div>${roots.slice().reverse().map(p=>{
+  const replies=posts.filter(x=>x.parent===p.id),open=(p.status||'Abierto')==='Abierto';
+  return `<article class="forum-thread">
+   <div class="forum-thread-head"><div class="forum-avatar">${avatar(p.name)}</div><div style="min-width:0;flex:1"><div class="forum-author">${esc(p.name)}</div><div class="forum-date">${p.date?fmtD(p.date):''}</div></div><span class="tag ${open?'done':'tbd'}">${open?'Abierto':'Cerrado'}</span></div>
+   <div class="forum-bubble">${esc(p.message)}</div>
+   <div class="forum-thread-meta"><span><i class="fas fa-reply"></i> ${replies.length} ${replies.length===1?'respuesta':'respuestas'}</span>
+   ${canModerate?`<div class="forum-actions"><button type="button" class="btn sec sm" data-forum-status="${esc(p.id)}" data-status="${open?'Cerrado':'Abierto'}"><i class="fas fa-${open?'lock':'lock-open'}"></i> ${open?'Cerrar tema':'Reabrir tema'}</button><button type="button" class="btn sec sm" data-forum-delete="${esc(p.id)}" style="color:var(--danger,#b42318)"><i class="fas fa-trash"></i> Eliminar conversación</button></div>`:''}
+   </div>
+   <div class="forum-replies">
+    ${replies.length?replies.map(x=>`<div class="forum-reply"><div class="forum-avatar">${avatar(x.name)}</div><div class="forum-reply-content"><div><span class="forum-author">${esc(x.name)}</span> <span class="forum-date">${x.date?fmtD(x.date):''}</span></div><div class="forum-reply-bubble">${esc(x.message)}</div></div></div>`).join(''):'<div class="forum-date" style="padding:.3rem 0 .7rem">Todavía no hay respuestas. Sé el primero en participar.</div>'}
+   </div>
+   ${open?`<form class="forum-reply-form" data-parent="${esc(p.id)}"><textarea name="message" maxlength="2000" required rows="1" placeholder="Escribe una respuesta…"></textarea><button class="btn" type="submit" aria-label="Enviar respuesta"><i class="fas fa-paper-plane"></i></button></form>`:'<div class="forum-date" style="padding:.9rem 1rem 1rem 3.9rem">Esta conversación está cerrada. No admite nuevas respuestas.</div>'}
   </article>`;
- }).join('')||'<div class="card">Todavía no hay temas. ¡Inicia la conversación!</div>'}</div>`;
+ }).join('')||'<div class="forum-thread forum-empty"><i class="fas fa-comments" style="font-size:2rem"></i><p>Aún no hay conversaciones.</p><p>Inicia la primera pregunta del curso.</p></div>'}</div></div>`;
 };
 
 V.vocabulario = () => window.vocabView();
@@ -356,7 +377,8 @@ document.addEventListener('click', async e => {
   if (t.dataset.exam) { log(`Abrió ${C.exams[t.dataset.exam - 1].title}`, 'fa-clipboard-check'); save(); return; }
   const a = t.dataset.act;
   if (a === 'send') sendDialog();
-  if (t.dataset.forumStatus) { try { await adminRequest('forumStatus',{id:t.dataset.forumStatus,status:t.dataset.status}); await loadContent(); toast(t.dataset.status==='Cerrado'?'Tema cerrado ✓':'Tema reabierto ✓'); } catch(err) { toast(err.message); } return; }
+  if (t.dataset.forumStatus) { e.preventDefault(); try { await adminRequest('forumStatus',{id:t.dataset.forumStatus,status:t.dataset.status}); await loadContent(); toast(t.dataset.status==='Cerrado'?'Tema cerrado ✓':'Tema reabierto ✓'); } catch(err) { toast(err.message); } return; }
+  if (t.dataset.forumDelete) { e.preventDefault(); if (!confirm('¿Eliminar esta conversación y todas sus respuestas? Esta acción no se puede deshacer.')) return; try { await adminRequest('deleteForumConversation',{id:t.dataset.forumDelete}); await loadContent(); toast('Conversación eliminada ✓'); } catch(err) { toast(err.message); } return; }
   if (a === 'refresh-teacher') { try { await loadTeacherData(adminToken()); toast('Datos actualizados ✓'); } catch (err) { toast(err.message); } }
   if (a === 'paste') pasteDialog();
   if (a === 'backup') { const r = await report(); download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
