@@ -113,7 +113,7 @@ function doGet(e) {
     } else if (action === 'forumStatus') {
       requireAdmin_(p.token);
       result = setForumStatus_(p.id, p.status);
-    } else if (action === 'saveAnnouncement' || action === 'saveResource' || action === 'deleteContent' || action === 'deleteForumPost') {
+    } else if (action === 'saveAnnouncement' || action === 'saveResource' || action === 'deleteContent' || action === 'deleteForumPost' || action === 'deleteForumConversation') {
       requireAdmin_(p.token);
       const item = p.item ? JSON.parse(p.item) : {};
       if (action === 'saveAnnouncement') result = saveContentItem_('Anuncios', item);
