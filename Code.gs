@@ -217,6 +217,13 @@ function sheet_(name) {
     sh.appendRow(HEADERS[name]);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS[name].length).setFontWeight('bold').setBackground('#14385c').setFontColor('#ffffff');
+  } else if (HEADERS[name]) {
+    // Migra encabezados de hojas existentes sin tocar los datos guardados.
+    const current = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0];
+    if (current.length < HEADERS[name].length || current[HEADERS[name].length - 1] !== HEADERS[name][HEADERS[name].length - 1]) {
+      sh.getRange(1, current.length + 1, 1, HEADERS[name].length - current.length).setValues([HEADERS[name].slice(current.length)]);
+      sh.getRange(1, current.length + 1, 1, HEADERS[name].length - current.length).setFontWeight('bold').setBackground('#14385c').setFontColor('#ffffff');
+    }
   }
   return sh;
 }
@@ -248,8 +255,9 @@ function getPublicContent_() {
 function getTeacherData_() {
   const progress=rowsAsObjects_('Progreso').map(x=>({user:String(x.Usuario||''),name:String(x.Nombre||''),done:Number(x['Lecciones completadas']||0),total:Number(x['Total lecciones']||12),percent:Number(x.Porcentaje||0),mins:Number(x.Minutos||0),updated:x.Actualizado instanceof Date?x.Actualizado.toISOString():String(x.Actualizado||''),detail:String(x['Detalle JSON']||'{}')}));
   const exams=rowsAsObjects_('Examenes').map(x=>({user:String(x.Usuario||''),name:String(x.Nombre||''),exam:Number(x.Examen||0),score:Number(x.Nota||0),passed:String(x.Aprobado||'')==='Sí',date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||'')}));
+  const activity=rowsAsObjects_('Actividad').map(x=>({date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),user:String(x.Usuario||''),name:String(x.Nombre||''),type:String(x.Tipo||''),detail:String(x.Detalle||'')})).slice(-150).reverse();
   progress.forEach(p=>{let d={};try{d=JSON.parse(p.detail)}catch(_){}p.lessons=Array.isArray(d.lessons)?d.lessons:[];p.exams=exams.filter(e=>e.user===p.user);p.examScores=[1,2,3,4].map(n=>{const a=p.exams.filter(e=>e.exam===n);return a.length?a[a.length-1].score:null});delete p.detail});
-  return {ok:true,progress,exams};
+  return {ok:true,progress,exams,activity};
 }
 function saveContentItem_(name,item) {
   if(!item||!item.title||(name==='Anuncios'&&!item.body)||(name==='Recursos'&&!item.url))throw new Error('Completa los campos obligatorios.');
