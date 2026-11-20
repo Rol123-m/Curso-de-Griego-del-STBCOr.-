@@ -87,7 +87,7 @@ const HEADERS = {
   Actividad: ['Fecha', 'Usuario', 'Nombre', 'Tipo', 'Detalle'],
   Anuncios: ['ID', 'Fecha', 'Etiqueta', 'Título', 'Contenido', 'Fijado', 'Activo'],
   Recursos: ['ID', 'Fecha', 'Tipo', 'Título', 'Descripción', 'URL', 'Activo'],
-  Foro: ['ID', 'Fecha', 'Usuario', 'Nombre', 'Mensaje', 'Respuesta a', 'Activo']
+  Foro: ['ID', 'Fecha', 'Usuario', 'Nombre', 'Mensaje', 'Respuesta a', 'Activo', 'Estado']
 };
 
 function doGet(e) {
@@ -110,6 +110,9 @@ function doGet(e) {
       result = getTeacherData_();
     } else if (action === 'forumPost') {
       result = saveForumPost_(p);
+    } else if (action === 'forumStatus') {
+      requireAdmin_(p.token);
+      result = setForumStatus_(p.id, p.status);
     } else if (action === 'saveAnnouncement' || action === 'saveResource' || action === 'deleteContent' || action === 'deleteForumPost') {
       requireAdmin_(p.token);
       const item = p.item ? JSON.parse(p.item) : {};
@@ -131,6 +134,7 @@ function doPost(e) {
   try {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (data.action === 'saveProgress') result = saveProgress_(data.report || data);
+    else if (data.user && Array.isArray(data.lessons)) result = saveProgress_(data); // Compatibilidad: reportes enviados directamente por la versión anterior de la app
     else if (data.action === 'forumPost') result = saveForumPost_(data);
     else {
       requireAdmin_(data.token);
@@ -138,6 +142,7 @@ function doPost(e) {
       else if (data.action === 'saveResource') result = saveContentItem_('Recursos', data.item);
       else if (data.action === 'deleteContent') result = deleteContentItem_(data.kind, data.id);
       else if (data.action === 'deleteForumPost') result = deleteForumPost_(data.id);
+      else if (data.action === 'forumStatus') result = setForumStatus_(data.id, data.status);
       else result = { ok: false, error: 'Acción no válida' };
     }
   } catch (err) {
@@ -237,7 +242,7 @@ function rowsAsObjects_(name) {
 function getPublicContent_() {
   const announcements = rowsAsObjects_('Anuncios').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),tag:String(x.Etiqueta||'Aviso'),title:String(x.Título||''),body:String(x.Contenido||''),pin:x.Fijado==='Sí'||x.Fijado===true}));
   const resources = rowsAsObjects_('Recursos').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),i:String(x.Tipo||'fa-link'),t:String(x.Título||''),d:String(x.Descripción||''),u:String(x.URL||''),b:'Abrir recurso'}));
-  const posts = rowsAsObjects_('Foro').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),user:String(x.Usuario||''),name:String(x.Nombre||''),message:String(x.Mensaje||''),parent:String(x['Respuesta a']||'')}));
+  const posts = rowsAsObjects_('Foro').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),user:String(x.Usuario||''),name:String(x.Nombre||''),message:String(x.Mensaje||''),parent:String(x['Respuesta a']||''),status:String(x.Estado||'Abierto')}));
   return {ok:true,announcements,resources,posts};
 }
 function getTeacherData_() {
@@ -262,9 +267,22 @@ function deleteContentItem_(kind,id) {
   sh.getRange(i+1,rows[0].length).setValue('No');return {ok:true};
 }
 function saveForumPost_(d) {
-  const user=safe_(d.user),name=safe_(d.name),message=safe_(d.message);
-  if(!user||!name||message.length<3||message.length>2000)throw new Error('El mensaje debe tener entre 3 y 2000 caracteres.');
-  const id=Utilities.getUuid();sheet_('Foro').appendRow([id,new Date(),user,name,message,safe_(d.parent||''),'Sí']);return {ok:true,id};
+  const user=safe_(d.user),name=safe_(d.name),message=String(d.message||'').replace(/[\\u0000-\\u001f]/g,'').trim().slice(0,2000);
+  if(!user||!name||message.length<3)throw new Error('El mensaje debe tener entre 3 y 2000 caracteres.');
+  const sh=sheet_('Foro'), parent=String(d.parent||'').trim();
+  if(parent){
+    const rows=sh.getDataRange().getValues(), root=rows.find((r,i)=>i>0&&String(r[0])===parent&&String(r[5]||'')==='');
+    if(!root||String(root[6])==='No')throw new Error('La pregunta original no está disponible.');
+    if(String(root[7]||'Abierto')!=='Abierto')throw new Error('Este tema está cerrado. Ya no admite respuestas.');
+  }
+  const id=Utilities.getUuid();sh.appendRow([id,new Date(),user,name,message,parent,'Sí',parent?'':'Abierto']);return {ok:true,id};
+}
+function setForumStatus_(id,status) {
+  if(!['Abierto','Cerrado'].includes(status))throw new Error('Estado no válido.');
+  const sh=sheet_('Foro'),rows=sh.getDataRange().getValues();
+  const i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id)&&String(r[5]||'')==='');
+  if(i<1)throw new Error('No se encontró el tema.');
+  sh.getRange(i+1,8).setValue(status);return {ok:true,id,status};
 }
 function deleteForumPost_(id) {
   const sh=sheet_('Foro'),rows=sh.getDataRange().getValues(),i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id));
