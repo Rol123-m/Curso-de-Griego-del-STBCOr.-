@@ -108,6 +108,9 @@ function doGet(e) {
     } else if (action === 'teacherData') {
       requireAdmin_(p.token);
       result = getTeacherData_();
+    } else if (action === 'deanData') {
+      requireDean_(p.token);
+      result = getTeacherData_();
     } else if (action === 'forumPost') {
       result = saveForumPost_(p);
     } else if (action === 'forumStatus') {
@@ -240,6 +243,10 @@ function safe_(v) {
 
 
 /* Contenido dinámico y administración */
+function requireDean_(token) {
+  const expected = PropertiesService.getScriptProperties().getProperty('DEAN_READ_TOKEN');
+  if (!expected || String(token || '') !== expected) throw new Error('Clave de consulta del decanato no válida.');
+}
 function requireAdmin_(token) {
   const expected = PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN');
   if (!expected || String(token || '') !== expected) throw new Error('Acceso administrativo no autorizado.');
