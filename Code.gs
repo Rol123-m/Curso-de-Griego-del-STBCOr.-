@@ -15,7 +15,7 @@
 
 const CFG = {
   COURSE: 'Griego I 2026-2027',
-  SHEETS: { PROGRESS: 'Progreso', EXAMS: 'Examenes', ACTIVITY: 'Actividad' },
+  SHEETS: { PROGRESS: 'Progreso', EXAMS: 'Examenes', ACTIVITY: 'Actividad', ANNOUNCEMENTS: 'Anuncios', RESOURCES: 'Recursos', FORUM: 'Foro' },
   PASS_MARK: 70,
   EXAMS: [
     {
@@ -84,7 +84,10 @@ const CFG = {
 const HEADERS = {
   Progreso: ['Actualizado', 'Usuario', 'Nombre', 'Lecciones completadas', 'Total lecciones', 'Porcentaje', 'Minutos', 'Detalle JSON'],
   Examenes: ['Fecha', 'Usuario', 'Nombre', 'Examen', 'Título', 'Aciertos', 'Total', 'Nota', 'Aprobado', 'Respuestas JSON'],
-  Actividad: ['Fecha', 'Usuario', 'Nombre', 'Tipo', 'Detalle']
+  Actividad: ['Fecha', 'Usuario', 'Nombre', 'Tipo', 'Detalle'],
+  Anuncios: ['ID', 'Fecha', 'Etiqueta', 'Título', 'Contenido', 'Fijado', 'Activo'],
+  Recursos: ['ID', 'Fecha', 'Tipo', 'Título', 'Descripción', 'URL', 'Activo'],
+  Foro: ['ID', 'Fecha', 'Usuario', 'Nombre', 'Mensaje', 'Respuesta a', 'Activo']
 };
 
 function doGet(e) {
@@ -100,6 +103,11 @@ function doGet(e) {
       result = gradeExam_(String(p.user || ''), String(p.name || ''), Number(p.exam), answers);
     } else if (action === 'progress') {
       result = { ok: true, progress: findProgress_(String(p.user || '')) };
+    } else if (action === 'content') {
+      result = getPublicContent_();
+    } else if (action === 'teacherData') {
+      requireAdmin_(p.token);
+      result = getTeacherData_();
     } else {
       result = { ok: true, service: 'STBCOr Greek Course API', version: '1.0', actions: ['exam','grade','progress'] };
     }
@@ -113,9 +121,16 @@ function doPost(e) {
   let result;
   try {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-    if (data.action === 'saveProgress') result = saveProgress_(data.report);
-    else if (data.user && data.lessons) result = saveProgress_(data); // compatibilidad con el envío actual de la app
-    else result = { ok: false, error: 'Acción no válida' };
+    if (data.action === 'saveProgress') result = saveProgress_(data.report || data);
+    else if (data.action === 'forumPost') result = saveForumPost_(data);
+    else {
+      requireAdmin_(data.token);
+      if (data.action === 'saveAnnouncement') result = saveContentItem_('Anuncios', data.item);
+      else if (data.action === 'saveResource') result = saveContentItem_('Recursos', data.item);
+      else if (data.action === 'deleteContent') result = deleteContentItem_(data.kind, data.id);
+      else if (data.action === 'deleteForumPost') result = deleteForumPost_(data.id);
+      else result = { ok: false, error: 'Acción no válida' };
+    }
   } catch (err) {
     result = { ok: false, error: String(err && err.message || err) };
   }
@@ -200,8 +215,58 @@ function safe_(v) {
   return String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, '').slice(0, 500);
 }
 
+
+/* Contenido dinámico y administración */
+function requireAdmin_(token) {
+  const expected = PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN');
+  if (!expected || String(token || '') !== expected) throw new Error('Acceso administrativo no autorizado.');
+}
+function rowsAsObjects_(name) {
+  const values = sheet_(name).getDataRange().getValues(), headers = values[0];
+  return values.slice(1).map(row => Object.fromEntries(headers.map((h,i)=>[h,row[i]])));
+}
+function getPublicContent_() {
+  const announcements = rowsAsObjects_('Anuncios').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),tag:String(x.Etiqueta||'Aviso'),title:String(x.Título||''),body:String(x.Contenido||''),pin:x.Fijado==='Sí'||x.Fijado===true}));
+  const resources = rowsAsObjects_('Recursos').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),i:String(x.Tipo||'fa-link'),t:String(x.Título||''),d:String(x.Descripción||''),u:String(x.URL||''),b:'Abrir recurso'}));
+  const posts = rowsAsObjects_('Foro').filter(x=>x.Activo!=='No'&&x.Activo!==false).map(x=>({id:String(x.ID),date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||''),user:String(x.Usuario||''),name:String(x.Nombre||''),message:String(x.Mensaje||''),parent:String(x['Respuesta a']||'')}));
+  return {ok:true,announcements,resources,posts};
+}
+function getTeacherData_() {
+  const progress=rowsAsObjects_('Progreso').map(x=>({user:String(x.Usuario||''),name:String(x.Nombre||''),done:Number(x['Lecciones completadas']||0),total:Number(x['Total lecciones']||12),percent:Number(x.Porcentaje||0),mins:Number(x.Minutos||0),updated:x.Actualizado instanceof Date?x.Actualizado.toISOString():String(x.Actualizado||''),detail:String(x['Detalle JSON']||'{}')}));
+  const exams=rowsAsObjects_('Examenes').map(x=>({user:String(x.Usuario||''),name:String(x.Nombre||''),exam:Number(x.Examen||0),score:Number(x.Nota||0),passed:String(x.Aprobado||'')==='Sí',date:x.Fecha instanceof Date?x.Fecha.toISOString():String(x.Fecha||'')}));
+  progress.forEach(p=>{let d={};try{d=JSON.parse(p.detail)}catch(_){}p.lessons=Array.isArray(d.lessons)?d.lessons:[];p.exams=exams.filter(e=>e.user===p.user);p.examScores=[1,2,3,4].map(n=>{const a=p.exams.filter(e=>e.exam===n);return a.length?a[a.length-1].score:null});delete p.detail});
+  return {ok:true,progress,exams};
+}
+function saveContentItem_(name,item) {
+  if(!item||!item.title||(name==='Anuncios'&&!item.body)||(name==='Recursos'&&!item.url))throw new Error('Completa los campos obligatorios.');
+  const sh=sheet_(name),rows=sh.getDataRange().getValues(),id=String(item.id||Utilities.getUuid());
+  const row=name==='Anuncios'?[id,new Date(),safe_(item.tag||'Aviso'),safe_(item.title),safe_(item.body),item.pin?'Sí':'No','Sí']:[id,new Date(),safe_(item.icon||'fa-link'),safe_(item.title),safe_(item.description||''),safeUrl_(item.url),'Sí'];
+  const i=rows.findIndex((r,n)=>n>0&&String(r[0])===id);
+  if(i>0)sh.getRange(i+1,1,1,row.length).setValues([row]);else sh.appendRow(row);
+  return {ok:true,id};
+}
+function deleteContentItem_(kind,id) {
+  const name=kind==='announcement'?'Anuncios':kind==='resource'?'Recursos':'';
+  if(!name)throw new Error('Tipo no válido.');
+  const sh=sheet_(name),rows=sh.getDataRange().getValues(),i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id));
+  if(i<1)throw new Error('Elemento no encontrado.');
+  sh.getRange(i+1,rows[0].length).setValue('No');return {ok:true};
+}
+function saveForumPost_(d) {
+  const user=safe_(d.user),name=safe_(d.name),message=safe_(d.message);
+  if(!user||!name||message.length<3||message.length>2000)throw new Error('El mensaje debe tener entre 3 y 2000 caracteres.');
+  const id=Utilities.getUuid();sheet_('Foro').appendRow([id,new Date(),user,name,message,safe_(d.parent||''),'Sí']);return {ok:true,id};
+}
+function deleteForumPost_(id) {
+  const sh=sheet_('Foro'),rows=sh.getDataRange().getValues(),i=rows.findIndex((r,n)=>n>0&&String(r[0])===String(id));
+  if(i<1)throw new Error('Publicación no encontrada.');sh.getRange(i+1,7).setValue('No');return {ok:true};
+}
+function safeUrl_(v) {
+  const url=String(v||'').trim();if(!/^https:\/\/[^\s]+$/i.test(url))throw new Error('El enlace debe comenzar con https://');return url.slice(0,1000);
+}
+
 /** Ejecuta manualmente desde Apps Script para crear y preparar las pestañas. */
 function setup() {
   Object.keys(HEADERS).forEach(sheet_);
-  SpreadsheetApp.getUi().alert('La hoja quedó preparada: Progreso, Examenes y Actividad.');
+  SpreadsheetApp.getUi().alert('La hoja quedó preparada: Progreso, Examenes, Actividad, Anuncios, Recursos y Foro.');
 }
