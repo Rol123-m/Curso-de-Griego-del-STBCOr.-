@@ -278,21 +278,35 @@ V.recursos = () => {
 V.foro = () => {
  const posts=remoteContent.posts||[],roots=posts.filter(p=>!p.parent),canModerate=isTeacher();
  const avatar=n=>esc((n||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase());
+ const tone=u=>{let h=0;for(const c of String(u||'anon'))h=(h*31+c.charCodeAt(0))>>>0;return 'forum-tone-'+(h%8);};
  return `<style>
  .forum-shell{max-width:900px;margin:0 auto}.forum-compose{border:1px solid var(--line);border-radius:16px;padding:1rem;background:var(--card);margin-bottom:1rem}
  .forum-compose textarea,.forum-reply-form textarea{box-sizing:border-box;width:100%;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:.8rem;background:var(--bg);color:var(--text);font:inherit;outline:none}
  .forum-compose textarea:focus,.forum-reply-form textarea:focus{border-color:var(--accent)}
- .forum-thread{border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;margin-bottom:1rem}
+ .forum-thread{border:1px solid var(--line);border-radius:20px;background:var(--card);overflow:hidden;margin-bottom:1.1rem;box-shadow:0 4px 18px rgba(20,35,55,.045);transition:border-color .18s,box-shadow .18s}
+ .forum-thread:hover{border-color:color-mix(in srgb,var(--accent) 30%,var(--line));box-shadow:0 7px 24px rgba(20,35,55,.07)}
+ .forum-tone-0{--forum-tint:#e8f2ff;--forum-ink:#245b91;--forum-border:#c9def7}
+ .forum-tone-1{--forum-tint:#e9f7ef;--forum-ink:#24734b;--forum-border:#c8e8d5}
+ .forum-tone-2{--forum-tint:#fff1e6;--forum-ink:#99521d;--forum-border:#f5d8bf}
+ .forum-tone-3{--forum-tint:#f2eaff;--forum-ink:#7044a0;--forum-border:#dfcef5}
+ .forum-tone-4{--forum-tint:#ffeaf0;--forum-ink:#a33e60;--forum-border:#f2cbd8}
+ .forum-tone-5{--forum-tint:#e5f6f5;--forum-ink:#20716d;--forum-border:#c3e8e5}
+ .forum-tone-6{--forum-tint:#f7f2df;--forum-ink:#806a20;--forum-border:#e9dfb6}
+ .forum-tone-7{--forum-tint:#edf0f4;--forum-ink:#4d5b6c;--forum-border:#d7dde5}
  .forum-thread-head{display:flex;align-items:center;gap:.75rem;padding:1rem 1rem .7rem}
- .forum-avatar{width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;background:var(--surface-secondary,#e9eef5);font-weight:700;font-size:.78rem}
+ .forum-avatar{width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;background:var(--forum-tint,var(--surface-secondary,#e9eef5));color:var(--forum-ink,var(--text));border:1px solid var(--forum-border,transparent);font-weight:750;font-size:.78rem;letter-spacing:.02em}
  .forum-author{font-weight:700}.forum-date{font-size:.76rem;color:var(--muted)}
- .forum-bubble{margin:.25rem 1rem 1rem 3.9rem;padding:.85rem 1rem;border-radius:4px 16px 16px 16px;background:var(--surface-secondary,#f1f4f8);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+ .forum-bubble{margin:.25rem 1rem 1rem 3.9rem;padding:.9rem 1.05rem;border-radius:5px 18px 18px 18px;background:var(--forum-tint,var(--surface-secondary,#f1f4f8));color:var(--forum-ink,var(--text));border:1px solid var(--forum-border,transparent);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;font-size:.96rem}
  .forum-thread-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:0 1rem .8rem 3.9rem;font-size:.8rem;color:var(--muted)}
  .forum-replies{border-top:1px solid var(--line);padding:.85rem 1rem .3rem 3.9rem;background:color-mix(in srgb,var(--card) 90%,var(--bg))}
  .forum-reply{display:flex;gap:.65rem;margin-bottom:.85rem;align-items:flex-start}
  .forum-reply .forum-avatar{width:30px;height:30px;flex-basis:30px;font-size:.68rem}
- .forum-reply-content{min-width:0;flex:1}.forum-reply-bubble{display:inline-block;max-width:100%;padding:.65rem .85rem;border-radius:4px 14px 14px 14px;background:var(--surface-secondary,#f1f4f8);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin-top:.25rem}
- .forum-reply-form{display:flex;gap:.5rem;align-items:flex-end;padding:.8rem 1rem .9rem 3.9rem}.forum-reply-form textarea{min-height:44px;max-height:130px;flex:1}
+ .forum-reply-content{min-width:0;flex:1}.forum-reply-bubble{display:inline-block;max-width:100%;padding:.7rem .9rem;border-radius:5px 15px 15px 15px;background:var(--forum-tint,var(--surface-secondary,#f1f4f8));color:var(--forum-ink,var(--text));border:1px solid var(--forum-border,transparent);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;margin-top:.25rem}
+ .forum-reply-form{display:flex;gap:.6rem;align-items:flex-end;padding:.8rem 1rem .9rem 3.9rem;background:var(--card)}
+ .forum-reply-form button{width:44px;height:44px;flex:0 0 44px;border-radius:14px}
+ .forum-compose{box-shadow:0 4px 18px rgba(20,35,55,.04)}
+ .forum-compose textarea,.forum-reply-form textarea{transition:border-color .18s,box-shadow .18s}
+ .forum-compose textarea:focus,.forum-reply-form textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 13%,transparent)}.forum-reply-form textarea{min-height:44px;max-height:130px;flex:1}
  .forum-actions{display:flex;gap:.45rem;flex-wrap:wrap;margin-left:auto}.forum-empty{text-align:center;padding:2rem;color:var(--muted)}
  @media(max-width:600px){.forum-bubble{margin-left:1rem}.forum-thread-meta{padding-left:1rem}.forum-replies,.forum-reply-form{padding-left:1rem}.forum-thread-head{padding:.85rem}.forum-actions{width:100%;margin-left:0}}
  </style>
@@ -302,13 +316,13 @@ V.foro = () => {
  <div>${roots.slice().reverse().map(p=>{
   const replies=posts.filter(x=>x.parent===p.id),open=(p.status||'Abierto')==='Abierto';
   return `<article class="forum-thread">
-   <div class="forum-thread-head"><div class="forum-avatar">${avatar(p.name)}</div><div style="min-width:0;flex:1"><div class="forum-author">${esc(p.name)}</div><div class="forum-date">${p.date?fmtD(p.date):''}</div></div><span class="tag ${open?'done':'tbd'}">${open?'Abierto':'Cerrado'}</span></div>
-   <div class="forum-bubble">${esc(p.message)}</div>
+   <div class="forum-thread-head"><div class="forum-avatar ${tone(p.user)}">${avatar(p.name)}</div><div style="min-width:0;flex:1"><div class="forum-author">${esc(p.name)}</div><div class="forum-date">${p.date?fmtD(p.date):''}</div></div><span class="tag ${open?'done':'tbd'}">${open?'Abierto':'Cerrado'}</span></div>
+   <div class="forum-bubble ${tone(p.user)}">${esc(p.message)}</div>
    <div class="forum-thread-meta"><span><i class="fas fa-reply"></i> ${replies.length} ${replies.length===1?'respuesta':'respuestas'}</span>
    ${canModerate?`<div class="forum-actions"><button type="button" class="btn sec sm" data-forum-status="${esc(p.id)}" data-status="${open?'Cerrado':'Abierto'}"><i class="fas fa-${open?'lock':'lock-open'}"></i> ${open?'Cerrar tema':'Reabrir tema'}</button><button type="button" class="btn sec sm" data-forum-delete="${esc(p.id)}" style="color:var(--danger,#b42318)"><i class="fas fa-trash"></i> Eliminar conversación</button></div>`:''}
    </div>
    <div class="forum-replies">
-    ${replies.length?replies.map(x=>`<div class="forum-reply"><div class="forum-avatar">${avatar(x.name)}</div><div class="forum-reply-content"><div><span class="forum-author">${esc(x.name)}</span> <span class="forum-date">${x.date?fmtD(x.date):''}</span></div><div class="forum-reply-bubble">${esc(x.message)}</div></div></div>`).join(''):'<div class="forum-date" style="padding:.3rem 0 .7rem">Todavía no hay respuestas. Sé el primero en participar.</div>'}
+    ${replies.length?replies.map(x=>`<div class="forum-reply"><div class="forum-avatar ${tone(x.user)}">${avatar(x.name)}</div><div class="forum-reply-content"><div><span class="forum-author">${esc(x.name)}</span> <span class="forum-date">${x.date?fmtD(x.date):''}</span></div><div class="forum-reply-bubble ${tone(x.user)}">${esc(x.message)}</div></div></div>`).join(''):'<div class="forum-date" style="padding:.3rem 0 .7rem">Todavía no hay respuestas. Sé el primero en participar.</div>'}
    </div>
    ${open?`<form class="forum-reply-form" data-parent="${esc(p.id)}"><textarea name="message" maxlength="2000" required rows="1" placeholder="Escribe una respuesta…"></textarea><button class="btn" type="submit" aria-label="Enviar respuesta"><i class="fas fa-paper-plane"></i></button></form>`:'<div class="forum-date" style="padding:.9rem 1rem 1rem 3.9rem">Esta conversación está cerrada. No admite nuevas respuestas.</div>'}
   </article>`;
