@@ -45,6 +45,7 @@
      const result=await request({action:'grade',exam:examNo,user:student.u,name:student.name,answers:encoded});
      if(!result?.ok)throw new Error(result?.error||'No se pudo corregir el examen.');
      const score=Number(result.score);
+     document.dispatchEvent(new CustomEvent('stbc:exam-graded',{detail:{exam:examNo,score}}));
      const current=document.querySelector('[data-score="'+examNo+'"]');
      if(current){current.value=score;current.dispatchEvent(new Event('change',{bubbles:true}));}
      d.querySelector('.db').innerHTML='<h2>'+score.toFixed(2)+' / 100</h2><p><b>'+result.correct+' de '+result.total+' respuestas correctas.</b> '+(result.passed?'Examen aprobado.':'Continúa repasando el contenido.')+'</p>'+result.detail.map(item=>'<div class="card" style="margin:.6rem 0"><b>Pregunta '+item.id+' · '+(item.ok?'Correcta':'Incorrecta')+'</b><p>'+esc(item.explanation)+'</p></div>').join('')+'<button class="btn" id="exam-close">Cerrar</button>';
