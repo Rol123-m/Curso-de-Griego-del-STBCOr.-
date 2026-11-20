@@ -268,9 +268,24 @@ V.recursos = () => {
  return `<div class="ph"><h2>Recursos</h2><p>Material complementario para tu estudio.</p></div><div class="grid gA">${items.map(x=>`<div class="card res"><i class="fas ${esc(x.i||'fa-link')} big"></i><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>${x.u?`<a class="btn sec sm" href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.b||'Abrir recurso')}</a>`:'<span class="tag">Enlace por publicar</span>'}</div>`).join('')}</div>`;
 };
 V.foro = () => {
- const posts=remoteContent.posts||[];
- return `<div class="ph"><h2>Foro del curso</h2><p>Preguntas y debates académicos.</p></div><div class="card" style="margin-bottom:1rem"><form id="forum-form"><label><b>Publicar un mensaje</b></label><textarea id="forum-message" maxlength="2000" required rows="3" style="width:100%;margin:.6rem 0;padding:.7rem;border:1px solid var(--line);border-radius:10px;font:inherit" placeholder="Escribe una pregunta o comentario…"></textarea><button class="btn" type="submit">Publicar</button></form></div><div class="grid">${posts.slice().reverse().map(p=>`<article class="card"><div class="ahd"><b>${esc(p.name)}</b><small>${p.date?fmtD(p.date):''}</small></div><p style="white-space:pre-wrap">${esc(p.message)}</p></article>`).join('')||'<div class="card">Todavía no hay publicaciones.</div>'}</div>`;
+ const posts=remoteContent.posts||[], roots=posts.filter(p=>!p.parent);
+ const canModerate=isTeacher();
+ return `<div class="ph"><h2>Foro del curso</h2><p>Publica preguntas y participa en conversaciones académicas.</p></div>
+ <div class="card" style="margin-bottom:1rem"><form id="forum-form"><label><b>Nueva pregunta o tema</b></label><textarea id="forum-message" maxlength="2000" required rows="3" style="width:100%;margin:.6rem 0;padding:.7rem;border:1px solid var(--line);border-radius:10px;font:inherit" placeholder="Escribe tu pregunta o inicia un debate…"></textarea><button class="btn" type="submit">Publicar tema</button></form></div>
+ <div class="grid">${roots.slice().reverse().map(p=>{
+  const replies=posts.filter(x=>x.parent===p.id);
+  const open=(p.status||'Abierto')==='Abierto';
+  return `<article class="card" style="margin-bottom:1rem"><div class="ahd"><b>${esc(p.name)}</b><small>${p.date?fmtD(p.date):''}</small><span class="tag ${open?'done':'tbd'}">${open?'Abierto':'Cerrado'}</span></div><h3 style="margin:.6rem 0 .35rem">Pregunta / tema</h3><p style="white-space:pre-wrap">${esc(p.message)}</p>
+  <div style="margin:.8rem 0 0 1rem;padding-left:1rem;border-left:3px solid var(--line)">
+   <b>${replies.length} ${replies.length===1?'respuesta':'respuestas'}</b>
+   ${replies.map(x=>`<div style="padding:.7rem 0;border-bottom:1px solid var(--line)"><div class="ahd"><b>${esc(x.name)} ${x.user===p.user?'(autor)':''}</b><small>${x.date?fmtD(x.date):''}</small></div><p style="white-space:pre-wrap;margin:.3rem 0">${esc(x.message)}</p></div>`).join('')}
+   ${open?`<form class="forum-reply-form" data-parent="${esc(p.id)}" style="margin-top:.7rem"><textarea name="message" maxlength="2000" required rows="2" style="width:100%;padding:.6rem;border:1px solid var(--line);border-radius:9px;font:inherit" placeholder="Responder a este tema…"></textarea><button class="btn sec sm" type="submit" style="margin-top:.4rem">Responder a esta pregunta</button></form>`:'<p class="muted" style="margin-top:.6rem">Este tema está cerrado y no admite nuevas respuestas.</p>'}
+  </div>
+  ${canModerate?`<div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:.8rem"><button class="btn sec sm" data-forum-status="${esc(p.id)}" data-status="${open?'Cerrado':'Abierto'}">${open?'Cerrar tema':'Reabrir tema'}</button></div>`:''}
+  </article>`;
+ }).join('')||'<div class="card">Todavía no hay temas. ¡Inicia la conversación!</div>'}</div>`;
 };
+
 V.vocabulario = () => window.vocabView();
 V.profesor = () => {
  const rows=teacherData?.progress||[],token=adminToken();
@@ -332,6 +347,7 @@ document.addEventListener('click', async e => {
   if (t.dataset.exam) { log(`Abrió ${C.exams[t.dataset.exam - 1].title}`, 'fa-clipboard-check'); save(); return; }
   const a = t.dataset.act;
   if (a === 'send') sendDialog();
+  if (t.dataset.forumStatus) { try { await adminRequest('forumStatus',{id:t.dataset.forumStatus,status:t.dataset.status}); await loadContent(); toast(t.dataset.status==='Cerrado'?'Tema cerrado ✓':'Tema reabierto ✓'); } catch(err) { toast(err.message); } return; }
   if (a === 'refresh-teacher') { try { await loadTeacherData(adminToken()); toast('Datos actualizados ✓'); } catch (err) { toast(err.message); } }
   if (a === 'paste') pasteDialog();
   if (a === 'backup') { const r = await report(); download(fname(r), JSON.stringify(r, null, 2)); toast('Copia guardada en tus descargas'); }
@@ -348,7 +364,8 @@ document.addEventListener('submit',async e=>{
   if(f.id==='admin-token-form'){e.preventDefault();const t=$('#admin-token').value.trim();localStorage.setItem('stbcor.adminToken',t);await loadTeacherData(t);toast('Progreso actualizado ✓');}
   if(f.id==='announcement-form'){e.preventDefault();const x=new FormData(f),item={tag:x.get('tag'),title:x.get('title'),body:x.get('body'),pin:x.get('pin')==='on'};await adminRequest('saveAnnouncement',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Anuncio publicado ✓');}
   if(f.id==='resource-form'){e.preventDefault();const x=new FormData(f),item={title:x.get('title'),description:x.get('description'),url:x.get('url')};await adminRequest('saveResource',{item:JSON.stringify(item)});f.reset();await loadContent();toast('Recurso añadido ✓');}
-  if(f.id==='forum-form'){e.preventDefault();const s=stu(),message=$('#forum-message').value.trim(),d=await cloudJSONP({action:'forumPost',user:s.u,name:s.name,message});if(!d?.ok)throw new Error(d?.error||'No se pudo publicar');$('#forum-message').value='';await loadContent();toast('Mensaje publicado ✓');}
+  if(f.id==='forum-form'){e.preventDefault();const s=stu(),message=$('#forum-message').value.trim(),d=await cloudJSONP({action:'forumPost',user:s.u,name:s.name,message});if(!d?.ok)throw new Error(d?.error||'No se pudo publicar');$('#forum-message').value='';await loadContent();toast('Tema publicado ✓');}
+  if(f.classList.contains('forum-reply-form')){e.preventDefault();const s=stu(),message=f.elements.message.value.trim(),d=await cloudJSONP({action:'forumPost',user:s.u,name:s.name,message,parent:f.dataset.parent});if(!d?.ok)throw new Error(d?.error||'No se pudo responder');await loadContent();toast('Respuesta publicada ✓');}
  }catch(err){toast(err.message||'No se pudo completar');}
 });
 
