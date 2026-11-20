@@ -96,7 +96,7 @@ function doGet(e) {
       const exam = getExam_(Number(p.exam));
       result = exam ? { ok: true, exam: publicExam_(exam) } : { ok: false, error: 'Examen no encontrado' };
     } else if (action === 'grade') {
-      const answers = JSON.parse(decodeURIComponent(Utilities.newBlob(Utilities.base64DecodeWebSafe(p.answers || '')).getDataAsString('UTF-8')));
+      const answers = JSON.parse(Utilities.newBlob(Utilities.base64DecodeWebSafe(p.answers || '')).getDataAsString('UTF-8'));
       result = gradeExam_(String(p.user || ''), String(p.name || ''), Number(p.exam), answers);
     } else if (action === 'progress') {
       result = { ok: true, progress: findProgress_(String(p.user || '')) };
