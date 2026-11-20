@@ -12,8 +12,8 @@ window.CONFIG = {
     name: 'Lic. Rolando Desdín',
     email: 'rolandodesdin3@outlook.com',
     whatsapp: '5358169444',          // código de país + número, sin + ni espacios
-    endpoint: '',                    // opcional: URL del Apps Script (docs/apps-script-recepcion.gs)
-    sheetUrl: ''                     // opcional: enlace a la hoja de Google con los reportes
+    endpoint: 'https://script.google.com/macros/s/AKfycbyW9SnhaCwwFizapy5P3qVlepopVxj2klbVg1n1dOcHjhw0NE0Fd1UzKNojH32Pe3y14g/exec',                    // opcional: URL del Apps Script (docs/apps-script-recepcion.gs)
+    sheetUrl: 'https://docs.google.com/spreadsheets/d/1jltnJgFDcocFXiJqi81wcx5ZGrFSMOTflrwQmTF7eE4/edit?gid=309486152#gid=309486152'                     // opcional: enlace a la hoja de Google con los reportes
   },
 
   // ---- Plan semanal del sílabo (4 semanas intensivas, 3 lecciones por semana) ----
