@@ -16,9 +16,8 @@ let cloudTimer = null, cloudBusy = false, cloudLast = 0, cloudLoaded = {};
 const save = () => {
   try { localStorage.setItem(KEY, JSON.stringify(db)); }
   catch { toast('No se pudo guardar: almacenamiento lleno o bloqueado.'); }
-  if (db.session && C.teacher?.endpoint) {
-    clearTimeout(cloudTimer);
-    cloudTimer = setTimeout(() => syncProgress(false), 12000);
+  if (db.session && C.teacher?.endpoint && !cloudTimer) {
+    cloudTimer = setTimeout(() => { cloudTimer = null; syncProgress(false); }, 12000);
   }
 };
 function cloudJSONP(params) {
