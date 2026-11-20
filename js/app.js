@@ -139,7 +139,7 @@ function examState(e) {
   return { k: 'closed', t: 'Cerrado' };
 }
 const range = e => { if (!e.open) return `Semana ${e.week} · vence el domingo, 11:59 pm`; const o = new Date(e.open + 'T12:00'), c = new Date(e.close + 'T12:00'); return `${o.getDate()}${o.getMonth() === c.getMonth() ? '' : ' de ' + o.toLocaleDateString('es', { month: 'long' })}–${c.getDate()} de ${c.toLocaleDateString('es', { month: 'long', year: 'numeric' })}`; };
-const unseen = () => C.announcements.filter(a => !(db.seen || []).includes(a.id)).length;
+const unseen = () => [...C.announcements, ...(remoteContent.announcements || [])].filter(a => !(db.seen || []).includes(a.id)).length;
 
 /* ---------- informe de progreso ---------- */
 async function report() {
@@ -321,7 +321,7 @@ function route() {
   if (r === 'leccion') return reader(+a, b === undefined ? undefined : +b);
   if (r === 'profesor' && isTeacher() && adminToken() && !teacherData) loadTeacherData(adminToken()).catch(e => console.warn(e));
   const v = V[r] && !(r === 'profesor' && !isTeacher()) ? r : 'inicio'; $('#view').innerHTML = V[v]();
-  if (v === 'anuncios') { db.seen = C.announcements.map(a => a.id); save(); $$('.bdg').forEach(x => x.remove()); }
+  if (v === 'anuncios') { db.seen = [...C.announcements, ...(remoteContent.announcements || [])].map(a => a.id); save(); $$('.bdg').forEach(x => x.remove()); }
   window.scrollTo(0, 0);
 }
 document.addEventListener('click', async e => {
