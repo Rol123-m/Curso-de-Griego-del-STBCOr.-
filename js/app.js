@@ -232,14 +232,14 @@ V.silabo = () => { const S = window.SILABO;
   ${S.sections.map(x => `<details class="card acc" ${x.open ? 'open' : ''}><summary><i class="fas ${x.i}"></i> ${x.t}</summary><div class="accb">${x.h.replace('@POINTS@', pts).replace('@WEEKS@', wk)}</div></details>`).join('')}`; };
 V.evaluaciones = () => {
   const sc = C.exams.map(e => me().exams[e.n]?.score), got = sc.filter(x => x != null), est = got.reduce((sum, x) => sum + x / 100 * 6.25, 0);
-  return \`<div class="ph"><h2>Evaluaciones</h2><p>Cuatro exámenes interactivos basados en las lecciones del curso. Cada examen se corrige automáticamente y guarda el resultado en Google Sheets.</p></div>
+  return `<div class="ph"><h2>Evaluaciones</h2><p>Cuatro exámenes interactivos basados en las lecciones del curso. Cada examen se corrige automáticamente y guarda el resultado en Google Sheets.</p></div>
   <div class="notice"><i class="fas fa-circle-info"></i> Selecciona un examen para responder sus preguntas. Al entregarlo recibirás tu calificación y la explicación de cada respuesta.</div>
-  <div class="grid g2">\${C.exams.map(e => { const score = me().exams[e.n]?.score;
-    return \`<article class="card exam"><div class="hd"><span class="nb">\${esc(e.title)}</span><span class="tag \${score == null ? 'tbd' : 'done'}">\${score == null ? 'Disponible' : 'Nota: ' + score + '/100'}</span></div><h3>\${esc(e.topic)}</h3><p style="color:var(--mut);font-size:.9rem">\${esc(e.desc)}</p>
+  <div class="grid g2">${C.exams.map(e => { const score = me().exams[e.n]?.score;
+    return `<article class="card exam"><div class="hd"><span class="nb">${esc(e.title)}</span><span class="tag ${score == null ? 'tbd' : 'done'}">${score == null ? 'Disponible' : 'Nota: ' + score + '/100'}</span></div><h3>${esc(e.topic)}</h3><p style="color:var(--mut);font-size:.9rem">${esc(e.desc)}</p>
     <div class="info"><span><i class="fas fa-list-ol"></i> 10 preguntas</span><span><i class="fas fa-check-circle"></i> Corrección automática</span></div>
-    <button class="btn" type="button" data-take-exam="\${e.n}"><i class="fas fa-clipboard-check"></i> \${score == null ? 'Comenzar examen' : 'Repetir examen'}</button>
-    </article>\`; }).join('')}</div>
-  <div class="card" style="margin-top:1.1rem"><h3>Aporte estimado de los exámenes</h3><p style="color:var(--mut);font-size:.9rem;margin-bottom:.6rem">Según las calificaciones registradas en tu cuenta.</p><div class="bar"><i style="width:\${est / 25 * 100}%"></i></div><p style="margin-top:.4rem"><b>\${est.toFixed(2)}</b> / 25 puntos · \${got.length} de \${C.exams.length} exámenes completados</p></div>\`;
+    <button class="btn" type="button" data-take-exam="${e.n}"><i class="fas fa-clipboard-check"></i> ${score == null ? 'Comenzar examen' : 'Repetir examen'}</button>
+    </article>`; }).join('')}</div>
+  <div class="card" style="margin-top:1.1rem"><h3>Aporte estimado de los exámenes</h3><p style="color:var(--mut);font-size:.9rem;margin-bottom:.6rem">Según las calificaciones registradas en tu cuenta.</p><div class="bar"><i style="width:${est / 25 * 100}%"></i></div><p style="margin-top:.4rem"><b>${est.toFixed(2)}</b> / 25 puntos · ${got.length} de ${C.exams.length} exámenes completados</p></div>`;
 };
 V.progreso = () => { const s = stats();
   return `<div class="ph"><h2>Mi progreso</h2><p>Todo se guarda automáticamente en este dispositivo.</p></div>
